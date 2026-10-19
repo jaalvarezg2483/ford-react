@@ -2,6 +2,15 @@
 
 Nueva implementación del sitio Ford Costa Rica. El proyecto vive en `modern/` para mantener separado el código modernizado del sitio Symfony legado mientras se realiza la migración. Las imágenes de la flota y los banners usados en esta primera portada apuntan temporalmente al CDN público de Ford; deben copiarse a la biblioteca de contenido administrada por el nuevo CMS antes del corte definitivo.
 
+La rama de Azure conserva el repo existente y contiene esta aplicación bajo `modern/`. La rama de GitHub `feature/ford-react-railway` tiene este subdirectorio como raíz; se publicó así para no copiar al repo personal el historial anterior. Al actualizar GitHub desde el repo Azure, usá:
+
+```sh
+git subtree split --prefix=modern
+git push origin <sha-generado>:refs/heads/feature/ford-react-railway
+```
+
+No hagás `git push origin feature/ford-react-railway` desde el repo Azure: esa rama incluye el historial legado.
+
 ## Desarrollo
 
 Requiere Node.js 22 y PostgreSQL.
