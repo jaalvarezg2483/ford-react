@@ -37,9 +37,11 @@ export const HEAD = GET
 
 export async function POST(req: Request) {
   const url = new URL(req.url)
+  const bounded = await boundedRequest(req)
+  if (!bounded) return new Response('Payload Too Large', { status: 413 })
   // Browser forms are same-origin. Reject cross-site submissions when the
   // browser sends Origin, while retaining compatibility with non-browser clients.
-  const origin = req.headers.get('origin')
+  const origin = bounded.headers.get('origin')
   if (origin) {
     try {
       if (new URL(origin).origin !== url.origin) return new Response('Forbidden', { status: 403 })
@@ -48,6 +50,31 @@ export async function POST(req: Request) {
     }
   }
   // El formulario de reserva hace su envío final a /contacto/gracias (los datos ya se guardaron por AJAX).
-  if (url.pathname === '/contacto/gracias') return GET(req)
-  return (await handleForm(req)) ?? notFound(req)
+  if (url.pathname === '/contacto/gracias') return GET(bounded)
+  return (await handleForm(bounded)) ?? notFound(bounded)
+}
+
+/** Bound form/API request bodies, including chunked requests without Content-Length. */
+async function boundedRequest(req: Request): Promise<Request | null> {
+  const limit = 2 * 1024 * 1024
+  const length = Number(req.headers.get('content-length'))
+  if (Number.isFinite(length) && length > limit) return null
+  if (!req.body) return req
+  const reader = req.body.getReader()
+  const chunks: Uint8Array[] = []
+  let size = 0
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
+    size += value.byteLength
+    if (size > limit) {
+      await reader.cancel()
+      return null
+    }
+    chunks.push(value)
+  }
+  const body = new Uint8Array(size)
+  let offset = 0
+  for (const chunk of chunks) { body.set(chunk, offset); offset += chunk.byteLength }
+  return new Request(req.url, { method: req.method, headers: req.headers, body })
 }

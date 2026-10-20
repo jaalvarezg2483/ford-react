@@ -130,7 +130,8 @@ ${panes}            </ul>
 /** Últimas notas del blog (LumenAppBundle:Snippet:renderRecentBlog). */
 const renderRecentBlog: Controller = async (params) => {
   const size = Number(params.size ?? 6) || 6
-  const posts = (await getPosts()).slice(0, size)
+  // El blog puede destacar una nota antigua; la portada muestra las últimas noticias cronológicas.
+  const posts = (await getPosts()).filter((post) => !post.featured).slice(0, size)
   return `    <div class="container">
         <div class="row">
             <div class="col-md-3">

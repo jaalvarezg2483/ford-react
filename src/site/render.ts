@@ -3,6 +3,7 @@ import { esc } from './html'
 import { renderChrome } from './chrome'
 import { fillControllers } from './controllers'
 import { getSite, type PageDoc } from './data'
+import { enhanceAccessibility } from './accessibility'
 
 /**
  * Arma el documento HTML de una página con la misma estructura de
@@ -26,7 +27,7 @@ export function applyEnvKeys(html: string): string {
 }
 
 export async function renderPage(page: PageDoc): Promise<string> {
-  return applyEnvKeys(await renderDocument(page))
+  return enhanceAccessibility(applyEnvKeys(await renderDocument(page)))
 }
 
 async function renderDocument(page: PageDoc): Promise<string> {
@@ -34,6 +35,7 @@ async function renderDocument(page: PageDoc): Promise<string> {
   const site = await getSite()
   const v = site.assetsVersion
   const content = await fillControllers(page.content || '')
+  const hasMainLandmark = /<main\b/i.test(content)
   const route = page.route || page.bodyClass || ''
   return (
     shell.docStart +
@@ -48,9 +50,10 @@ async function renderDocument(page: PageDoc): Promise<string> {
     shell.headCloseToBody +
     `<body class="${esc(page.bodyClass || '')}">` +
     (page.bodyStart || site.bodyStartHtml) +
+    (hasMainLandmark ? '' : '<a class="ford-skip-link" href="#main-content">Saltar al contenido principal</a>') +
     (page.seoH1 ?? '') +
     renderChrome(site, page.activeMenu || '') +
-    content +
+    (hasMainLandmark ? content : `<main id="main-content" tabindex="-1">${content}</main>`) +
     site.footerHtml +
     shell.spinner +
     shell.mainJs.replaceAll('{{v}}', v) +
