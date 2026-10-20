@@ -160,14 +160,25 @@ export async function resolveImages(rows: EditableRow[] | null | undefined, req:
   return rows
 }
 
-/** Solo el rol Administrador (desarrollo) ve y toca el HTML técnico. */
+/** Solo administradores ven y editan los campos técnicos en el CMS. El sitio público
+ * necesita leerlos para reconstruir el HTML original, por lo que la lectura de API
+ * permanece disponible dentro de las reglas públicas de cada colección/global. */
 export const adminOnly = {
-  read: ({ req }: { req: PayloadRequest }) => (req.user as { role?: string } | null)?.role === 'admin',
   update: ({ req }: { req: PayloadRequest }) => (req.user as { role?: string } | null)?.role === 'admin',
   create: ({ req }: { req: PayloadRequest }) => (req.user as { role?: string } | null)?.role === 'admin',
 }
 
 /** Marca un campo técnico como solo-desarrollo sin cambiar su nombre ni su dato. */
 export function technical<T extends Field>(field: T): T {
-  return { ...field, access: { ...((field as any).access ?? {}), ...adminOnly } } as T
+  const admin = (field as any).admin ?? {}
+  const existingCondition = admin.condition
+  return {
+    ...field,
+    access: { ...((field as any).access ?? {}), ...adminOnly },
+    admin: {
+      ...admin,
+      condition: (data: unknown, siblingData: unknown, context: { user?: { role?: string } | null }) =>
+        context.user?.role === 'admin' && (existingCondition ? existingCondition(data, siblingData, context) : true),
+    },
+  } as T
 }
