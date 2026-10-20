@@ -8,6 +8,7 @@ import * as migration_20261020_003356_videos from './20261020_003356_videos';
 import * as migration_20261020_003715_page_price_refs from './20261020_003715_page_price_refs';
 import * as migration_20261020_010000_site_sessions from './20261020_010000_site_sessions';
 import * as migration_20261020_142916_family_type_card_styles from './20261020_142916_family_type_card_styles';
+import * as migration_20261020_170702 from './20261020_170702';
 
 export const migrations = [
   {
@@ -58,6 +59,11 @@ export const migrations = [
   {
     up: migration_20261020_142916_family_type_card_styles.up,
     down: migration_20261020_142916_family_type_card_styles.down,
-    name: '20261020_142916_family_type_card_styles'
+    name: '20261020_142916_family_type_card_styles',
+  },
+  {
+    up: migration_20261020_170702.up,
+    down: migration_20261020_170702.down,
+    name: '20261020_170702'
   },
 ];
