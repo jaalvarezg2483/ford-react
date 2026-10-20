@@ -1,0 +1,39 @@
+
+	/*	Avaya Aura Contact Center Multimedia
+		Copyright © 2010 - 2013 Avaya Inc. All Rights Reserved	*/
+
+.popover_window_time
+{
+  position:absolute;
+  left:0px; 
+  top:0px; 
+  align: right;
+  z-index:+999;
+}
+
+.time_body
+{
+  background-color:#E1F0FA;
+}
+
+.time_title
+{
+  font-family:verdana;
+  font-size:11px;
+  color:#ffffff;
+  padding:3px; 
+}
+
+.time_border
+{
+  border-width:1px;
+  border-style:solid;
+  border-color:Grey; 
+  background-color:#E1F0FA;
+}
+
+.time_text
+{
+  text-decoration:none;
+  color:#0043BA;
+}

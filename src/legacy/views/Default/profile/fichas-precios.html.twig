@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Listas de Precios{% endblock %}
+
+{% block meta %}
+    <meta name="identifier-url" content="" />
+    <meta name="title" content="Lista de precios | Ford  Costa Rica | Grupo Purdy "/>
+    <meta name="description" content="Consulta la lista de precios de vehículos Ford y encuentra las mejores opciones. Explora los modelos y elige el vehículo perfecto para ti. ¡Visita nuestra web!" />
+    <meta name="abstract" content="Consulta la lista de precios de vehículos Ford y encuentra las mejores opciones. Explora los modelos y elige el vehículo perfecto para ti. ¡Visita nuestra web!" />
+    <meta name="keywords" content="Lista de precios Ford, Fichas técnicas Ford" />
+    <meta name="revisit-after" content="1" />
+    <meta name="language" content="es" />
+    <meta NAME="robots" CONTENT="noindex">
+{% endblock %}
+
+{% block body %}
+<div class="wrapper">
+    <div class="text-left padding-1 bg--muted hidden-xs">
+		<div class="container">
+			<a href="javascript:history.back()" class="text--primary"><i class="icon icon-arrow-left"></i>  Volver</a>
+		</div>
+	</div>
+    <div class="text-left hidden-md">
+		<div class="container padding-1">
+			<a href="javascript:history.back()" class="text--primary"><i class="icon icon-arrow-left"></i>  Volver</a>
+		</div>
+	</div>
+    <div class="container">
+        <h1 class="title">Precios y Fichas técnicas</h1>
+        <p class="text--bold margin--top hidden-xs">Seleccione un vehículo</p>
+        <p class="margin--top hidden-md">Seleccione la familia al que desea calcular cuota de financiamiento</p>
+    </div>
+    <div class="container">
+        {% include "@LumenApp/Default/partials/_select_family.html.twig" with {'categories': familyTypes, 'routePath': 'precios-fichas-familia', 'columns': 3} %}
+        <div class="text-center margin--top margin--bottom">
+            <a href="javascript:history.back()" class="btn btn--small">Cancelar</a>
+        </div>
+    </div>
+</div>
+
+{%  endblock %}

@@ -1,0 +1,121 @@
+{% extends "base.html.twig"%}
+{% block title %}Sistema de reserva de vehículo | Ford Costa Rica | Grupo Purdy{% endblock %}
+
+{% block meta %}
+    <meta name="identifier-url" content="" />
+    <meta name="title" content="Sistema de reserva de vehículo | Ford Costa Rica | Grupo Purdy"/>
+    <meta name="description" content="Solicita la reserva de tu Ford en línea. Elige el modelo ideal, configura las características y asegura tu compra. ¡Visita nuestra web y comienza el proceso!" />
+    <meta name="abstract" content="Solicita la reserva de tu Ford en línea. Elige el modelo ideal, configura las características y asegura tu compra. ¡Visita nuestra web y comienza el proceso!" />
+    <meta name="keywords" content="reserva de vehículo, sistema de reservación de vehículos, sistema de reserva de vehículos" />
+    <meta name="revisit-after" content="1" />
+    <meta name="language" content="es" />
+    <meta NAME="robots" CONTENT="noindex">
+{% endblock %}
+
+{% block body %}
+
+<div class="wrapper">
+  <div class="container container--breadcrumb">
+    <a href="javascript:history.back(0)" class="btn--back"><span class="mdi mdi-chevron-left"></span>Volver</a>
+  </div>
+  <div class="section">
+    <div class="container">
+      <h1 class="title text-center">Solicitar reserva de vehículo</h1>
+    </div>
+    <div class="container container--full-mobile">
+      <div class="card card--form">
+        <form action="{{ path('thanks') }}" method="post" class="pre_submit verify-captcha" novalidate>
+          <script id="ajax_path">
+              var savePath = '{{ path("save-reservation") }}';
+          </script>
+        <div class="card__content bg--gray">
+            <div class="card__content bg--gray">
+                <div class="container">
+                    <p class="form__title">ME INTERESA EL VEHÍCULO:</p>
+                    {% if can_change is defined and can_change == true %}
+                        <div class="quotation__model">
+                            <div class="input-field">
+                                <div class="select">
+                                    <select id="family" name="family" class="js-select" required>
+                                        {% for f in families %}
+                                            <option {% if family.id == f.id %}selected{% endif %} data-brand-code="{{ f.familyBrand.code }}" value="{{ f.id }}">{{ f.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="input-field">
+                                <div class="select">
+                                    <select id="model" name="model" class="js-select" required>
+                                        {% for m in models %}
+                                            <option {% if model.id == m.id %}selected{% endif %} value="{{ m.id }}">{{ m.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="quotation__model">
+                            <span>{{ family.name }}</span>
+                            {{ model.name }}
+                        </p>
+                        <input type="hidden" name="family" id="family" required value="{{ family.id }}">
+                        <input type="hidden" name="model" id="model" required value="{{ model.id }}">
+                    {% endif %}
+                </div>
+            </div>
+          </div>
+          <div class="card__content">
+            <div class="container">
+              {% include 'LumenAppBundle:Default/partials:_form-fields-reservation.html.twig' with {"cedula": true, "direccion": true, "sucursal": true, "captcha": true} %}
+            </div>
+          </div>
+            {{ form_rest(form) }}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    {% if can_change is defined and can_change == true %}
+    $("#family").on("change", function () {
+        ajaxCall($(this).val());
+
+        $("#send-button").css("display","none");
+    });
+
+    function ajaxCall(id){
+        $.ajax({
+            method: "GET",
+            url: "{{ path('get-colors-by-family', {'id': "temporal"}) }}".replace("temporal", id),
+        }).done(function (result) {
+            var html = "";
+            $("#color-radio-container").empty();
+            $("#color-radio-container").append(result);
+        }).then(function () {
+            $.ajax({
+                method: "GET",
+                url: "{{ path('get-models-by-family', {'id': "temporal"}) }}".replace("temporal", id),
+            }).done(function (result) {
+                var html = "";
+                for (let i = 0; i < result.length; i++){
+                    html += "<option value='"+result[i].id+"'>"+result[i].name+"</option>";
+                }
+                $("#model").empty();
+                $("#model").append(html);
+                $("#send-button").css("display","block");
+            });
+        });
+    }
+    {% endif %}
+  $('form').bind("keypress", function(e) {
+      if (e.keyCode == 13) {
+          e.preventDefault();
+          return false;
+      }
+  });
+</script>
+{% endblock %}

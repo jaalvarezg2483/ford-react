@@ -1,0 +1,13 @@
+<h3>CITA EN TALLER</h3>
+<p>{{ appointment["work"]["detail"] | default("") }}</p>
+<p>{{ appointment["subsidiaryName"] | default("") }}</p>
+<p>Fecha: {{ appointment["date"] | localizeddate('full', 'none', 'es', "America/Costa_Rica") | capitalize}}</p>
+<p>Hora: {{ appointment["date"] | date("h:i a")}}</p>
+<div class="appointment-options-container">
+    <a class="appointment-option disabled update-event" mileage="mileage{{ loop.index }}" card="card{{ loop.index }}" radioContainer="simulated-radio-button-container-{{ loop.index }}">
+        EDITAR CITA
+    </a>
+    <a class="appointment-option disabled cancel-event" data-plate="{{ vehicle["Placa"] | default("") }}" mileage="mileage{{ loop.index }}" card="card{{ loop.index }}" radioContainer="simulated-radio-button-container-{{ loop.index }}">
+        CANCELAR CITA
+    </a>
+</div>

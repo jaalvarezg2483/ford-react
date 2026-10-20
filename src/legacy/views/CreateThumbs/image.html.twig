@@ -1,0 +1,4 @@
+{% for filter in filters %}
+    <img src="{{ path | imagine_filter(filter) }}" />
+
+{% endfor %}

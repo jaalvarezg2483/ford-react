@@ -1,0 +1,78 @@
+{% extends "base.html.twig"%}
+{% block title %}Citas Ford{% endblock %}
+{% block stylesheet %}
+    <link href="/css/citas.css?v={{ assetsVersion }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+{% include '@LumenCMS/MenuTemplates/script-select-menu.html.twig' with {'searchMenu': 'Citas Taller'} %}
+
+    <div class="wrapper">
+        <div class="wrapper-btn-cancel">
+            <div>
+                <a href="{{ path('category_by_alias', {'category_alias': 'servicios'}) }}" class="text--primary"><i class="icon icon-arrow-left"></i> <span>Cancelar</span></a>
+            </div>
+        </div>
+        <div class="container margin--top">
+            <h1 class="titulo_agendar text-center">Agendar cita de mantenimiento</h1>
+            <p class="margin-custom_cita">Ingresá tu número de cédula o placa de vehículo para agendar cita</p>
+        </div>
+        <div class="container custom_margin_citas">
+            <ul class="tabs custom_tabs_margin">
+                <li class="tab active"><a href="#PLATE" data-toggle="tab" role="tab">Número de Placa</a></li>
+                <li class="tab custom_tab_margin"><a href="#DNI" data-toggle="tab" role="tab">Número de Cédula</a></li>
+            </ul>
+            <div class="appointment-tabs tab-content">
+                <div class="tab-pane active" role="tabpanel" id="PLATE">
+                    <form class="cons-document">
+                        <div class="input-wrap-container">
+                            <div class="input-wrap custom_wrap">
+                                <input data-type="PLATE" type="text" class="input user-car" placeholder="Digite número de placa">
+                            </div>
+                            <!--<p class="small">Ingresá tu Número de placa sin guiones ni espacios</p>-->
+                        </div>
+                        <div class="buttons-options">
+                            <a href="javascript:history.back()" class="btn__cancelar_cita">Cancelar</a>
+                            <a href="#" class="btn__continuar_cita btn--ford searchUser">Continuar</a>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane" role="tabpanel" id="DNI">
+                    <form class="cons-document">
+                        <div class="input-wrap-container">
+                            <div class="input-wrap custom_wrap">
+                                <input data-type="DNI" type="text" class="input user-car" placeholder="Número de identificación">
+                            </div>
+                            <p class="small">Ingresá tu cédula jurídica, física o extranjera sin guiones ni espacios</p>
+                        </div>
+                        <div class="buttons-options">
+                            <a href="javascript:history.back()" class="btn__cancelar_cita">Cancelar</a>
+                            <a href="#" class="btn__continuar_cita btn--ford searchUser">Continuar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'LumenAppBundle:Citas/partials:_modal.html.twig' %}
+       
+
+
+        
+       {# <section class="citas-home clearfix">
+
+           <span class="block-message">Si tu vehículo tiene menos de 1000 km, por favor buscá tu Toyota por número de cédula.</span>
+            <br>
+            <span class="block-message">Si tu cita corresponde a un mantenimiento mayor a 70,000 km, por favor contactanos al <a href="tel:+50625197777">2519-7777</a> en horas hábiles.</span>
+       </section> #}
+
+        {# {% include 'LumenAppBundle:Citas/partials:_subfooter.html.twig' %} #}
+
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="/js/dependencies/jstorage.min.js"></script>
+    <script src="/js/citas/citas.min.js?v={{ assetsVersion }}"></script>
+    {% include 'LumenAppBundle:Citas/partials:_maintenance_modal.html.twig' %}
+{% endblock %}

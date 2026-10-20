@@ -1,0 +1,29 @@
+{% extends "base.html.twig"%}
+{% block title %}Contactar Asesor de Seguridad{% endblock %}
+
+{% block body %}
+
+<div class="wrapper">
+  <div class="container container--breadcrumb">
+    <a href="{{path('form_llamado')}}" class="btn--back"><span class="icon icon-arrow-left"></span>Volver a <strong>Seguridad</strong></a>
+  </div>
+  <div class="section">
+    <div class="container">
+      <h1 class="title text-center">Contactar Asesor Seguridad</h1>
+    </div>
+    <div class="container container--full-mobile">
+      <div class="card card--form">
+        <form action="{{ path("contactar-asesor-seguridad") }}" class="form" id="contactForm" novalidate method="post">
+          <div class="card__content">
+            <div class="container">
+              {% include 'LumenAppBundle:Default/partials:_form-fields.html.twig' with {'place':true} %}
+            </div>
+          </div>
+            {{ form_rest(form) }}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

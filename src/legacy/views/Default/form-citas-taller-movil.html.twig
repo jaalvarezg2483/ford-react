@@ -1,0 +1,62 @@
+{% extends "base.html.twig"%}
+{% block title %}Citas Taller Móvil {% endblock %}
+
+{% block body %}
+
+    <div class="wrapper">
+        <div class="container container--breadcrumb">
+            <a href="javascript:void(0)" class="btn--back"><span class="icon icon-arrow-left"></span>Volver</a>
+        </div>
+        <div class="section">
+            <div class="container">
+                <h1 class="title text-center">Citas Taller Móvil</h1>
+            </div>
+            <div class="container container--full-mobile">
+                <div class="card card--form">
+                    <form id="contactForm" action="{{ path('citas-taller-movil') }}" class="form" method="post" novalidate="novalidate">
+                        <div class="card__content bg--gray">
+                            <div class="container">
+                                <h3 class="card__title">ESCRIBINOS AQUÍ</h3>
+                                <p>En Purdy Motor estamos para servirte, llená todos los campos de este formulario y muy pronto uno de nuestros asesores te contactará para coordinar tu cita de taller móvil.</p>
+
+                            </div>
+                        </div>
+                        <div class="card__content">
+                            <div class="container">
+                                <p class="text--gray"><small>* Campos obligatorios</small>
+                                <div class="input-field">
+                                    <label class="label--black" for="first_name">Nombre<small class="text--gray">*</small></label>
+                                    <input name="first_name" id="first_name" type="text" class="input" placeholder="Juan" required maxlength="255">
+                                </div>
+                                <div class="input-field">
+                                    <label class="label--black" for="last_name">Apellido<small class="text--gray">*</small> </label>
+                                    <input name="last_name" id="last_name" type="text" class="input" placeholder="Rodríguez" required maxlength="255">
+                                </div>
+                                <div class="input-field">
+                                    <label class="label--black" for="placa">Placa<small class="text--gray">*</small> </label>
+                                    <input name="plate" id="placa" type="text" class="input vld_plate" minlength="5" placeholder="" maxlength="255">
+                                </div>
+                                <div class="input-field">
+                                    <label class="label--black" for="email">Correo Electrónico<small class="text--gray">*</small> </label>
+                                    <input name="email" id="email" type="email" class="input" placeholder="ejemplo@mail.com" required maxlength="255">
+                                </div>
+                                <div class="input-field">
+                                    <label class="label--black" for="phone_number">Teléfono<small class="text--gray">*</small> </label>
+                                    <input name="phone_number" id="phone_number" type="text" class="input" placeholder="88888888" required maxlength="8">
+                                </div>
+                                <button id="send-button" type="submit" name="button" class="btn btn--black btn--block">ENVIAR</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+
+    </script>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html.twig"%}
+{% block title %}Contactar Asesor Repuestos{% endblock %}
+
+{% block body %}
+
+<div class="wrapper">
+  <div class="container container--breadcrumb">
+    <a href="{{path('category_by_alias', {"category_alias": 'repuestos'})}}" class="btn--back"><span class="icon icon-arrow-left"></span>Volver a <strong>Repuestos</strong></a>
+  </div>
+  <div class="section">
+    <div class="container">
+      <h1 class="title text-center">Contactar Asesor Repuestos</h1>
+    </div>
+    <div class="container container--full-mobile">
+      <div class="card card--form">
+      <form action="{{ path("contactar-asesor-repuestos") }}" class="form" id="contactForm" novalidate method="post">
+        {%  set aditionalValues = form.vars.value.aditionalFields | default([])%}
+        <div class="card__content">
+          <div class="container">
+            <p class="form__title">MIS DATOS</p>
+            <small class="text--gray">* Campos Obligatorios</small>
+            <div class="input-field">
+                <label class="label--black" for="first_name">Nombre<small class="text--gray">*</small> </label>
+                {{ form_widget(form.first_name, {attr: {"class": "input"}}) }}
+            </div>
+            <div class="input-field">
+                <label class="label--black" for="last_name">Apellido<small class="text--gray">*</small> </label>
+                {{ form_widget(form.last_name, {attr: {"class": "input"}}) }}
+            </div>
+            <div class="input-field">
+                <label class="label--black" for="email">Correo Electrónico<small class="text--gray">*</small> </label>
+                {{ form_widget(form.email, {attr: {"class": "input"}}) }}
+            </div>
+            <div class="input-field">
+                <label class="label--black" for="mobile">Teléfono<small class="text--gray">*</small> </label>
+                {{ form_widget(form.mobile, {attr: {"class": "input"}}) }}
+            </div>
+            <div class="input-field">
+              <label class="label--black" for="placa">Placa<small class="text--gray">*</small> </label>
+              <input type="text" name="placa" id="placa" required="required" class="input" placeholder="Número de Placa" value="{{ aditionalValues["placa"] | default("") }}">
+            </div>
+            <div class="input-field">
+              <label class="label--black" for="{{ field_id(form, 'comment') }}">Comentario<small class="text--gray">*</small> </label>
+              <textarea class="textarea" placeholder="Describe tu duda o consulta" id="{{ field_id(form, 'comment') }}" name="{{ field_name(form, 'comment') }}" required>{{ aditionalValues["comment"] | default("") }}</textarea>
+            </div>
+            <div class="form__terms">
+              Ver <a href="/documents/terminos-y-condiciones.pdf" target="_blank">Términos y Condiciones</a>
+            </div>
+            <div class="input-field">
+              <input id="autorizo_envio" name="autorizo_envio" type="checkbox" value="1" checked="" class="checkbox" required="required">
+              <label for="autorizo_envio">Autorizo a Grupo Purdy al envío de información de sus productos y la utilización de mis datos de contacto.</label>
+            </div>
+            <button type="submit" class="btn btn--black btn--block">ENVIAR</button>
+          </div>
+        </div>
+          {{ form_rest(form) }}
+      </form>
+    </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

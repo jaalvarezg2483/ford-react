@@ -1,0 +1,15 @@
+<div class="navigation" data-action="navigation">
+    <i class="mdi mdi-chevron-left"></i>
+        <a class="navigation__back evt_prev_step {% if app.request.get('_route') != 'citas' %} md-hidden {% endif %}">Atr&aacute;s &nbsp;</a> 
+        <ul class="breadcrumb {% if app.request.get('_route') != 'citas' %} xs-hidden {% endif %}">
+            <li class="breadcrumb__item">
+                <a class="breadcrumb__link">Servicios</a>
+            </li>
+            <li class="breadcrumb__item">
+                <a class="breadcrumb__link">Mantenimiento</a>
+            </li>
+            <li class="breadcrumb__item">
+                <a class="breadcrumb__link">Citas Taller</a>
+            </li>
+        </ul>
+</div>

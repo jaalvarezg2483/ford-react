@@ -1,0 +1,146 @@
+{% extends "base.html.twig"%}
+{% block title %}Citas Ford{% endblock %}
+{% block stylesheet %}
+    <link href="/css/citas.css?v={{ assetsVersion }}" rel="stylesheet">
+{% endblock %}
+
+{% set activeStep = 4 %}
+
+{% block body %}
+    <div class="wrapper  load-step-4">
+        {# {% include 'LumenAppBundle:Citas/partials:_nav.html.twig' %}
+        {% include 'LumenAppBundle:Citas/partials:_breadcrumb.html.twig' %} #}
+
+        <div class="padding-1 bg--accent-light">
+            <div class="container">
+                <a class="text--primary text--bold" href="{{  path('step3') }}"><i class="icon icon-arrow-left"></i> Volver</a>
+            </div> 
+        </div>
+        <div class="container margin--top separador_steps">
+            <h1 class="titulo_agendar text-center">Agendar cita de mantenimiento</h1>
+        </div>
+        {% include 'LumenAppBundle:Citas/partials:_steps.html.twig' with {
+        'activeStep' : activeStep, 'blockStep': {2: currentAppointment} } only %}
+
+       <section class="container load-step-4">
+          
+           <form class="form-confirmation">
+            {% include "@LumenApp/Citas/partials/_appointment-actions.html.twig" %}
+                <div class="form-element title header-desk">
+                    <p class="margin--bottom">CONFIRMÁ LOS DATOS DE TU CITA</p>
+                </div>
+                <div class="info-wrapper">
+                    <div class="form-element title header-mobile">
+                        <p class="margin--bottom">CONFIRMÁ LOS DATOS DE TU CITA</p>
+                    </div>
+                    <div class="info-desk-left">
+                        <div class="form-element">
+                            <div class="input-wrap margin--bottom">
+                                <p>Taller</p>
+                                <p class="input"><span class="name-suc regular-txt">{{ appointmentData["branch"]["Suc_Nombre"] | default("") }}</span></p>
+                            </div>
+                        </div>
+                        <div class="form-element">
+                            <div class="input-wrap margin--bottom">
+                                <p>Fecha</p>
+                                <p class="input"><span class="day-suc regular-txt">{{ appointmentData["date"] | localizeddate('full', 'none', 'es', "America/Costa_Rica") | capitalize | default("")}}</span></p>
+                            </div>
+                        </div>
+                        <div class="form-element">
+                            <div class="input-wrap margin--bottom">
+                                <p>Hora</p>
+                                <p class="input"><span class="hour-suc regular-txt">{{ appointmentData["date"] | date("h:i a") | default("")}}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-desk-right">
+                        <div class="form-element">
+                            <div class="input-wrap margin--bottom">
+                                <p>Vehículo</p>
+                                <p class="input"><span class="title-car-maintenance regular-txt">{{ vehicleSelected["Modelo"] | default("") }} {{ appointmentData["branch"]["Anio"] | default("") }}</span></p>
+                            </div>
+                        </div>
+                        <div class="form-element">
+                            <div class="input-wrap margin--bottom">
+                                <p>Placa</p>
+                                <p class="input"><span class="print-plate regular-txt">{{ vehicleSelected["Placa"] | default("") }}</span></p>
+                            </div>
+                        </div>
+                        <div class="form-element">
+                            {% if currentAppointment == false %}
+                            <div class="input-wrap margin--bottom">
+                                <p>*Costo</p>
+                                <p class="input"><span class="appointment-cost regular-txt">₡{{ taskSelected["Precio_CT_Sugerido"] | number_format(0) }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-element footer-mobile">
+                        {% if currentAppointment == false %}
+                            <p class="text--disclaimer">
+                                {% if taskSelected["disclaimer"] is defined %}
+                                    {{ taskSelected["disclaimer"] }}<br/>
+                                {% endif %}
+                                * Este es un valor de aproximado del servicio y puede estar sujeto a cambios sin previo aviso. El mismo no incluye cambios o reparaciones adicionales al mantenimiento.
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+                {#<div class="form-element footer-desk">
+                    {% if currentAppointment == false %}
+                        <p class="text--disclaimer">
+                            {% if taskSelected["disclaimer"] is defined %}
+                                {{ taskSelected["disclaimer"] }}<br/>
+                            {% endif %}
+                            * Este es un valor de aproximado del servicio y puede estar sujeto a cambios sin previo aviso. El mismo no incluye cambios o reparaciones adicionales al mantenimiento.
+                        </p>
+                    {% endif %}
+                </div>#}
+           </form>
+           <div class="btns-steps">
+                {# <p>* El mantenimiento preventivo tiene un costo adicional, este monto no incluye cambios o reparaciones adicionales al mantenimiento.</p> #}
+                <a {% if appointmentData["completed"] | default(false) == true %} style="display: none" {% endif %} class="btn__cancelar_cita back-step3" href="{{ path('step3') }}">Anterior</a>
+                {% if appointmentData["completed"] | default(false) == false %}
+                    <a {% if debug is not null %}data-debug="{{ debug }}"{% endif%} class="btn__continuar_cita btn--ford create-appointment">Confirmar Cita</a>
+                {% endif %}
+                <a {% if appointmentData["completed"] | default(false) == false %} style="display: none" {% endif %} class="btn__cancelar_cita back-services" href="{{ path('category_by_alias', {'category_alias': 'servicios'}) }}">Volver a servicios</a>
+                <a {% if appointmentData["completed"] | default(false) == false %} style="display: none" {% endif %} class="btn__continuar_cita btn--ford another-appointment" href="{{ path('citas') }}">Solicitar otra cita</a>
+            </div>
+       </section>
+        {% include 'LumenAppBundle:Citas/partials:_modal.html.twig' %}
+{% endblock %}
+{% block scripts %}
+    <script>
+        var map;
+        {# $('.js-toggle-map').on('click', function(){
+            var content = $(this).next('.map');
+            content.slideToggle('fast');
+            var lat = $(this).data('lat');
+            var long = $(this).data('long');
+            var mapID = content.attr('id');
+            setTimeout(function(){
+                initMap(mapID, lat, long);
+                google.maps.event.trigger(map, 'resize');
+            }, 500)
+        });
+        function initMap(mapID, lat, long) {
+            var LatLng = {lat: lat, lng: long};
+            map = new google.maps.Map(document.getElementById(mapID), {
+                center: LatLng,
+                zoom: 18,
+                zoomControl: true,
+                scrollwheel: false,
+            });
+            var marker = new google.maps.Marker({
+                position: LatLng,
+                map: map,
+                animation: google.maps.Animation.DROP
+            });
+        } #}
+    </script>
+    <script src="/js/dependencies/jstorage.min.js"></script>
+    <script src="/js/dependencies/datepicker.min.js"></script>
+    <script src="/js/dependencies/datepicker.es-ES.js"></script>
+    <script src="/js/citas/citas.min.js?v={{ assetsVersion }}"></script>
+    {% include 'LumenAppBundle:Citas/partials:_maintenance_modal.html.twig' %}
+{% endblock %}

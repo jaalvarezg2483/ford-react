@@ -1,0 +1,38 @@
+{% if entries is not null and entries | length > 0 %}
+<div class="benefits-section margin--bottom">
+  <div class="container">
+    <div class="row">
+        <div class="col-md-4">
+           <div class="title-icon">
+             <div class="icon-box">
+                <i class="icon icon-ok"></i>
+             </div>
+             <div>
+               <h3 class="subtitle">Disfrutá los beneficios<h3> 
+               <h3 class="title hidden-md">FORD Nation</h3>
+               <h2 class="title hidden-xs">FORD Nation</h2>
+             </div>
+           </div>
+           <a class="btn btn--clear" href="{{ goToUrl }}">Ver más <i class="icon icon-arrow-right"></i></a>
+        </div>
+        <div class="col-md-8 hidden-xs">
+            <div class="row">
+                {% for entry in entries %}
+                    <div class="col-md-6" >
+                      <a class="benefit-card" href="{{ path('ford-nation-entry', {'alias': entry.alias}) }}">
+                          <img src="{{ entry.image }}" class="benefit-card-img">
+                          <div class="benefit-card-content" >
+                              <h4 class="title">{{ entry.title }}</h4>
+                              <p class="text--small">{{ entry.description | slice(0,50) }}...</p>
+                              <p class="text--small">Vigencia: {{ formatDate(entry.validUntil) }}</p>
+                              <p class="text--small text--primary">Ver más <i class="icon icon-arrow-right"></i></p>
+                          </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+{% endif %}

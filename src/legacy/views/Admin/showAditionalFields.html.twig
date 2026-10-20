@@ -1,0 +1,26 @@
+{% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
+
+{% block field %}
+    <ul>
+    {% for key,content in object.aditionalWithEntity %}
+
+        <li><strong>{{ key | translate_field_name | capitalize }}</strong>:
+            {% if content is iterable %}
+                <ul>
+                    {% for row in content %}
+                        {% if key == 'accesories' %}
+                            <li>{{ row.name }} - ${{ row.price }}</li>
+                            {% else %}
+                                <li>{{ row.tittle }} - ${{ row.price }}</li>
+                        {% endif %}
+
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    {{ content }}
+            {% endif %}
+
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

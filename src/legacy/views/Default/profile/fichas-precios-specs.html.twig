@@ -1,0 +1,139 @@
+{% extends "base.html.twig"%}
+
+{% block title %} {{ family.name }} | Especificaciones {% endblock %}
+
+{% block metaFace %}
+	<meta property="og:title" content="{{ family.name }} | Fichas Técnicas y Precios"/>
+	<meta property="og:site_name" content="Ford"/>
+	<meta property="og:description" content="{{ family.description }}"/>
+	<meta property="og:type" content="website"/>
+	<meta property="article:author" content="Ford" />
+	<meta property="article:publisher" content="Ford" />
+	<meta property="og:image" content="{{server_url ~ "/" ~ family.getWebPath()}}"/>
+{% endblock %}
+
+{% block body %}
+{% include '@LumenCMS/MenuTemplates/script-select-menu.html.twig' with {'searchMenu': 'Comparación y precios'} %}
+	<div class="wrapper--car">
+		<div class="text-left padding-1 bg--accent-light hidden-xs">
+			<div class="container">
+				<a href="javascript:history.back()" class="text--primary"><i class="icon icon-arrow-left"></i>  Volver</a>
+			</div>
+		</div>
+		<div class="text-left margin--bottom hidden-md">
+			<div class="container">
+				<a href="javascript:history.back()" class="text--primary"><i class="icon icon-arrow-left"></i>  Volver</a>
+			</div>
+		</div>
+		<div class="container margin--top">
+			<h1 class="title">Precios y <br>Fichas técnicas</h1>
+		</div>
+		<div class="container margin--top">
+			<div class="row">
+				<div class="input-field col-md-4 select-cars select">
+					<select class="js-select change_family">
+						{% for f in families %}
+							<option {{ family.id == f.id ? "disabled selected" : "" }} value="{{ f.slug }}">{{ f.name }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="container spec-car-container">
+			<img class="spec-car-img hidden-xs" src="/{{family.getWebPath()}}" alt="{{ family.name }} {{ family.currentYear }}">
+			<ul class="tabs">
+				<li class="tab active"><a href="#tab-ficha" role="tab" data-toggle="tab">Ficha técnica</a></li>
+				<li class="tab"><a href="#tab-costo" role="tab" data-toggle="tab">Costo por modelo</a></li>
+			</ul>
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane clearfix" id="tab-costo">
+					<div class="container bg--accent-light margin--bottom">
+						{% for model in models %}
+							{% if loop.first %}
+							<div class="row">
+							{% endif %}
+								<div class="col-sm-4 card-cost">
+									<div class="card-cost--content">
+										<img src="/{{model.getWebPath()}}" alt="{{ model.name }} {{ family.currentYear }}">
+										<div>
+											<h4 class="title">{{model.name}}</h4>
+											{% if family.hidePrice is defined and not family.hidePrice %}
+												<small>desde</small>
+												<h4 class="title">${{ model.startPrice | number_format(0, ',', '.') }}</h4>
+											{% else %}
+												{% if family.comingSoon is defined and family.comingSoon %}
+													<h4 class="title">Coming Soon</h4>
+												{% endif %}
+											{% endif %}
+
+										</div>
+									</div>
+									<div class="text-center">
+										<a class="btn" href="{{ path('calculate-all', {"slug": family.slug, "code": model.code}) }}">Calcular financiamiento</a>
+									</div>
+								</div>
+							{% if loop.first %}
+							</div>
+							{% endif %}
+						{% endfor %}
+					</div>
+				</div>
+				<div role="tabpanel" class="tab-pane active clearfix" id="tab-ficha">
+					<div class="car-specs-details">
+						<div class="car-details-pre">
+							<h2 class="title margin--bottom">{{ family.familyBrand.name }} {{family.name}}</h2>
+							<h4 class="title">Datos generales</h4>
+                            {% if baseModel.imageDataSheet != "/default.jpg" and baseModel.imageDataSheet != "default.jpg" %}
+								<img class="car-specs-datasheet" src="{{ baseModel.imageDataSheet }}" alt="Ficha técnica {{ family.name }} {{ family.currentYear }}">
+                            {% endif %}
+						</div>
+						<div class="specs-list-container margin--top">
+							{% if baseModel.floorDistance != "" %}
+								<p>Distancia libre al suelo: <strong>{{ baseModel.floorDistance }}</strong></p>
+							{% endif %}
+                            {% if baseModel.weight != "" %}
+								<p>Peso bruto: <strong>{{ baseModel.weight }}</strong></p>
+							{% endif %}
+						
+							<ul class="car-specs-list">
+								{% if baseModel.tankCapacity %}
+									<li><img class="car-spec-icon" src="/img/content/icons/tanque.svg" alt="tanque">Capacidad del tanque: {{ baseModel.tankCapacity }}</li>
+								{% endif %}
+								<li><img class="car-spec-icon" src="/img/content/icons/combustible.svg" alt="combustible">Tipo de combustible: {{ baseModel.gas }}</li>
+								{% if baseModel.motor %}
+									<li><img class="car-spec-icon" src="/img/content/icons/motor.svg" alt="motor">Motor: {{ baseModel.motor }}</li>
+								{% endif %}
+								{% if baseModel.potencyHp %}
+									<li><img class="car-spec-icon" src="/img/content/icons/tacometro.svg" alt="potencia hp">Potencia Hp: {{ baseModel.potencyHp }}</li>
+								{% endif %}
+								<li><img class="car-spec-icon" src="/img/content/icons/user.svg" alt="pasajeros">Pasajeros: {% if baseModel.passengersDisclaimer != "" %} {{ baseModel.passengersDisclaimer }} {% else %} {{ baseModel.pasajeros }} {% endif %}</li>
+								{% if baseModel.tires %}
+									<li><img class="car-spec-icon" src="/img/content/icons/tire.svg" alt="llantas">Llantas: {{ baseModel.tires }}</li>
+								{% endif %}
+								{% if baseModel.torque %}
+									<li><img class="car-spec-icon" src="/img/content/icons/torque.svg" alt="torque">Torque: {{ baseModel.torque }}</li>
+								{% endif %}
+							</ul>
+						</div>
+					</div>
+{#					{% include "@LumenApp/Default/profile/partials/model-compare-fichas-precios.html.twig" %}#}
+					<div class="text-center">
+						{%  for datasheet in family.dataSheets %}
+							<div class="margin--top">
+								<a class="btn btn--clear" href="{{ path("download_datasheet", {"id": datasheet.id, "path" : datasheet.path}) }}" target="_blank">Descargar ficha <i class="icon icon-download"></i></a>
+								{% if family.dataSheets | length > 1 %}
+									<p><small>{{datasheet.description}}</small></p>
+								{% endif %}
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	{% include "@LumenApp/Default/profile/partials/compare-scripts.html.twig" %}
+{% endblock %}

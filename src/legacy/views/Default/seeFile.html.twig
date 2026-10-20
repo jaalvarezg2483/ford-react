@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es-CR">
+
+<head>
+    <title>Ford Costa Rica | Grupo Purdy | Ficha Técnica {{ family.name }}</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/micrositios/purdyRsc/css/flipbook.style.min.css">
+    <link rel="stylesheet" type="text/css" href="/micrositios/purdyRsc/css/font-awesome.min.css">
+
+    <style>
+        .flipbook-icon-general {
+            color: #FFF;
+        }
+        .flipbook-menu, .flipbook-currentPageNumber, #back {
+            background-color: #05629D;
+            color: #FFF;
+        }
+        #back {
+            position: fixed;
+            z-index: 10;
+            top: 5px;
+            right: 5px;
+            border-radius: 15px;
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            font: bold 14px/14px 'Montserrat', 'Open Sans', sans-serif;;
+        }
+    </style>
+
+    <script src="/micrositios/purdyRsc/js/flipbook.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#container").flipBook({
+                pdfUrl: "{{"/uploads/data_sheet/" ~ file.path }}",
+                assets: {
+                    flipMp3: "/micrositios/purdyRsc/mp3/turnPage.mp3"
+                },
+                deeplinking:{
+                    enabled:true,
+                    prefix:""
+                },
+                btnDownloadPages: {
+                    enabled: true,
+                    title: "Download pages",
+                    icon: "fa-download",
+                    url: "{{"/uploads/data_sheet/" ~ file.path }}"
+                },
+
+            });
+
+        })
+    </script>
+
+    <meta name="identifier-url" content="" />
+    <meta name="title" content="Ford Costa Rica | Grupo Purdy | Ficha Técnica {{ family.name }}"/>
+    <meta name="description" content="{{ family.getSeoDescription() }}" />
+    <meta name="abstract" content="" />
+    <meta name="keywords" content="{{ family.getSeoTags() }}" />
+    <meta name="author" content="" />
+    <meta name="revisit-after" content="1" />
+    <meta name="language" content="es" />
+    <meta name="copyright" content="© {{ "now"|date("Y") }}" />
+    <meta name="robots" content="index,follow" />
+    <meta name="googlebot" content="index, follow">
+    <meta name="organization" content="">
+    <meta name="revisit-after" content="1 day">
+    <meta name="origen" content="">
+    <meta name="locality" content="San José , Costa Rica">
+    <meta name="distribution" content="global">
+
+</head>
+
+<body>
+{% include "@LumenCMS/Default/articleTemplate/partials/seo-h1.html.twig" with {h1: "Ford CR | Grupo Purdy | Ficha Técnica " ~ family.name} %}
+<a href="{{ path('model_list', {slug: family.slug}) }}" id="back">Volver al sitio</a>
+<div id="container"></div>
+
+</body>
+
+</html>

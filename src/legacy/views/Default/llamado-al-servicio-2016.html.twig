@@ -1,0 +1,55 @@
+{% extends "base.html.twig"%}
+{% block title %}Llamado al servicio 2016{% endblock %}
+
+{% block body %}
+
+<div class="wrapper">
+	<div class="container container--breadcrumb">
+	    <ol class="breadcrumb">
+	      <li><i class="icon icon-arrow-left breadcrumb-back"></i></li><li><a href="{{path('index')}}">Inicio</a></li><li><a href="{{path('llamado-al-servicio')}}">Llamado al servicio</a></li><li>Agosto 2016</li>
+	    </ol>
+	</div>
+	<section class="container wrapper--text">
+		<h3 class="text text-center">AGOSTO 2016</h3>
+		<h2 class="text--larger text-center">Toyota anuncia campaña de servicio a nivel mundial</h2>
+		<p class="text text-center">En acatamiento a la resolución RV-06-2016 de la dirección de apoyo al consumidor del Ministerio de Economía, Industria y Comercio:</p>
+		<div class="section">
+			<p class="text">Si usted es propietario de un vehículo:</p>
+			<ul class="list-unstyled">
+				<li>Prius 2009 a 2012</li>
+				<li>Lexus CT200H 2009 a 2014</li>
+			</ul>
+			<p class="text--large"><strong>Contáctenos</strong></p>
+			<p class="text">Le invitamos a comunicarse a través de nuestro Contact Center 2519-7777 {# o mediante el sitio web http://www.toyotacr.com/consulta-servicio #} para consultar si su vehículo debería someterse a nuestra campaña de revisión preventiva de un componente de la bolsa de aire (airbag) en el caso de los Prius, y del soporte de aspiración del carburante en los modelos Lexus CT200H. Por favor tener a mano su número de identificación del vehículo (VIN #) ubicado en el marco de la puerta del conductor. Además, su número de cédula, número de celular y su correo electrónico. Estos datos serán utilizados únicamente para efectos de comunicación relacionados con la campaña de servicio.</p>
+
+			<p class="text">A la fecha, Toyota no conoce de ningún incidente o fatalidad causada por esta condición, dentro del grupo de vehículos Toyota que han sido objeto de esta campaña de revisión preventiva. Si su vehículo está entre los que deban someterse a la revisión preventiva, Grupo Purdy Motor coordinará el cambio de la pieza sin ningún costo para el propietario, en cuanto la fábrica envíe la parte respectiva.</p>
+
+			<p class="text">Una vez que Toyota notifique la llegada de la parte respectiva, se procederá a llamar a los propietarios de los vehículos para coordinar lugar y hora de la cita, de acuerdo con la antigüedad del vehículo (más antiguo primero).</p>
+
+			<p class="text">Según lo estipulado por la ley, el plazo para verificar la información es de un año a partir de esta publicación, es decir, hasta el 10 de agosto del 2017.</p>
+		</div>
+
+        <div class="row js-equal-height-parent">
+            <div class="col-sm-6">
+                <a href="{{path('contacto')}}" class="card card--link">
+                    <div class="card__content js-equal-height">
+                        <i class="mdi mdi-human-greeting"></i>
+                        <h2 class="card__title">Contactar</h2>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-6">
+                <a href="tel:+(506) 2519-7777" class="card card--link">
+                    <div class="card__content js-equal-height">
+                        <i class="mdi mdi-phone"></i>
+                        <h2 class="card__title">Llamar</h2>
+                        <p class="card__text">(506) 2519-7777</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+	</section>
+	{% include "LumenAppBundle:Default/partials:_banner-bottom.html.twig" with {} %}
+</div>
+
+{% endblock %}

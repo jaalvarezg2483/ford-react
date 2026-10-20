@@ -1,0 +1,93 @@
+{% extends "base.html.twig"%}
+{% block title %}Seleccionar modelo{% endblock %}
+{% block meta %}
+    <meta name="identifier-url" content="" />
+    <meta name="title" content="Ford"/>
+    <meta name="description" content="Ford" />
+    <meta name="abstract" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="revisit-after" content="1" />
+    <meta name="language" content="es" />
+    <meta name="copyright" content="© 2016" />
+    <meta name="organization" content="">
+    <meta name="revisit-after" content="1 day">
+    <meta name="origen" content="">
+    <meta name="locality" content="San José , Costa Rica">
+    <meta name="distribution" content="global">
+    <link rel="image_src" href="" >
+    <meta name="dcterms.abstract" content="">
+    <meta name="dcterms.rightsHolder" content="">
+    <meta NAME="robots" CONTENT="noindex">
+{% endblock %}
+
+
+{%  block template_car %}
+    <div class="col-xs-12 col-sm-3 col-md-3">
+        <div class="img-calculate-content">
+            <img src="{{ image }}">
+        </div>
+        <p class="title-car-calculate">{{ name }}</p>
+        <p>${{ price }}</p>
+        <div class="content-caract-vehicle">
+            <ul class="list--bullets">
+                {% for caracteristica in caracteristicas %}
+                    <li>{{ caracteristica.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <a class="viewmore-calculate js-collapse-prev js-text-change">VER MÁS</a>
+        {% if type == "test-drive" %}
+            <a href="{{ path('prueba-manejo', {"slug": slug, "code":code}) }}" class="btn btn--black btn--block">ELEGIR</a>
+        {% else %}
+            <a href="{{ path('calculate-all', {"slug": slug, "code":code}) }}" class="btn btn--black btn--block">ELEGIR</a>
+        {% endif %}
+    </div>
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="breadcrumb--calculate breadcrumb--calculate-old">
+        <div class="container step-1-calculate">
+            <h1 class="breadcrumb__title">Seleccionar modelo</h1>
+            {% if type == "test-drive" %}
+                <a class="calculate-steps" href="javascript:history.back()"><i class="mdi mdi-chevron-left"></i> Volver <span class="name-step no-line">Elegir Familia</span></a>
+            {% else %}
+                <a class="calculate-steps" href="javascript:history.back()"><i class="mdi mdi-chevron-left"></i> Paso 1 de 5 <span class="name-step no-line">Elegir Modelo</span></a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="wrapper-calculate wrapper-calculate-old">
+        <section class="sub-section sub-section-old">
+            <div class="container">
+                <div class="input-field col-xs-6 col-sm-3 select-cars select select-old">
+                    <select class="js-select change__family_wdg" data-url="calculate_select_model">
+                        {% for family in families %}
+                            <option {{ current.id == family.id ? "disabled selected" : "" }} value="{{ family.slug }}">{{ family.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <!-- <i class="mdi mdi-chevron-down"></i> -->
+                </div>
+                {#<span class="col-xs-6 col-sm-8 price-top">Precio total: $26 000</span>#}
+            </div>
+        </section>
+        <section class="container container-cards-calculate">
+            {% for subList in models | batch(4)%}
+                <div class="row content-cards-car">
+                    {% for model in subList %}
+                        {% set image = server_url ~ "/" ~ model.getWebPath() %}
+                        {% set name = model.name %}
+                        {% set price = model.startPrice | number_format(0, ",", ".") %}
+                        {% set code = model.code %}
+                        {% set slug = current.slug %}
+                        {%  set caracteristicas = model.mainFeatures %}
+                        {{ block("template_car") }}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </section>
+        {% include "LumenAppBundle:Default/partials:_banner-bottom.html.twig" with {} %}
+    </div>
+
+{% endblock %}

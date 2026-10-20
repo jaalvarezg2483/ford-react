@@ -1,0 +1,106 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Fichas técnicas{% endblock %}
+
+{% block meta %}
+    <meta name="identifier-url" content="" />
+    <meta name="title" content="Fichas técnicas"/>
+    <meta name="description" content="Folletos pertenecientes a cada modelo" />
+    <meta name="abstract" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="revisit-after" content="1" />
+    <meta name="language" content="es" />
+    <meta name="copyright" content="© 2017" />
+    <meta name="organization" content="">
+    <meta name="revisit-after" content="1 day">
+    <meta name="origen" content="">
+    <meta name="locality" content="San José , Costa Rica">
+    <meta name="distribution" content="global">
+    <link rel="image_src" href="" >
+    <meta name="dcterms.abstract" content="">
+    <meta name="dcterms.rightsHolder" content="">
+    <meta NAME="robots" CONTENT="noindex">
+{% endblock %}
+
+{% block body %}
+
+<div class="wrapper">
+    <div class="container container--breadcrumb">
+        <ol class="breadcrumb">
+            <li><button type="button" class="js-back-btn"><i class="icon icon-arrow-left"></i></button></li><li><a href="{{path('index')}}">Inicio</a></li><li>Fichas técnicas</li>
+        </ol>
+    </div>
+    <div class="container">
+        <h2 class="title text-center">Fichas técnicas</h2>
+    </div>
+    <div class="container container--full-mobile">
+        <section class="section">
+            <div class="menu--mock">
+                <div class="hidden-xs hidden-sm">
+                    <div class="container">
+                        <ul class="tabs">
+                            {% for type in familyTypes  %}
+                            <li class="tab {% if loop.index == 1 %} active {% endif %}"><a href="#folleto{{ loop.index }}" data-toggle="tab">{{ type.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <ul class="collapsible tab-content">
+                    {% for type in familyTypes %}
+                    <li class="tab-pane fade {% if loop.index == 1 %} in active {% endif %}" id="folleto{{ loop.index }}">
+                        <button type="button" class="collapsible__header js-collapse-next">
+                            <i class="mdi mdi-plus"></i> {{ type.name }}
+                        </button>
+
+                        <div class="collapsible__body container-fluid">
+                            {% set allFamilies =  type.families2 | merge(type.forceModel)%}
+                            <div class="row row--flex">
+                            {% for family in allFamilies %}
+                            {% if dataSheets[family.id] is defined %}
+                            <div class="col-sm-6 col-md-3 family-wrap">
+                                <a>
+                                <div class="family">
+                                    <div class="family__img">
+                                        <img src="{{ family.getWebPath() ? server_url ~ '/' ~ family.getWebPath()  : '/img/content/yaris-small.png' }}" alt="Car" class="img-responsive">
+                                    </div>
+                                    <div class="family__text">
+                                        <h2>
+                                            {{ family.name }}
+                                            {{family.hybrid == true ? '<span class="mdi mdi-leaf"></span>' : ''}}
+                                        </h2>
+                                        {% if dataSheets[family.id] is defined %}
+                                            {% if dataSheets[family.id] | length > 1 %}
+                                                <a target="_blank" href="{{ path("downloadZip", {"id": family.id }) }}">
+                                                    <p class="family__cta--download">Ver PDF</p>
+                                                </a>
+                                            {% else %}
+                                                {% for data in dataSheets[family.id] %}
+                                                    <a target="_blank" href="{{ server_url ~ "/" ~ data.getWebPath() }}">
+                                                        <p class="family__cta--download">Ver PDF</p>
+                                                    </a>
+                                                    <a href="{{ path("view-pdf", {"id": data.id, "slug" : family.slug}) }}" target="_blank">
+                                                        <p class="family__cta--download">Ver en línea</p>
+                                                    </a>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                </a>
+                             </div>
+                            {% endif %}
+                            {% endfor %}
+                            </div>
+
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    </div>
+
+</div>
+
+{%  endblock %}

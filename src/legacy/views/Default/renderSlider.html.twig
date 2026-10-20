@@ -1,0 +1,24 @@
+<section>
+	<section class="slider slider--home js-slider-home">
+		{% for key, item in items %}
+	    <div>
+	    	<div 
+					data-min-width-0='<img src={{ item.imageMobile }} alt="{{ item.text }}">'
+			  	data-min-width-768='<img src={{ item.imageTablet }} alt="{{ item.text }}">'
+			  	data-min-width-992='<img src={{ item.image }} alt="{{ item.text }}">'
+			> 
+			  {{ item.text }}
+			</div>
+			<div class="slider__inner">
+				<p>{{ item.text }}</p>
+				{% if item.family %}
+					<img src="{{ item.family.getLogoWhite() }}" alt="{{ item.text }}">
+				{% endif %}
+				{% if item.btnTarget and item.btnText %}
+					<a href="{{ item.btnTarget }}" class="btn btn--red" title="">{{ item.btnText }} {% if item.external == 1 %}<i class="mdi mdi-open-in-new"></i>{% endif %}</a>
+				{% endif %}
+			</div>
+	    </div>
+		{% endfor %}
+	</section>
+</section>

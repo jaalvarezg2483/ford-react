@@ -1,0 +1,57 @@
+<div class="container">
+    <div class="input-field col-xs-6 col-sm-3 select-cars select container-fluid">
+        <select class="js-select change__family_wdg" data-url="calculate_select_model">
+            {% for family in families %}
+                <option {{ current.id == family.id ? "disabled selected" : "" }} value="{{ family.slug }}">{{ family.name }}</option>
+            {% endfor %}
+        </select>
+        <!-- <i class="mdi mdi-chevron-down"></i> -->
+    </div>
+    <span class="col-xs-6 col-sm-8 price-top">Precio total: $
+				<span class="accessory_total_wdg">{{ total + (model.startPrice | default(0))}}</span>
+			</span>
+    <a class="open-calculate col-xs-12 col-sm-1"><i class="mdi mdi-sort-variant"></i></a>
+    <nav class="nav-calculate">
+        <section class="container bg--gray">
+            <div class="row">
+                <span class="col-xs-3 type-selected">Modelo</span>
+                <div class="input-field col-xs-6 select-cars select">
+                    <select class="js-select change_model_wdg" data-family="{{ current.slug }}">
+                        {% for modelSelect in modelos %}
+                            <option {{ model.id == modelSelect.id ? "disabled selected" : "" }} value="{{ modelSelect.code }}">{{ modelSelect.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <!-- <i class="mdi mdi-chevron-down"></i> -->
+                </div>
+                <span class="col-xs-3 price-selected vehicle_price">${{ model.startPrice | number_format(0, '.', ',') }}</span>
+            </div>
+            <div class="row">
+                <span class="col-xs-3 type-selected">Accesorios</span>
+                <section class="col-xs-9 accessories_selected_wdg">
+                    {% for accessory in accessories %}
+                        <section class="col-xs-12">
+                            <div class="chip">{{ accessory.name }}
+                                <a class="accessory_wdg"  data-price="{{ accessory.price }}" data-name="{{ accessory.name }}" data-id="{{ accessory.id }}">
+                                    <i class="mdi mdi-close"></i>
+                                </a>
+                            </div>
+                            <span class="price-selected">${{ accessory.price }}</span>
+                        </section>
+                    {% endfor %}
+                </section>
+            </div>
+            {% for class,name in maintenanceInsurance %}
+                <div class="row">
+                    <span class="col-xs-3 type-selected">{{ name }}</span>
+                    <section class="col-xs-9 {{ class }}">
+
+                    </section>
+                </div>
+            {% endfor %}
+
+            <div class="row">
+                <a class="close-calculate">VER MENOS</a>
+            </div>
+        </section>
+    </nav>
+</div>

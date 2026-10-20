@@ -1,0 +1,171 @@
+<div class="menu--mock">
+    <div class="hidden-xs hidden-sm">
+        <div class="container">
+            <ul class="tabs">
+                {% for type in categories  %}
+                    <li class="tab {% if loop.index == 1 %} active {% endif %}"><a href="#folleto{{ loop.index }}" data-toggle="tab">{{ type.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <ul class="collapsible tab-content">
+        {% for type in categories  %}
+            <li class="tab-pane fade {% if loop.index == 1 %} in active {% endif %}" id="folleto{{ loop.index }}">
+                <button type="button" class="collapsible__header js-collapse-next {% if loop.index == 1 %}  {% endif %}"><i class="mdi mdi-plus"></i>{{ type.name }}</button>
+                <div class="collapsible__body container-fluid">
+                    <div class="row col-md-offset-2">
+                        {% for family in families[type.id] %}
+                            <div class="col-sm-6 col-md-3 family-wrap">
+                                <a class="family-click" id="{{ family.id }}">
+                                    <div class="family">
+                                        <div class="family__img">
+                                            <img src="{{ family.getWebPath() ? image_url(family.getWebPath(), false)  : image_url('/img/content/yaris-small.png', false) }}" alt="Car" class="img-responsive">
+                                        </div>
+                                        <div class="family__text">
+                                            <h2>
+                                                {{ family.name }}
+                                                {{family.hybrid == true ? '<span class="mdi mdi-leaf"></span>' : ''}}
+                                            </h2>
+                                            <p class="family__cta-price">Desde <span>${{ family.startPrice | number_format(0, ',', '.') }}</span></p>
+                                            <p>
+                                                {% if family.name == "Hino Serie 300" %}
+                                                    De 2.5 ton a 6 ton de capacidad de carga.
+                                                {% endif %}
+                                                {% if family.name == "Hino Serie 500" %}
+                                                    De 7 ton a 19 ton de capacidad de carga.
+                                                {% endif %}
+                                                {% if family.name == "Hino Serie 700" %}
+                                                    Cabezales para capacidades de arrastre desde 49 toneladas.
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+</div>
+<div class="wrapper forms-appear" style="display: none" id="dynamic_form">
+    <div class="container container--breadcrumb">
+    </div>
+<<<<<<< HEAD
+{% for type in categories  %}
+    {% for family in families[type.id] %}
+        <div class="wrapper forms-appear" style="display: none" id="form_{{ family.id }}">
+            <div class="container container--breadcrumb">
+            </div>
+            <div class="container">
+                <h1 class="title text-center">Contactar Asesor de Ventas</h1>
+            </div>
+            <div class="container container--full-mobile">
+                <div class="card card--form">
+                    <form action=" {{ wtlead_path }} " method="post" class="pre_submit">
+                        <script id="ajax_path">
+                            var savePath = '{{ path("contactar-asesor-trabajo", {slug: family.slug }) }}';
+                        </script>
+                        <input type="hidden" name="oid" value="{{ wtlead_oid }}">
+                        <input type="hidden" name="lead_source" value="Sitio Web">
+                        <input type="hidden" name="rating" value="Neutro">
+                        <input type="hidden" name="retURL" value="{{ server_url~path("thanks_route_family", {"route_name": app.request.get("_route"),
+                            "family": family.slug}) }}">
+                        <input type="hidden" name="debug" value="0">
+                        <input type="hidden" name="debugEmail" value="{{ wtlead_debug_email }}">
+                        <input type="hidden" name="{{ wtlead_marca }}" value="{{ family.familyBrand.code }}" id="wtl_marca"/>
+                        <input type="hidden" name="{{ wtlead_familia }}" value="{{ family.principalModel.familySalesForce.name }}" id="wtl_familia"/>
+                        {#<input type="hidden" name="00NA0000006ZtDP" value="{{ model.categorySalesForce }}" id="wtl_modelo"/>#}
+                        <div class="card__content bg--gray">
+                            <div class="container">
+                                <p class="form__title">ME INTERESA EL VEHÍCULO:</p>
+                                <div class="quotation__model">
+                                    <span>{{ family.name }}</span>
+                                    {#{{ model.name }}#}
+                                    <div class="select">
+                                        <select id="00NA0000006ZtDP" name="{{ wtlead_modelo }}" class="js-select">
+                                            {% for model in models[family.id] %}
+                                                <option value="{{ model.categorySalesForce }}">{{ model.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card__content">
+                            <div class="container">
+                                {% include 'LumenAppBundle:Default/partials:_form-fields.html.twig' with{'form':forms[family.id]} %}
+=======
+    <div class="container">
+        <h1 class="title text-center">Contactar Asesor de Ventas</h1>
+    </div>
+    <div class="container container--full-mobile">
+        <div class="card card--form">
+            <form action=" {{ wtlead_path }} " method="post" class="pre_submit">
+                <script id="ajax_path">
+                    var savePath = '{{ path("contactar-asesor-trabajo", {slug: initialFamily.slug }) }}';
+                </script>
+                <input type="hidden" name="oid" value="{{ wtlead_oid }}">
+                <input type="hidden" name="lead_source" value="Sitio Web">
+                <input type="hidden" name="rating" value="Neutro">
+                <input type="hidden" name="retURL" value="{{ server_url~path("thanks") }}">
+                <input type="hidden" name="debug" value="0">
+                <input type="hidden" name="debugEmail" value="{{ wtlead_debug_email }}">
+                <input type="hidden" name="{{ wtlead_marca }}" value="" id="wtl_marca"/>
+                <input type="hidden" name="{{ wtlead_familia }}" value="" id="wtl_familia"/>
+                {#<input type="hidden" name="{{wtlead_modelo}}" value="{{ model.categorySalesForce }}" id="wtl_modelo"/>#}
+                <div class="card__content bg--gray">
+                    <div class="container">
+                        <p class="form__title">ME INTERESA EL VEHÍCULO:</p>
+                        <div class="quotation__model">
+                            <span id="familyName"></span>
+                            {#{{ model.name }}#}
+                            <div class="select">
+                                <select id="wtl_modelo" name="{{ wtlead_modelo }}" class="js-select">
+                                </select>
+>>>>>>> feature/GPR-21-dev
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card__content">
+                    <div class="container">
+                        {% include 'LumenAppBundle:Default/partials:_form-fields.html.twig' with{ 'form':form, 'consentimiento': true, 'cedula': true, "seguimiento": true, "hiddenSeguimiento": true } %}
+                    </div>
+                </div>
+                {{ form_rest(form) }}
+            </form>
+        </div>
+    </div>
+</div>
+
+<script id="ajaxPath">
+    var dynamicFormConfiguration = {};
+    {% for type in categories  %}
+    {% for family in families[type.id] %}
+    dynamicFormConfiguration[{{ family.id }}] = {
+        familyName: "{{ family.name }}",
+        models: "{% for model in models[family.id] %}<option value='{{ model.categorySalesForce }}'>{{ model.name }}</option>{% endfor %}",
+        wtl_marca: "{{ family.familyBrand.code }}",
+        wtl_familia: "{{ family.principalModel.familySalesForce.name }}",
+        savePath: "{{ secureUrl("contactar-asesor-trabajo", {slug: family.slug }) }}"
+    };
+    {% endfor %}
+    {% endfor %}
+    $(".family-click").on("click",function () {
+        var id = $(this).attr("id");
+        $("#dynamic_form").css('display', 'block');
+        $('html, body').animate({
+            scrollTop: $("body").find("#dynamic_form").offset().top - 64
+        }, 1000);
+        var configuration = dynamicFormConfiguration[id];
+        $("#wtl_marca").val(configuration.wtl_marca);
+        $("#wtl_familia").val(configuration.wtl_marca);
+        $("#familyName").html(configuration.familyName);
+        $('#wtl_modelo').children().remove();
+        $('#wtl_modelo').append(configuration.models);
+        savePath = configuration.savePath;
+    });
+</script>

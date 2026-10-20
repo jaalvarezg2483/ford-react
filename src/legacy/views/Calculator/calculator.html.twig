@@ -1,0 +1,273 @@
+{% extends "base.html.twig"%}
+{% block title %}Accesorios para {{ current.name }}{% endblock %}
+
+
+{% block meta %}
+    <meta name="identifier-url" content="" />
+    <meta name="title" content="Accesorios para {{ current.name }}"/>
+    <meta name="description" content="{{ current.description | slice(0, 150) }}" />
+    <meta name="abstract" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="revisit-after" content="1" />
+    <meta name="language" content="es" />
+    <meta name="copyright" content="© {{ "now"|date("Y") }}" />
+    <meta name="organization" content="">
+    <meta name="revisit-after" content="1 day">
+    <meta name="origen" content="">
+    <meta name="locality" content="San José , Costa Rica">
+    <meta name="distribution" content="global">
+    <link rel="image_src" href="" >
+    <meta name="dcterms.abstract" content="">
+    <meta name="dcterms.rightsHolder" content="">
+    <meta NAME="robots" CONTENT="noindex">
+{% endblock %}
+
+{% block body %}
+{% include '@LumenCMS/MenuTemplates/script-select-menu.html.twig' with {'searchMenu': 'Servicios'} %}
+
+
+
+<div class="wrapper">
+	<div class="text-left padding-2 bg--accent-light hidden-xs">
+		<div class="container">
+			<a href="javascript:history.back()" class="text--primary"><i class="icon icon-arrow-left"></i>  Volver</a>
+		</div>
+	</div>
+	<div class="accesories-hero">
+		<a class="accesories-backbot text--light" href="javascript:history.back()"><i class="icon icon-arrow-left"></i> Volver</a>
+		<h2 class="title">Accesorios</h2>
+	</div>
+	
+	<div class="container margin--top hidden-xs">
+		<div class="col-md-6">
+			<h2 class="title">Accesorios</h2>
+			<p>Escogé los accesorios de tu interés y seleccioná “Realizar Cotización” para enviar la información al correo o solicitar asistencia de un asesor.</p>
+		</div>
+	</div>
+	<div class="container bg--secondary padding-1 accesories-head-row">
+		<div class="col-md-2"></div>
+		<div class="input-field col-md-6 select-cars select">
+			<select class="js-select change_model">
+				{% for family in families %}
+					<option {{ model.family.id == family.id ? "disabled selected" : "" }} value="{{ family.slug }}">{{ family.name }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="col-md-2"><p class="text--light" id="total-selected">Adicionales (<strong>{{quantity}}</strong>)</p></div>
+		<div class="col-md-2"><p class="text--light" id="total">Total <strong>${{price}}</strong></p></div>
+	</div>
+	<div class="container">
+		<div class="row row-margin">
+			<div class="col-md-2 hidden-xs">
+				<div class="accessories-aside">
+					<a href="{{ path('services-type', {'type': "accesorios"}) }}" class="active">Accesorios</a>
+					<!-- <a href="{{ path('services-type', {'type': "repuestos"}) }}">Repuestos</a> -->
+				</div>
+			</div>
+			<div class="col-md-10 padding-0">
+			<div class="row content-accesories-car accessories_wdg">
+				{% if modelAccesories | length > 0 %}
+					{% for accessory in modelAccesories %}
+						<section class="col-md-6">
+							<div class="card-accesories card-filter {{ in_array(accessory.id, accessoriesSelected) ? "ele-checked" : ""}}" data-category="#category-{{accessory.accesoryType.id}}" data-card="#accesory{{ accessory.id }}">
+								<div class="card-accesories-img">
+									<img src="{{ server_url ~ "/" ~ accessory.getWebPath() }}">
+								</div>
+								<div class="card-accesories-content">
+									<div>
+										<p class="js-name accessory-name">{{ accessory.name }}</p>
+										<p class="text--bold">${{ accessory.price | number_format(0, ".", ",")}}</p>
+										{% if accessory.detail != "" and accessory.detail != " " %}
+											<a class="text--primary btn-modal-acc"
+												href="#modal-accesory"
+												data-toggle="modal"
+												data-title="{{ accessory.name }}"
+												data-description="{{accessory.detail}}"
+												data-btn="#accesory{{ accessory.id }}"
+												data-img="{{ server_url ~ "/" ~ accessory.getWebPath() }}"
+												data-is-checked="{{ in_array(accessory.id, accessoriesSelected) ? 'is-checked' : 'not-checked' }}"
+												data-price="{{ accessory.price | number_format(0, ".", ",")}}"
+												>Ver más <i class="icon icon-plus"></i></a>
+										{% endif %}
+									</div>
+									<div class="add-accesory">
+									
+										<input value="{{ accessory.id }}" type="checkbox" class="checkbox control-resume" id="accesory{{ accessory.id }}" {{ in_array(accessory.id, accessoriesSelected) ? 'checked="checked"' : "" }} data-type="accesory" data-price="{{ accessory.price }}" data-name="{{ accessory.name }}" data-id="{{ accessory.id }}"/>
+										<label for="accesory{{ accessory.id }}"></label>
+									</div>
+								</div>
+							</div>
+						</section>
+					{% endfor %}
+				{% else %}
+					<div class="col-xs-12 ">
+						<div>
+							<div class="card-stacked">
+								<div class="card-content">
+									<h6></h6>
+									<span>Este modelo no cuenta con ningún accesorio disponible en este momento, por favor pasá al siguiente paso.</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+			
+			</div>
+		</div>
+		<div class="row text-center margin--bottom">
+			<a href="{{ path('accessory-resume', {"slug": model.family.slug}) }}" id="calculate-next" class="btn btn--primary">Realizar Cotización</a>
+		</div>
+	</div>
+</div>
+
+		
+<div class="modal fade" id="modal-accesory">
+	<div class="modal-dialog" role="document">
+    	<div class="content-accesories-car content-cards-car">		
+			<div class="card-accesories-modal">
+				<button type="button" class="modal__close" data-dismiss="modal"> <i class="mdi mdi-close"></i> </button>
+				<div class="card-accesories-img">
+					<img id="modal-acc-img" src="">
+				</div>
+				<div class="modal-accesories-content">
+					<p><strong id="modal-acc-title"></strong></p>
+					<h3 id="modal-acc-price" class="text--bold text--primary"></h3>
+					<p class="modal-accesories-description" id="modal-acc-description"></p>
+					<div class="add-accesory">
+						<a class="btn btn--transparent" 
+							href="#modal-accesory" 
+							data-dismiss="modal"
+							>Volver</a>
+						<button id="modal-acc-btn" class="btn btn--check">
+							<i class="mdi mdi-plus"></i> Agregar
+						</button>
+					</div>
+				</div>
+			</div>
+    	</div>
+  	</div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+		var totalPrice = {{ price }};
+		var quantity = {{ quantity }};
+		var urlAccesories = "{{ path('accessories_session') }}";
+
+		// Se utiliza para crear cualquier elemento y poder sustituir facilmente los valores
+        var Strings = {
+            create : (function() {
+                var regexp = /{([^{]+)}/g;
+
+                return function(str, o) {
+                    return str.replace(regexp, function(ignore, key){
+                        return (key = o[key]) == null ? '' : key;
+                    });
+                }
+            })()
+        };
+
+
+		$(".control-resume").on("change", function () {
+		    var price = $(this).attr("data-price");
+		    var name = $(this).attr("data-name");
+		    var type = $(this).attr("data-type");
+		    var id = $(this).attr("id");
+			var checked = $(this).is(':checked');
+			var $btn = $("[data-target='#"+id+"']");
+			var $card = $("[data-card='#"+id+"']")
+            selectOne($(this),type, checked);
+			ajaxCall($(this), type);
+            if(checked){
+				var detail = Strings.create("<li class='detail' data-type='{type}' data-price='{price}' data-id='{id}'><span>{name}</span> <span><strong>${price}</strong> <a href='#' class='remove-detail'><span class='icon icon-close'></span></a></span></li>",
+					{
+					    type: type,
+						id: id,
+						price: price,
+						name: name
+					});
+				//$("#resume").append(detail);
+                totalPrice = totalPrice + parseInt(price);
+				$("#total strong").text("$"+totalPrice);
+				quantity = quantity + 1;
+				$("#total-selected strong").text(quantity);
+				$btn.html('<i class="mdi mdi-delete"></i> Eliminar')
+				$('.accesory-list-empty').addClass('hidden');
+				$card.addClass("ele-checked");
+
+            }else{
+				$("li[data-id="+id+"]").remove();
+                totalPrice = totalPrice - parseInt(price);
+                $("#total strong").text("$"+totalPrice);
+                quantity = quantity - 1;
+				$("#total-selected strong").text(quantity);
+				$btn.html('<i class="mdi mdi-plus"></i> Agregar');
+				$card.removeClass("ele-checked");
+				if  ($('li.detail').length === 0 ){
+					$('.accesory-list-empty').removeClass('hidden');
+				}
+            }
+        });
+
+		$("body").on("click", ".remove-detail", function (e) {
+			e.preventDefault();
+			var $parent = $(this).parents('.detail');
+			var price = $parent.attr('data-price');
+			var id = $parent.attr('data-id');
+			var type = $parent.attr('data-type');
+
+			var $checkbox = $("#"+id);
+			var $btn = $("[data-target='#"+id+"']");
+			$btn.toggleClass('is-checked');
+			$checkbox.prop("checked", false);
+			$checkbox.trigger("change");
+			$parent.remove();
+			
+        });
+
+		function selectOne(object, type, checked) {			
+			var id = object.data('id');
+		    if (type !== "accesory"){
+				var $btn = $('[data-btn-id='+id+']')
+
+		        if (checked) {
+                    $("[data-type=" + type + "]").not(object).attr("disabled", true);
+					$("[data-btn-type=" + type + "]").not($btn).addClass("disabled");
+                }else{
+                    $("[data-type=" + type + "]").removeAttr("disabled");
+					$("[data-btn-type=" + type + "]").removeClass("disabled");
+                }
+            }
+        }
+
+        function ajaxCall(object, type) {
+		    var url = urlAccesories;
+            $.ajax({
+                url: url + "/" + object.val(),
+            }).done(function() {
+
+            });
+        }
+
+        $(".change_model").on('change', function () {
+            window.location.href = "{{ path('accessory-select', {'slug': 'temporal'}) }}".replace("temporal", $(this).val());
+        });
+
+		function promptBeforeClose() {
+			return '¿Estás seguro que quieres salir del cálculo de cuota?';
+		}
+
+		$(window).on('beforeunload', promptBeforeClose);
+
+		$(document).on('click', '#calculate-next', function(e) {
+			$(window).off('beforeunload', promptBeforeClose);
+		});
+
+    </script>
+{% endblock %}
+
+
+

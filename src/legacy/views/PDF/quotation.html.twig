@@ -1,0 +1,328 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Ford | Vehiculos</title>
+    <style type="text/css">
+        *{
+            text-decoration: none;
+            font-family: sans-serif;
+            color: #2E2D34;
+            font-weight: normal;
+        }
+
+        p{
+            font-size: 14px;
+        }
+
+        .ReadMsgBody{
+            width: 100%;
+            background-color: #ffffff;
+        }
+
+        .ExternalClass{
+            width: 100%;
+            background-color: #ffffff;
+        }
+
+        body{
+            width: 100%;
+            background-color: #ffffff;
+            margin:0; padding:0;
+            -webkit-font-smoothing: antialiased;
+            font-family: 'Roboto','Helvetica', Arial, sans-serif;
+        }
+
+        table{
+            border-collapse: collapse;
+        }
+
+        @media only screen and (max-width: 640px)  {
+            .deviceWidth{
+                width:440px!important;
+                padding:0;
+            }
+            .center{
+                text-align: center!important;
+            }
+        }
+
+        @media only screen and (max-width: 479px) {
+            .deviceWidth{
+                width: 100% !important;
+                padding:0;
+            }
+            .center{
+                text-align: center!important;
+            }
+            .wspacing{
+                width: 30px;
+            }
+            .logo_e{
+                max-width: 136px;
+                width: 100%;
+                padding-right: 20px;
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="font-family: 'Roboto','Helvetica', Arial, sans-serif" >
+<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+    <tr>
+        <td width="100%" valign="top" bgcolor="#f3f3f3" style="padding-top:0px">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="deviceWidth" style="margin:0 auto;">
+                <tr>
+                    <td width="100%" bgcolor="#2E2D34">
+                        <table border="0" cellpadding="0" width="100%" cellspacing="0" align="center" class="deviceWidth">
+                            <tr>
+                                <td style="padding:6px 20px" class="center" align="center">
+
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="deviceWidth" style="margin:0 auto;">
+                <tr>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                    <td bgcolor="#ffffff" style="border-bottom: 2px solid #eeeeee;">
+                        <table border="0" cellpadding="0" cellspacing="0" align="left" class="">
+                            <tr>
+                                <td style="padding:30px 20px 30px 0px" class="left">
+                                    <a href="#"><img src="{{ ingress_service_url }}/img/email/logo-ford.png" alt="" border="0" width="103" height="40" /></a>
+                                </td>
+                            </tr>
+                        </table>
+                        <table border="0" cellpadding="0" cellspacing="0" align="right" class="">
+                            <tr>
+                                <td style="padding:30px 0px 30px 20px" class="right">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                </tr>
+            </table>
+
+            <table width="100%" class="deviceWidth" border="0" cellpadding="0" cellspacing="0" align="center" bgcolor="#eeeeed" style="margin:0 auto;">
+                <tr>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                    <td valign="top" style="padding:0" bgcolor="#ffffff">
+                        <h1 style="font-size: 24px;color: #05629D;font-weight: bold;">Hola, {{ contactName }}</h1>
+                        <h3 style="font-size: 20px;">Gracias por tu interés en nuestros vehículos</h3>
+                        <p style="font-size: 14px; line-height: 25px;">Nos enorgullece que nos hagas parte de esta importante decisión. Por ello, te aseguramos que nos esmeraremos para que tu experiencia de compra sea lo más placentera, a la par de la calidad indiscutible de los mejores vehículos del mercado, los de FORD.</p>
+                    </td>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                </tr>
+            </table>
+
+            <table width="100%" class="deviceWidth" border="0" cellpadding="0" cellspacing="0" align="center" bgcolor="#eeeeed" style="margin:0 auto;">
+                <tr>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                    <td bgcolor="#ffffff">
+                        <table border="0" cellpadding="0" cellspacing="0" align="left" class="">
+                            <tr>
+                                <td width="100%" bgcolor="#ffffff">
+                                    <h2 style="font-size: 24px;">Resumen de Cotización para <strong style="font-weight: bold;">{{ family.getName() }}</strong>*</h2>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                </tr>
+                <tr>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                    <td width="" bgcolor="#ffffff" style="border-bottom: 2px solid #eeeeee;">
+                        <table border="0" width="100%" cellpadding="0" cellspacing="0" align="left" class="">
+                            <tr>
+                                <td valign="top" style="padding:0" bgcolor="#ffffff">
+                                    <h2 style="font-size: 16px;"><strong style="font-weight: bold;">Modelo</strong></h2>
+                                    <p>{{ model.getName() }}</p>
+                                </td>
+                                <td valign="bottom" style="padding:0" bgcolor="#ffffff" width="35%">
+                                    <p>${{ aditionalFields["price"] | number_format(0,",",".")}}</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                </tr>
+                {% if 0 < (aditionalFields["accesories"] | length) %}
+                    <tr>
+                        <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                        <td bgcolor="#ffffff" style="border-bottom: 2px solid #eeeeee;">
+                            <table border="0" width="100%" cellpadding="0" cellspacing="0" align="left" class="">
+                                <tr>
+                                    <td valign="top" style="padding:0" bgcolor="#ffffff">
+                                        <h2 style="font-size: 16px;"><strong style="font-weight: bold;">Accesorios</strong></h2>
+                                    </td>
+                                    <td valign="bottom" style="padding:0" bgcolor="#ffffff" width="35%">
+
+                                    </td>
+                                </tr>
+                                {% for accesory in aditionalFields["accesories"] %}
+                                    <tr>
+                                        <td valign="top" style="padding:0" bgcolor="#ffffff">
+                                            <p>{{ accesory["name"] }}</p>
+                                        </td>
+                                        <td valign="bottom" style="padding:0" bgcolor="#ffffff" width="35%">
+                                            <p>${{ accesory["price"] | number_format(0,",",".") }}</p>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                        <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                    </tr>
+                {% endif %}
+                {% if 0 < (aditionalFields["maintenance"] | length) %}
+                    <tr>
+                        <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                        <td bgcolor="#ffffff" style="border-bottom: 2px solid #eeeeee;">
+                            <table border="0" width="100%" cellpadding="0" cellspacing="0" align="left" class="">
+                                <tr>
+                                    <td valign="top" style="padding:0" bgcolor="#ffffff">
+                                        <h2 style="font-size: 16px;"><strong style="font-weight: bold;">Plan de Mantenimiento</strong></h2>
+                                    </td>
+                                    <td valign="bottom" style="padding:0" bgcolor="#ffffff" width="35%">
+
+                                    </td>
+                                </tr>
+                                {% for plan in aditionalFields["maintenance"] %}
+                                    <tr>
+                                        <td valign="top" style="padding:0" bgcolor="#ffffff">
+                                            <p>{{ plan["tittle"] }}</p>
+                                        </td>
+                                        <td valign="bottom" style="padding:0" bgcolor="#ffffff" width="35%">
+                                            <p>${{ plan["price"] | number_format(0,",",".") }}</p>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                        <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                    </tr>
+                {% endif %}
+                {% if 0 < (aditionalFields["insurance"] | length) %}
+                    <tr>
+                        <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                        <td bgcolor="#ffffff" style="border-bottom: 2px solid #eeeeee;">
+                            <table border="0" width="100%" cellpadding="0" cellspacing="0" align="left" class="">
+                                <tr>
+                                    <td valign="top" style="padding:0" bgcolor="#ffffff">
+                                        <h2 style="font-size: 16px;"><strong style="font-weight: bold;">Seguro (Cobro Mensual)</strong></h2>
+                                    </td>
+                                    <td valign="bottom" style="padding:0" bgcolor="#ffffff" width="35%">
+
+                                    </td>
+                                </tr>
+                                {% for plan in aditionalFields["insurance"] %}
+                                    <tr>
+                                        <td valign="top" style="padding:0" bgcolor="#ffffff">
+                                            <p>{{ plan["tittle"] }}</p>
+                                        </td>
+                                        <td valign="bottom" style="padding:0" bgcolor="#ffffff" width="35%">
+                                            <p>${{ plan["price"] | number_format(0,",",".") }}</p>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                        <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                    <td width="" bgcolor="#ffffff">
+                        <table border="0" width="100%" cellpadding="0" cellspacing="0" align="right" class="">
+                            <tr>
+                                <td valign="top" style="padding:0" bgcolor="#ffffff"></td>
+                                <td valign="top" style="padding:0" bgcolor="#ffffff" width="35%" align="">
+                                    <p>TOTAL: <strong style="font-size: 16px;color: #05629D;font-weight: bold;">${{ aditionalFields["total"] | number_format(0,",",".") }}</strong></p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                </tr>
+            </table>
+            <table width="100%" class="deviceWidth" border="0" cellpadding="0" cellspacing="0" align="center" bgcolor="#eeeeed" style="margin:0 auto;">
+                <tr>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                    <td width="" bgcolor="#ffffff">
+                        <table border="0" cellpadding="0" cellspacing="0" align="left" class="">
+                            <tr>
+                                <td width="100%" bgcolor="#ffffff">
+                                    <h2 style="font-size: 24px;">Opciones de financiamiento</h2>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                </tr>
+                {%  set insurance = aditionalFields["insurance"] | first %}
+                {% for financiamiento in financiamientos %}
+                    <tr>
+                        <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                        <td width="" bgcolor="#ffffff" style="border-bottom: 2px solid #eeeeee;">
+                            <table border="0" width="100%" cellpadding="0" cellspacing="0" align="left" class="">
+                                <tr>
+                                    <td valign="middle" style="padding:0" bgcolor="#ffffff">
+                                        <img class="logo_e" src="{{ ingress_service_url ~ "/" ~ financiamiento.getWebPath() }}" alt="{{ financiamiento.name }}" style="width: 150px;">
+                                    </td>
+                                    <td valign="bottom" style="padding:0" bgcolor="#ffffff" width="50%">
+                                        <p><strong style="font-weight: bold;">Tasa fija:</strong> {{ financiamiento.rate }}%</p>
+                                        <p><strong style="font-weight: bold;">Prima:</strong> ${{ financiamiento.calcPrima(aditionalFields["total"]) | number_format(0,",",".") }}</p>
+                                        <p><strong style="font-weight: bold;">Plazo:</strong> {{ financiamiento.getTermArray() | first }} A&#241;os</p>
+                                        {% if insurancePrice is defined and insurancePrice > 0 %}
+                                            <p><strong style="font-weight: bold;">Cuota Bancaria:</strong> ${{ (financiamiento.calculate(aditionalFields["total"])+ (insurance["price"] | default(0))) | number_format(2,",",".") }}</p>
+                                            <p><strong style="font-weight: bold;">Purdy Seguro:</strong> ${{ insurancePrice }}</p>
+                                        {% else %}
+                                            {% set insurancePrice = 0 %}
+                                        {% endif %}
+                                        <p><strong style="font-weight: bold;">CUOTA MENSUAL:</strong> ${{ (financiamiento.calculate(aditionalFields["total"])+ (insurance["price"] | default(0)) + insurancePrice) | number_format(2,",",".") }}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                    <td width="" bgcolor="#ffffff">
+                        <table border="0" width="100%" cellpadding="0" cellspacing="0" align="left">
+                            <tr>
+                                <td valign="top" style="padding:0" bgcolor="#ffffff" width="100%" align="left">
+                                    <p>*ESTA COTIZACIÓN TIENE UNA VALIDEZ DE 30 DÍAS</p>
+                                </td>
+                            </tr>
+                            {% if aditionalFields["accesories"] is defined and aditionalFields["accesories"]|length > 0 %}
+                                <tr>
+                                    <td valign="top" style="padding:0" bgcolor="#ffffff" width="100%" align="left">
+                                        <p>*COBERTURAS DE EXTRAS: La vigencia será de acuerdo con la descrita de manera individual para cada Extra. Poseen sus propias condiciones de cobertura de Garantía y de Respaldo de Grupo Purdy Motor, sin que estén vinculadas al vehículo y sus coberturas, cada extra se considera un bien independiente. Para más información contacte a su asesor de confianza.</p>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            <tr>
+                                <td valign="top" style="padding:0" bgcolor="#ffffff" width="100%" align="left">
+                                    <p>*Podés cancelar el monto en colones al tipo de cambio aplicable a la transacción, correspondiente al de referencia de venta del Banco Central de Costa Rica.</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<div style="display:none; white-space:nowrap; font:15px courier; color:#ffffff;">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div>
+</body>
+</html>

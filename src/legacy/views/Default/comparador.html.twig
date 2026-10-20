@@ -1,0 +1,382 @@
+{% extends "base.html.twig"%}
+{% block title %}Comparar Vehículos | Ford Costa Rica | Grupo Purdy {% endblock %}
+
+{% block meta %}
+	<meta name="title" content="Comparar Vehículos | Ford Costa Rica | Grupo Purdy"/>
+	<meta name="description" content="Compara modelos Ford con nuestra herramienta. Analiza especificaciones, rendimiento y características clave. ¡Explora en nuestra web y elige tu próximo Ford!" />
+	<meta name="keywords" content="Comparador de vehiculos, comparador de vehiculos Ford, " />
+	<meta name="revisit-after" content="1" />
+	<meta name="language" content="{{ app.request.locale }}" />
+	<meta name="copyright" content="© {{"now" | date("Y")}}" />
+{% endblock %}
+
+{% block body %}
+
+<div class="wrapper">
+	<div class="text-left padding-1 bg--muted">
+		<div class="container">
+			<a href="javascript:history.back()" class="text--primary"><i class="icon icon-arrow-left"></i>  Volver</a>
+		</div>
+	</div>
+	<div class="container margin--top">
+		<h1 class="title">Comparar <br> vehículos</h1>
+		<table class="table--compare">
+			<tbody>
+				{% if models | length == 1 %}
+					<tr class="row-mobile">
+						<td>
+							<button type="button" class="btn  btn--compare btn--resize btn--collapse-muck compare-models"
+								data-input="0" 
+								data-model="{{ models[0].id }}" 
+								data-family="{{ models[0].family.id }}">
+									{{ models[0].name }} <i class="icon icon-chevron-down"></i>
+							</button>
+						</td>
+					</tr>
+					<tr class="row-mobile">
+						<td class="padding-0">
+							<button type="button" class="btn btn--compare btn--resize btn--primary compare-models">
+									Agregar otro vehículo
+							</button>
+						</td>
+					</tr>
+					<tr class="row-desktop">
+						<td class="cell-desktop"></td>
+						
+
+						{% for i in 0..3 %}
+							<td {% if loop.index > 2 %}class="cell-desktop"{% endif %}>
+								<button type="button" class="btn  btn--compare btn--resize
+									{% if models[i] is defined %} btn--collapse-muck {% else %} btn--primary {% endif %} 
+									{% if loop.first or (models | length) >= i %} compare-models {% endif %}" data-input="{{ loop.index }}" 
+									{% if models[i] is defined %} data-model="{{ models[i].id }}" data-family="{{ models[i].family.id }}" {% endif %}>
+									{% if models[i] is defined %}
+										{{ models[i].name }} <i class="icon icon-chevron-down"></i>
+									{% else %}
+										Agregar otro vehículo
+									{% endif %}
+								</button>
+								
+							</td>
+						{% endfor %}
+					</tr>
+				{% else %}
+					<tr>
+						<td class="cell-desktop"></td>
+						
+
+						{% for i in 0..3 %}
+							<td {% if loop.index > 2 %}class="cell-desktop"{% endif %}>
+								<button type="button" class="btn  btn--compare btn--resize
+									{% if models[i] is defined %} btn--collapse-muck {% else %} btn--primary {% endif %} 
+									{% if loop.first or (models | length) >= i %} compare-models {% endif %}" data-input="{{ loop.index }}" 
+									{% if models[i] is defined %} data-model="{{ models[i].id }}" data-family="{{ models[i].family.id }}" {% endif %}>
+									{% if models[i] is defined %}
+										{{ models[i].name }} <i class="icon icon-chevron-down"></i>
+									{% else %}
+										Agregar otro vehículo
+									{% endif %}
+								</button>
+								
+							</td>
+						{% endfor %}
+					</tr>
+				{% endif  %}
+				<tr class="row-mobile">
+					<td {% if models | length > 1 %}colspan="2"{% endif %}>
+						<strong>Precio</strong>
+					</td>
+				</tr>
+				<tr>
+					<td class="cell-desktop">
+						Precio
+					</td>
+                    {% for i in 0..3 %}
+						<td {% if loop.index > 2  or models[i] is not defined %}class="cell-desktop"{% endif %}>
+                            {% if models[i] is defined %}
+								${{ models[i].startPrice | number_format(0,",",".") }}
+							{% else %}
+								<p class="text-50">&mdash;</p>
+							{% endif %}
+						</td>
+                    {% endfor %}
+				</tr>
+				{% if calculator is not null %}
+				<tr class="row-mobile">
+					<td {% if models | length > 1 %}colspan="2"{% endif %}>
+						<strong>Cuota aprox. CAFSA</strong>
+					</td>
+				</tr>
+				<tr>
+					<td class="cell-desktop">
+						Cuota aprox. CAFSA
+					</td>
+                    {% for i in 0..3 %}
+						<td {% if loop.index > 2  or models[i] is not defined %}class="cell-desktop"{% endif %}>
+                            {% if models[i] is defined%}
+								${{ calculator.calculate(models[i].startPrice) | number_format(0, ",",".") }}
+                            {% else %}
+								<p class="text-50">&mdash;</p>
+							{% endif %}
+						</td>
+                    {% endfor %}
+				</tr>
+				{% endif %}
+				<tr class="row-mobile">
+					<td {% if models | length > 1 %}colspan="2"{% endif %}>
+						<strong>Motor</strong>
+					</td>
+				</tr>
+				<tr>
+					<td class="cell-desktop">
+						Motor
+					</td>
+                    {% for i in 0..3 %}
+						<td {% if loop.index > 2 or models[i] is not defined %}class="cell-desktop"{% endif %}>
+                            {% if models[i] is defined %}
+								{{ models[i].cc | number_format(0, "", "") }}
+                            {% else %}
+								<p class="text-50">&mdash;</p>
+							{% endif %}
+						</td>
+                    {% endfor %}
+				</tr>
+				<tr class="row-mobile">
+					<td {% if models | length > 1 %}colspan="2"{% endif %}>
+						<strong>Tracción</strong>
+					</td>
+				</tr>
+				<tr>
+					<td class="cell-desktop">
+						Tracción
+					</td>
+                    {% for i in 0..3 %}
+						<td {% if loop.index > 2 or models[i] is not defined %}class="cell-desktop"{% endif %}>
+                            {% if models[i] is defined %}
+                                {{ models[i].traction }}
+                            {% else %}
+								<p class="text-50">&mdash;</p>
+							{% endif %}
+						</td>
+                    {% endfor %}
+				</tr>
+				<tr class="row-mobile">
+					<td {% if models | length > 1 %}colspan="2"{% endif %}>
+						<strong>Combustible</strong>
+					</td>
+				</tr>
+				<tr>
+					<td class="cell-desktop">
+						Combustible
+					</td>
+                    {% for i in 0..3 %}
+						<td {% if loop.index > 2 or models[i] is not defined %}class="cell-desktop"{% endif %}>
+                            {% if models[i] is defined %}
+                                {{ models[i].gas }}
+                            {% else %}
+								<p class="text-50">&mdash;</p>
+							{% endif %}
+						</td>
+                    {% endfor %}
+				</tr>
+				<tr class="row-mobile">
+					<td {% if models | length > 1 %}colspan="2"{% endif %}>
+						<strong>Transmisión</strong>
+					</td>
+				</tr>
+				<tr>
+					<td class="cell-desktop">
+						Transmisión
+					</td>
+                    {% for i in 0..3 %}
+						<td {% if loop.index > 2 or models[i] is not defined %}class="cell-desktop"{% endif %}>
+                            {% if models[i] is defined %}
+                                {{ models[i].transmission }}
+                            {% else %}
+								<p class="text-50">&mdash;</p>
+							{% endif %}
+						</td>
+                    {% endfor %}
+				</tr>
+				<tr class="row-mobile">
+					<td {% if models | length > 1 %}colspan="2"{% endif %}>
+						<strong>Pasajeros</strong>
+					</td>
+				</tr>
+				<tr>
+					<td class="cell-desktop">
+						Pasajeros
+					</td>
+                    {% for i in 0..3 %}
+						<td {% if loop.index > 2 or models[i] is not defined %}class="cell-desktop"{% endif %}>
+                            {% if models[i] is defined %}
+                                {{ models[i].pasajeros }}
+                            {% else %}
+								<p class="text-50">&mdash;</p>
+							{% endif %}
+						</td>
+                    {% endfor %}
+				</tr>
+				<tr class="row-mobile">
+					<td {% if models | length > 1 %}colspan="2"{% endif %}>
+						<strong></strong>
+					</td>
+				</tr>
+
+				<tr class="row-mobile validate-title">
+					<td {% if models | length > 1 %}colspan="2"{% endif %}>
+						<strong>Largo total</strong>
+					</td>
+				</tr>
+				<tr class="validate-content">
+					<td class="cell-desktop">
+						Largo total
+					</td>
+					{% for i in 0..3 %}
+						<td {% if loop.index > 2 or models[i] is not defined %}class="cell-desktop"{% endif %} {% if models[i] is defined and models[i].totalLength %}containValue="true"{% endif %}>
+							{% if models[i] is defined and models[i].totalLength %}
+								{{ models[i].totalLength }}
+							{% else %}
+								<p class="text-50">&mdash;</p>
+							{% endif %}
+						</td>
+					{% endfor %}
+				</tr>
+
+				<tr class="row-mobile validate-title">
+					<td {% if models | length > 1 %}colspan="2"{% endif %}>
+						<strong>Alto total</strong>
+					</td>
+				</tr>
+				<tr class="validate-content">
+					<td class="cell-desktop">
+						Alto total
+					</td>
+					{% for i in 0..3 %}
+						<td {% if loop.index > 2 or models[i] is not defined %}class="cell-desktop"{% endif %} {% if models[i] is defined and models[i].totalHeight %}containValue="true"{% endif %}>
+							{% if models[i] is defined and models[i].totalHeight %}
+								{{ models[i].totalHeight }}
+							{% else %}
+								<p class="text-50">&mdash;</p>
+							{% endif %}
+						</td>
+					{% endfor %}
+				</tr>
+
+				<tr class="row-mobile validate-title">
+					<td {% if models | length > 1 %}colspan="2"{% endif %}>
+						<strong>Ancho total</strong>
+					</td>
+				</tr>
+				<tr class="validate-content">
+					<td class="cell-desktop">
+						Ancho total
+					</td>
+					{% for i in 0..3 %}
+						<td {% if loop.index > 2 or models[i] is not defined %}class="cell-desktop"{% endif %} {% if models[i] is defined and models[i].totalWidth %}containValue="true"{% endif %}>
+							{% if models[i] is defined and models[i].totalWidth %}
+								{{ models[i].totalWidth }}
+							{% else %}
+								<p class="text-50">&mdash;</p>
+							{% endif %}
+						</td>
+					{% endfor %}
+				</tr>
+
+				<tr class="row-mobile validate-title">
+					<td {% if models | length > 1 %}colspan="2"{% endif %}>
+						<strong>Distancia entre ejes</strong>
+					</td>
+				</tr>
+				<tr class="validate-content">
+					<td class="cell-desktop">
+						Distancia entre ejes
+					</td>
+					{% for i in 0..3 %}
+						<td {% if loop.index > 2 or models[i] is not defined %}class="cell-desktop"{% endif %} {% if models[i] is defined and models[i].distanceBetweenAxis %}containValue="true"{% endif %}>
+							{% if models[i] is defined and models[i].distanceBetweenAxis %}
+								{{ models[i].distanceBetweenAxis }}
+							{% else %}
+								<p class="text-50">&mdash;</p>
+							{% endif %}
+						</td>
+					{% endfor %}
+				</tr>
+
+
+				<tr class="row-mobile">
+					<td {% if models | length > 1 %}colspan="2"{% endif %}>
+						<strong></strong>
+					</td>
+				</tr>
+				<tr>
+					<td class="cell-desktop">
+					</td>
+                    {% for i in 0..3 %}
+						<td {% if loop.index > 2 or models[i] is not defined %}class="cell-desktop"{% endif %}>
+							<a class="btn btn--compare btn--resize {% if  models[i] is not defined %}disabled{% endif %}"
+							href="{% if  models[i] is defined %}{{ path('calculate-all', {"slug": models[i].family.slug, "code": models[i].code}) }}{% else %}#{% endif %}">
+							Calcular financiamiento</a>
+						</td>
+                    {% endfor %}
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+	<div id="compare" class="modal fade modal--compare">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal__inner">
+					<button type="button" class="modal__close" data-dismiss="modal"> <i class="icon icon-close"></i> </button>
+				</div>
+				<div class="modal__inner">
+					<form action="" class="container" method="get" id="compare-form">
+						<h3 class="title margin--bottom margin--top">Elegir vehículo</h3>
+						{% for model in models %}
+							<input id="input-model-{{ loop.index }}" class="input-models" name="models[]" type="hidden" value="{{ model.id }}">
+						{% endfor %}
+						<div class="row">
+							<div class="col-sm-12 select select--compare">
+								<select id="compare_family" data-target="compare_model" data-repo="familyModel" class="js-select">
+									<option value="">Seleccione una familia</option>
+                                    {% for family in familyList %}
+										<option value="{{ family.id }}">{{ family.name }}</option>
+                                    {% endfor %}
+								</select>
+							</div>
+							<div class="col-sm-12 select select--compare">
+								<select name="models[]" id="compare_model" class="js-select" data-index="models" data-text="name">
+									<option value="">Debe seleccionar primero una Familia</option>
+								</select>
+							</div>
+						</div>
+						<div class="text-center margin--top">
+							<button type="submit" class="btn btn--primary btn--large">Ver Vehículo</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		var modelsQuantity = {{ models | length }};
+		$( document ).ready(function() {
+			$(".validate-content").each(function () {
+				if (modelsQuantity > 0) {
+					// Only if has at least one child
+					if ($(this).children().length > 0) {
+						var elements = $(this).find("td[containValue='true']");
+						if (elements.length === 0) {
+							$(this).prev(".validate-title").hide();
+							$(this).hide();
+						}
+					}
+				}
+			});
+		});
+	</script>
+{% endblock %}

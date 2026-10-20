@@ -1,0 +1,149 @@
+{% extends "base.html.twig"%}
+{% block title %}Citas Ford{% endblock %}
+{% block stylesheet %}
+    <link href="/css/citas.css?v={{ assetsVersion }}" rel="stylesheet">
+{% endblock %}
+
+{% set activeStep = 2 %}
+{% set defaultServicesDisplay = 4 %}
+
+{% block body %}
+    <div class="wrapper load-step-2">
+        {# {% include 'LumenAppBundle:Citas/partials:_nav.html.twig' %}
+        {% include 'LumenAppBundle:Citas/partials:_breadcrumb.html.twig' %} #}
+        <div class="padding-1 bg--accent-light">
+            <div class="container">
+                <a class="text--primary text--bold" href="{{  path('step1') }}"><i class="icon icon-arrow-left"></i> Volver</a>
+            </div>
+        </div>
+        <div class="container margin--top separador_steps">
+            <h1 class="titulo_agendar text-center">Agendar cita de mantenimiento</h1>
+        </div>
+        {% include 'LumenAppBundle:Citas/partials:_steps.html.twig' with {
+        'activeStep' : activeStep } only %}
+
+
+
+        <section class="citas-select">
+            <p class="title">Seleccioná el servicio que te gustaría recibir</p>
+            <form class="cards-select-vehicle type-maintenance">
+                {% for task in tasks %}
+                    {% if task["CTrabajo_Id"] is not null %}
+                    <div id="selec-card-{{ loop.index }}" class="select-card">
+                        <div class="top">
+                            <div class="img-container">
+                                <img src="/img/icons/engine-icon.png" alt="engine__icon" />
+                            </div>
+                            <h6 data-id="{{ task["CTrabajo_Id"] }}">{{ task["Detalle"] }}</h6>
+                        </div>
+                        <h5>Detalle de mantenimiento</h5>
+                        <p class="print-plate hidden-object">{{ vehicleSelected["Placa"] | default("") }}</p>
+                        <div class="more-info-container">
+                            <div class="minified-list visible-object">
+                                {% for info in task["services"] | slice(0, defaultServicesDisplay) | default([]) %}
+                                    <div class="detail-container">
+                                        <div class="check-container">
+                                            <img src="/img/icons/blue-check.png" alt="red__check" />
+                                        </div>
+                                        <p>{{ info | raw }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="full-list hidden-object">
+                                {% for info in task["services"] | default([]) %}
+                                    <div class="detail-container">
+                                        <div class="check-container">
+                                            <img src="/img/icons/blue-check.png" alt="red__check" />
+                                        </div>
+                                        <p>{{ info | raw }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            {% if task["services"] | default([]) | length > defaultServicesDisplay %}
+                            <div class="see-all-services-container">
+                                <span id="chevron-{{ loop.index }}" class="see-all-services see-all-services-js see-less-selected">VER TODOS LOS SERVICIOS</span>
+                                <i class="chevron-icon mdi mdi-chevron-down chevron-{{ loop.index }}"></i>
+                            </div>
+                            {% endif %}
+                            <div class="price-selector-container step-two-simulated-radio-button" card="selec-card-{{ loop.index }}">
+                                <input id="type-maintenance-{{ task["CTrabajo_Id"] }}" class="vehicle-maintenance-radio" name="type-maintenance" type="radio" value="{{ task["CTrabajo_Id"] }}" data-detail="{{ task["Detalle"] }}">
+                                <label class="step-two-simulated-radio-button-text" for="type-maintenance-{{ task["CTrabajo_Id"] }}">
+                                    <p>*COSTO: &nbsp;<b>₡{{ task["Precio_CT_Sugerido"] | number_format(0) }}</b></p>
+                                </label>
+                            </div>
+                            {% if task["disclaimer"] is defined %}
+                                <p class="text--disclaimer text--disclaimer--spaced">{{ task["disclaimer"] }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="select-card select-card-service-width">
+                    <div class="top">
+                        <div class="img-container"><img src="/img/icons/engine-icon.png" alt="engine__icon" /></div>
+                        <h6>REVISIÓN POR FALLA</h6>
+                    </div>
+                    {% if hasAppointment == false %}
+                        <p>Si su vehículo tiene algún detalle mecánico, por favor agende su cita por estos medios.</p>
+                        <a class="btn--whatsapp" href="https://api.whatsapp.com/send?phone=+50685891000&text=Hola, quiero agendar una cita de Revisión por Falla" target="_blank">
+                            <img src="/img/icons/whatsapp-icon.png" alt="whatsapp__icon" />
+                            <p>AGENDAR VÍA WHATSAPP</p>
+                        </a>
+                        <a class="btn--call" href="tel:+50625197777">
+                            <div class="icon-and-text">
+                                <img src="/img/icons/phone.png" alt="ford__phone__icon" />
+                                <p>Agendar por teléfono<span>2519-7777</span></p>
+                            </div>
+                            <img src="/img/icons/ford-redirect-icon.png" alt="redirect__icon" />
+                        </a>
+                    {% else %}
+                        <a class="btn btn--primary btn--full cancel-for-service">CANCELAR CITA</a>
+                        <p class="text--disclaimer">*Si ya cuentas con una cita activa, debes cancelarla para hacer uso de este servicio.</p>
+                    {% endif %}
+                </div>
+                <div class="select-card select-card-service-width">
+                    <div class="top">
+                        <div class="img-container"><img src="/img/icons/mobile-workshop-icon.png" alt="engine__icon" /></div>
+                        <h6>TALLER MÓVIL</h6>
+                    </div>
+                    {% if hasAppointment == false %}
+                        <p>Podés agendar el servicio de Taller Móvil para mantenimientos preventivos, cambios de aceite u otros servicios de taller, por los siguientes medios:</p>
+                        <a class="btn--whatsapp" href="https://api.whatsapp.com/send?phone=+50685891000&text=Hola, quiero agendar el taller móvil" target="_blank">
+                            <img src="/img/icons/whatsapp-icon.png" alt="whatsapp__icon" />
+                            <p>AGENDAR VÍA WHATSAPP</p>
+                        </a>
+                        <a class="btn--call" href="tel:+50625197777">
+                            <div class="icon-and-text">
+                                <img src="/img/icons/phone.png" alt="ford__phone__icon" />
+                                <p>Agendar por teléfono<span>2519-7777</span></p>
+                            </div>
+                            <img src="/img/icons/ford-redirect-icon.png" alt="redirect__icon" />
+                        </a>
+                    {% else %}
+                        <a class="btn btn--primary btn--full cancel-for-service">CANCELAR CITA</a>
+                        <p class="text--disclaimer">*Si ya cuentas con una cita activa, debes cancelarla para hacer uso de este servicio.</p>
+                    {% endif %}
+                </div>
+                <div class="container">
+                    <p class="text--disclaimer">
+                        * Este es un valor aproximado del servicio seleccionado y puede estar sujeto a cambios sin previo aviso. Así mismo, el valor no refleja el costo de cambios o reparaciones adicionales al mantenimiento o cambio de aceite.
+                    </p>
+                </div>
+            </form>
+            <div class="main-option-buttons">
+                <div class="btns-steps text-center">
+                    <a class="btn__cancelar_cita" href="{{  path('step1') }}">Anterior</a>
+                    <a href="#" id="continue" class="btn__continuar_cita btn--ford next-step-citas disabled">Continuar</a>
+                </div>
+            </div>
+       </section>
+
+        {# {% include 'LumenAppBundle:Citas/partials:_subfooter.html.twig' %} #}
+        {% include 'LumenAppBundle:Citas/partials:_modal.html.twig' %}
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="/js/dependencies/jstorage.min.js"></script>
+    <script src="/js/citas/citas.min.js?v={{ assetsVersion }}"></script>
+    {% include 'LumenAppBundle:Citas/partials:_maintenance_modal.html.twig' %}
+{% endblock %}

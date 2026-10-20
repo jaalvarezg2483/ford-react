@@ -1,0 +1,48 @@
+<script>
+    {% set currentLocation = currentLatLng() %}
+    var currentLat = "{{ currentLocation['lat'] }}";
+    var currentLng = "{{ currentLocation['lng'] }}";
+
+    {% if view is not defined %}
+        var view = "";
+    {% else %}
+        var view = "{{ view }}";
+    {% endif %}
+
+    function sendLocationToSession(lat, lng, type = null) {
+        $.ajax({
+            url: "{{ path("save-location") }}",
+            method: "POST",
+            data: {lat: lat, lng: lng,  type: type}
+        }).done(function(result) {
+            if (type !== null && type !== ""){
+                $("#results").empty();
+                $("#results").append(result);
+            }
+        });
+    }
+
+
+    function showPosition(position) {
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+        //No hay ubicación definida o la ubicación cambió
+        if ((currentLat === "null" && currentLng === "null") || (currentLat !== latitude || currentLng !== longitude))
+        {
+            sendLocationToSession(latitude, longitude, view);
+        }
+    }
+
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            setTimeout(function () {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            });
+        } else {
+            console.warn("Geolocation is not supported by this browser.");
+        }
+    }
+
+    getLocation();
+</script>

@@ -1,0 +1,38 @@
+{% extends "base.html.twig"%}
+{% block title %}Citas Ford{% endblock %}
+{% block stylesheet %}
+    <link href="/css/citas.css?v={{ assetsVersion }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="wrapper citas-toyota">
+        {% include 'LumenAppBundle:Citas/partials:_nav.html.twig' %}
+        {% include 'LumenAppBundle:Citas/partials:_breadcrumb.html.twig' %}
+
+       <section class="citas-select">
+           <p>Hola <span class="uppercase">NOMBRE CLIENTE</span></p>
+           <p>Ya tienes una cita de mantenimiento agendada para:</p>
+           <form class="cards-select-vehicle">
+               <div class="select-card icon-car">
+                   <h6>PRIUS</h6>
+                   <span>HIBRIDO 1.8L TA 2015</span>
+                   <span>Placa: TSJ6423</span>
+                   <article class="info-schedule">
+                       <span class="bold">CITA EN TALLER</span>
+                       <span>Jueves 20 de Noviembre 2017</span>
+                       <span>Hora: 2:45 P.M.</span>
+                   </article>
+                   <a class="edit-selection">EDITAR</a>
+               </div>
+               <button class="btn btn-transp-red">CANCELAR CITA</button>
+           </form>
+       </section>
+
+        {% include 'LumenAppBundle:Citas/partials:_subfooter.html.twig' %}
+
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="/js/citas/citas.min.js?v={{ assetsVersion }}"></script>
+    {% include 'LumenAppBundle:Citas/partials:_maintenance_modal.html.twig' %}
+{% endblock %}

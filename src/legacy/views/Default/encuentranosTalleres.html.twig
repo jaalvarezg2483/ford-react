@@ -1,0 +1,79 @@
+{% extends "base.html.twig"%}
+{% block title %}Talleres{% endblock %}
+
+{% block meta %}
+    <meta name="title" content="Talleres | Ford Costa Rica | Grupo Purdy "/>
+    <meta name="description" content="Somos expertos en el mantenimiento regular y preventivo de vehiculos Ford, nuestros talleres cuentan con técnicos especialistas en las últimas tecnologías" />
+    <meta name="keywords" content="talleres autorizados ford costa rica, taller de mecánica ford, mantenimientos preventivos, mecánica rápida, reparación de vehículos ford, repuestos ford costa rica" />
+    <meta name="revisit-after" content="1" />
+    <meta name="language" content="{{ app.request.locale }}" />
+    <meta name="copyright" content="© {{"now" | date("Y")}}" />
+{% endblock %}
+
+{% block metaFace %}
+    <meta property="og:title" content="Talleres | Ford Costa Rica | Grupo Purdy"/>
+    <meta property="og:site_name" content="Ford"/>
+    <meta property="og:description" content="Somos expertos en el mantenimiento regular y preventivo de vehiculos Ford, nuestros talleres cuentan con técnicos especialistas en las últimas tecnologías"/>
+{% endblock %}
+
+{% block seo_h1 %}{% include "@LumenCMS/Default/articleTemplate/partials/seo-h1.html.twig" with {h1: "Talleres | Ford Costa Rica | Grupo Purdy "} %}{% endblock %}
+
+
+{% block body %}
+
+<div class="wrapper">
+  <div class="container margin--top margin--bottom">
+    <h1 class="title">Contáctenos</h1>
+    <p>Para nosotros vos siempre estás primero.</p>
+     <ul class="tabs tabs--opacity margin--top">
+        <li class="tab"><a href="{{ path('contacto') }}"><i class="icon icon-phone text--primary"></i> Contacto</a></li>
+        <li class="tab"><a href="{{ path('sucursales') }}"><i class="icon icon-home text--primary"></i> Sucursales</a></li>
+        <li class="tab active"><a href="{{ path('talleres') }}"><i class="icon icon-wrench text--primary"></i> Talleres</a></li>
+      </ul>
+    <div class="row">
+      <div class="col-md-4">
+        <h2 class="title">Talleres</h2>
+        <form class="find-us__filter">
+          <div class="find-us__search">
+            <div class="input-field">
+              <input type="text" id="search" placeholder="Buscar Taller">
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+    <div class="row collapsible find-us__office" id="results">
+        {% include "@LumenApp/Default/partials/talleres.html.twig" %}
+      </div>
+    </div>
+</div>
+{% include '@LumenCMS/MenuTemplates/script-select-menu.html.twig' with {'searchMenu': 'Contáctenos'} %}
+{% endblock %}
+
+{% block scripts %}
+  <script>
+      var map;
+      $(document).on('click','.js-toggle-map',function(){
+          var lat = parseFloat($(this).data('lat'));
+          var long = parseFloat($(this).data('long'));
+          var content = $(this).next();
+          var mapID = content.find('.map').attr('id');
+          initMap(mapID, lat, long);
+          setTimeout(function(){
+              google.maps.event.trigger(map, 'resize');
+          }, 100)
+      });
+      function initMap(mapID, lat, long) {
+          var LatLng = {lat: lat, lng: long};
+          map = new google.maps.Map(document.getElementById(mapID), {
+              center: LatLng,
+              zoom: 18,
+              zoomControl: true,
+              scrollwheel: false,
+          });
+      }
+  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key={{google_maps_api_key}}"></script>
+    {% include "@LumenApp/Default/partials/order-location.html.twig" with {'view': 'talleres'}%}
+{% endblock %}

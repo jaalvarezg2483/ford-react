@@ -1,0 +1,136 @@
+{% extends "::base.html.twig" %}
+
+{% macro removeExtension(filename)%}
+    {% set name = filename | split(".") %}
+    {{ name | first }}
+{%  endmacro %}
+
+{% import _self as mymacro %}
+
+{% block title %}
+    Galería {{ app.request.get("path") | capitalize }}
+{% endblock %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <style>
+        .lsb-control-panel {
+            margin-bottom: 30px;
+        }
+        .lsb-control-panel h1 {
+            margin-bottom: 20px;
+        }
+
+        .lsb-control-panel ul{
+            list-style: none;
+            padding: 0;
+            font-size: 0;
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            flex-wrap: wrap;
+        }
+
+        .lsb-control-panel li {
+            display: inline-block;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .lsb-control-panel li a {
+            display: block;
+        }
+
+        .lsb-control-panel img {
+            width: 100%;
+        }
+
+        .lsb-preview span{
+            display: block;
+            text-align: center;
+            padding-top: 5px;
+        }
+
+        @media screen and (min-width: 500px) {
+            .lsb-control-panel li {
+                width: 50%;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            .lsb-control-panel li {
+                width: 33.3333333%;
+            }
+        }
+
+        @media screen and (min-width: 992px) {
+            .lsb-control-panel li {
+                width: 25%;
+            }
+        }
+
+    </style>
+{% endblock %}
+
+
+{% block body %}
+    <div class="wrapper">
+        <div class="container container--breadcrumb">
+            <ol class="breadcrumb">
+                <li><i class="icon icon-arrow-left breadcrumb-back"></i></li><li><a href="{{path('index')}}">Inicio</a></li><li>Galería</li>
+            </ol>
+        </div>
+
+
+        <div class="lsb-control-panel container">
+            <h1>Galería Gente Purdy</h1>
+            <div>
+                {{ form_start(filter) }}
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-8">
+                        {{ form_widget(filter.name, { "attr": {"class":"input", "placeholder": filter.name.vars.label}}) }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <button type="submit" class="btn btn--red">Buscar</button>
+                        <button type="button" class="btn reset">Limpiar</button>
+                    </div>
+
+                </div>
+
+                {{ form_end(filter) }}
+            </div>
+            <ul>
+
+                {% for file in finder %}
+                    <li>
+                        <a href="{{ path ~ "/"~ file.getFilename }}" class="lsb-preview" data-lsb-group="gallery1">
+                            <img src="{{ asset('img/35.gif') }}" class="lazy" data-src="{{ (path ~ "/"~ file.getFilename) | imagine_filter("thumbnail_225x142")   }}" alt="">
+                            <span>{{ mymacro.removeExtension(file.getFilename) }}</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li>No hay imágenes en la galería.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/dependencies/jquery.lazy.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('galleries/lsb.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('galleries/lsb.css') }}" />
+    <script>
+        $(window).load(function() {
+            $(".lazy").Lazy();
+            $.fn.lightspeedBox();
+            $("button.reset").on("click", function () {
+                $("#{{ filter.name.vars.id }}").val("");
+                $(this).closest("form").submit();
+            })
+
+        });
+    </script>
+{% endblock %}

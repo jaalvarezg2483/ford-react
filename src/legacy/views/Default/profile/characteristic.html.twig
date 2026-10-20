@@ -1,0 +1,113 @@
+{% extends "base.html.twig"%}
+
+{% block title %} {{ family.name }} | Características {% endblock %}
+
+{% block metaFace %}
+	<meta property="og:title" content="{{ family.name }} | Características"/>
+	<meta property="og:site_name" content="Ford"/>
+	<meta property="og:description" content="{{ family.description }}"/>
+	<meta property="og:type" content="website"/>
+	<meta property="article:author" content="Ford" />
+	<meta property="article:publisher" content="Ford" />
+	<meta property="og:image" content="{{server_url ~ "/" ~ family.getWebPath()}}"/>
+{% endblock %}
+
+{% block customStyles %}
+    {% if banner is not null %}
+        <style>
+            .car-profile-hero {
+                background-image: url("{{ banner.imageMobile }}");
+            }
+            @media screen and (min-width: 768px){
+                .car-profile-hero {
+                    background-image: url("{{ banner.image }}");
+                }
+            }
+        </style>
+    {% endif %}
+{% endblock %}
+
+
+{% block body %}
+	<div class="wrapper--car wrapper-car-features">
+		<div class="profile-back hidden-md">
+			<a class="btn btn--clear" href="javascript:history.back()"><i class="icon icon-arrow-left"></i> Volver</a>
+		</div>
+		<div class="hero car-profile-hero">
+			{% include 'LumenAppBundle:Default/CarsTemplate:_menu-inner.html.twig' with {page:'profile'} %}
+		</div>
+		 <section>
+        <div class="car-profile-description container">
+            <div class="car-profile-text">
+                <h1 class="title"><span>{{ family.familyBrand.name }}</span> {{ family.name }}</h1>
+                <h3 class="title">Características</h3>
+            </div>
+            <div class="car-profile-text">
+                <p class="text">{{ family.description }}</p>
+                {% if family.showCalculate == true %}
+                    <a href="{{path('calculate_select_model', {slug: family.slug})}}" class="btn btn--primary"><i class="icon icon-calculator"></i> Calcular Financiamiento</a>
+                {% endif %}
+                {% if test_drive == true %}
+					<a href="{{ path("car-test-drive", {"slug": family.slug}) }}" class="btn"><i class="icon icon-car-alt"></i> Solicitar Test Drive</a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+		
+		<section>
+			{% for category in categories['titles'] %}
+				<div id="caract-{{category.id}}" class="car-feature-container">
+					<div class="container">
+						<h2 class="title">{{ category.name }}</h2>
+						<p>{{ category.description }}</p>
+					</div>
+					<div class="container">
+						<div class="car-profile-features-slider-internal">
+							{% for characteristic in categories['characteristics'][category.id] %}
+								<div class="features-slide">
+									<div class="car-profile-feature-card">
+										<div class="car-profile-feature-img">
+											<img src="{{ characteristic.image }}" alt="{{ characteristic.name }}">
+										</div>
+										<div class="car-profile-feature-text">
+											<h3 class="title">{{ characteristic.name }}</h3>
+											{{ characteristic.description | raw }}
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+
+		<section>
+		<div class="bg--accent-light">
+			<div class="container">
+				<div class="row row-margin">
+					<div class="col-md-6">
+						<div class="title-icon">
+							<div class="icon-box">
+								<i class="icon icon-calculator"></i>
+							</div>
+							<div>
+								<p>Calcule su</p> 
+								<h3 class="title">financiamiento</h3>
+							</div>
+						</div>
+						<p>Cotizar tu FORD es muy fácil. Elegí el modelo y extras y obtené un estimado de la cuota.</p>
+						<a href="{{path('calculate_select_model', {slug: family.slug})}}" class="btn btn--clear">Calcular <i class="icon icon-arrow-right"></i></a>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+	<script>
+        var serverPath = '{{ server_url }}';
+	</script>
+{% endblock %}

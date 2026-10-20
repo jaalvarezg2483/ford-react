@@ -1,0 +1,25 @@
+{% for article in articles %}
+    <section class="col-sm-6 col-md-4 js-blog {{loop.index > 3 ? 'hidden' : ''}}">
+        <a class="card card--blog" href="{{ path("article_by_alias_and_category", {"category_alias": article.category.alias, "article_alias": article.alias}) }}">
+
+            {% set subcategories = article.getSubCategories() | first %}
+
+            <img src="{{ article.getWebPath() }}">
+            <div class="card__date">
+                <div class="col-xs-6">
+                    <span class="view__count"><i class="mdi mdi-eye"></i> {{  article.getViews(constant('\\Lumen\\AppBundle\\Entity\\WebPageRepository::FORD'))}}</span>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <h6>{{ article.publishedDate|date('d-m-Y')}}</h6>
+                </div>
+            </div>
+            <div class="card__content">
+
+                <div class="text-center">
+                    <h2>{{ article.title() }}</h2>
+                    <p>{{ article.shortDescription()|slice(0, 120)}}...</p>
+                </div>
+            </div>
+        </a>
+    </section>
+{% endfor %}

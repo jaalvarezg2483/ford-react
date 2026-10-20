@@ -1,0 +1,70 @@
+{% extends "base.html.twig"%}
+{% block title %}Solicitar prueba de manejo{% endblock %}
+
+{% block body %}
+
+{% form_theme form.sucursal '@LumenApp/Form/radio_raw_label.html.twig' %}
+
+<div class="wrapper">
+  <div class="padding-1 bg--accent-light">
+      <div class="container">
+          <a class="text--primary text--bold" href="javascript:history.back()"><i class="icon icon-arrow-left"></i> Cancelar</a>
+      </div>
+  </div>
+  <div class="section">
+    <div class="container">
+      <h1 class="title text-center">Solicitar TestDrive</h1>
+    </div>
+    <div class="calculate-nav calculate-nav--wide">
+      <div class="calculate-nav-item current">
+          <a href="#" class="calculate-nav-btn testdrive-slick-control" data-index="0">1</a>
+          <span>Mis datos</span>
+      </div>
+      <div class="calculate-nav-item">
+          <a href="#" class="calculate-nav-btn testdrive-slick-control" data-index="1">2</a>
+          <span>Contacto</span>
+      </div>
+      <div class="calculate-nav-item">
+          <a href="#" class="calculate-nav-btn testdrive-slick-control" data-index="2">3</a>
+          <span>Sucursal</span>
+      </div>
+      <div class="calculate-nav-item">
+          <a href="#" class="calculate-nav-btn testdrive-slick-control" data-index="3">4</a>
+          <span>Confirmación</span>
+      </div>
+  </div>
+    <div class="container container---full-mobile">
+      <div class="">
+        <form action="{{ path('prueba-manejo', {slug: family.slug, code: model.code}) }}" method="post" class="form verify-captcha" id="contactForm">
+          <div class="row">
+            <div class="col-md-6 slider-container">
+                {% include 'LumenAppBundle:Default/partials:_form-fields_test_drive.html.twig' with {'captcha': true} %}
+            </div>
+            <div class="col-md-6 details-container">
+              <div class="card-citas-resume">
+                  <h3 class="title">Detalle de la cita</h3>
+                  <p class="quotation__model">Modelo:  {{ model.name }}</p>
+                  <p class="data-fill hidden">Identificación: <span data-info="cedula"></span></p>
+                  <p class="data-fill hidden">Nombre Completo: <span data-info="first_name"></span> <span data-info="last_name"></span></p>
+                  <p class="data-fill hidden">Email: <span data-info="email"></span></p>
+                  <p class="data-fill hidden">Teléfono: <span data-info="mobile"></span></p>
+                  <p class="data-fill hidden">Dirección: <span data-info="provincia"></span>, <span data-info="canton"></span>, <span data-info="distrito"></span>, <span data-info="direccion"></span> </p>
+                  <p class="data-fill hidden">Detalles: <span data-info="comment"></span></p>
+                  <p class="data-fill hidden">Sucursal: <span data-info="sucursal"></span></p>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="btns-container text-center margin--top">
+                <a href="#" class="btn btn-testdrive-prev hidden">Anterior</a>
+                <a href="#" class="btn btn--primary btn-testdrive-next">Continuar</a>
+                <button id="send-button" type="submit" name="button" class="btn btn--primary" style="display:none">Finalizar</button>
+              </div>
+            </div>
+          </div>
+            {{ form_rest(form) }}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

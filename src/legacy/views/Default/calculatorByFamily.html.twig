@@ -1,0 +1,33 @@
+{% extends "base.html.twig"%}
+
+{% block title %}Resumen de Cotización {% endblock %}
+
+
+{% block meta %}
+    <meta name="identifier-url" content="" />
+    <meta name="title" content="Resumen de Cotización"/>
+    <meta name="description" content="Resumen de Cotización vehiculo" />
+    <meta name="abstract" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="revisit-after" content="1" />
+    <meta name="language" content="es" />
+    <meta name="copyright" content="© 2016" />
+    <meta name="organization" content="">
+    <meta name="revisit-after" content="1 day">
+    <meta name="origen" content="">
+    <meta name="locality" content="San José , Costa Rica">
+    <meta name="distribution" content="global">
+    <link rel="image_src" href="" >
+    <meta name="dcterms.abstract" content="">
+    <meta name="dcterms.rightsHolder" content="">
+    <meta NAME="robots" CONTENT="noindex">
+{% endblock %}
+
+{% block body %}
+
+        {{ render(controller("LumenAppBundle:Default:renderModelsByFamily", {"slug": slug})) }}
+        {{ render(controller("LumenAppBundle:Default:testDriveByFamily", {"slug": slug})) }}
+
+{% endblock %}
+

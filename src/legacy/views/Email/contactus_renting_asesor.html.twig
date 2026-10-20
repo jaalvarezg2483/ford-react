@@ -1,0 +1,301 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+{% set aditionalFields = contactus.getAditionalFields() %}
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Ford | Vehiculos</title>
+    <style type="text/css">
+        *{
+            text-decoration: none;
+            font-family: sans-serif;
+            color: #2E2D34;
+            font-weight: normal;
+        }
+
+        p{
+            font-size: 14px;
+        }
+
+        .ReadMsgBody{
+            width: 100%;
+            background-color: #ffffff;
+        }
+
+        .ExternalClass{
+            width: 100%;
+            background-color: #ffffff;
+        }
+
+        body{
+            width: 100%;
+            background-color: #ffffff;
+            margin:0; padding:0;
+            -webkit-font-smoothing: antialiased;
+            font-family: Georgia, Times, serif
+        }
+
+        table{
+            border-collapse: collapse;
+        }
+
+        @media only screen and (max-width: 640px)  {
+            .deviceWidth{
+                width:440px!important;
+                padding:0;
+            }
+            .center{
+                text-align: center!important;
+            }
+        }
+
+        @media only screen and (max-width: 479px) {
+            .deviceWidth{
+                width: 100% !important;
+                padding:0;
+            }
+            .center{
+                text-align: center!important;
+            }
+            .wspacing{
+                width: 30px;
+            }
+            .logo_e{
+                max-width: 136px;
+                width: 100%;
+                padding-right: 20px;
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="font-family: Georgia, Times, serif" >
+<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+    <tr>
+        <td width="100%" valign="top" bgcolor="#f3f3f3" style="padding-top:0px">
+            <table width="620" border="0" cellpadding="0" cellspacing="0" align="center" class="deviceWidth" style="margin:0 auto;">
+                <tr>
+                    <td width="100%" bgcolor="#2E2D34">
+                        <table border="0" cellpadding="0" width="100%" cellspacing="0" align="center" class="deviceWidth">
+                            <tr>
+                                <td style="padding:6px 20px" class="center" align="center">
+
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+            <table width="620" border="0" cellpadding="0" cellspacing="0" align="center" class="deviceWidth" style="margin:0 auto;">
+                <tr>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                    <td bgcolor="#ffffff" style="border-bottom: 2px solid #eeeeee;">
+                        <table border="0" cellpadding="0" cellspacing="0" align="left" class="">
+                            <tr>
+                                <td style="padding:30px 20px 30px 0px" class="left">
+                                    <a href="#"><img src="{{ server_url }}/img/email/logo_toyota.png" alt="" border="0" /></a>
+                                </td>
+                            </tr>
+                        </table>
+                        <table border="0" cellpadding="0" cellspacing="0" align="right" class="">
+                            <tr>
+                                <td style="padding:30px 0px 30px 20px" class="right">
+                                    <a href="#"><img src="{{ server_url }}/img/email/logo_purdy_motor.png" alt="" border="0" /></a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                </tr>
+            </table>
+
+            <table width="620" class="deviceWidth" border="0" cellpadding="0" cellspacing="0" align="center" bgcolor="#eeeeed" style="margin:0 auto;">
+                <tr>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                    <td valign="top" style="padding:0" bgcolor="#ffffff">
+                        <h1 style="font-size: 24px;color: #D0112B;font-weight: bold;">Hola, {{ contactus.getFirstName() }} {{ contactus.getLastName() }}</h1>
+                        <h3 style="font-size: 20px;">Gracias por tu interés en nuestros vehículos</h3>
+                        <p style="font-size: 14px; line-height: 25px;">Nos enorgullece que nos hagas parte de esta importante decisión. Por ello, te aseguramos que nos esmeraremos para que tu experiencia de compra sea lo más placentera, a la par de la calidad indiscutible de los mejores vehículos del mercado, los del Grupo Toyota.</p>
+                        <p style="font-size: 14px; line-height: 25px;">Un Asesor de Ventas te contactará muy pronto para corroborar que tenés toda la información que necesitás y/o para que evacués cualquier duda.</p>
+                    </td>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                </tr>
+            </table>
+
+            <table width="620" class="deviceWidth" border="0" cellpadding="0" cellspacing="0" align="center" bgcolor="#eeeeed" style="margin:0 auto;">
+                <tr>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                    <td bgcolor="#ffffff">
+                        <table border="0" cellpadding="0" cellspacing="0" align="left" class="">
+                            <tr>
+                                <td width="100%" bgcolor="#ffffff">
+                                    <h2 style="font-size: 24px;">Resumen de Cotización para <strong style="font-weight: bold;">{{ contactus.getFamily().getName() }}</strong>*</h2>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                </tr>
+                <tr>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                    <td width="" bgcolor="#ffffff" style="border-bottom: 2px solid #eeeeee;">
+                        <table border="0" width="100%" cellpadding="0" cellspacing="0" align="left" class="">
+                            <tr>
+                                <td valign="top" style="padding:0" bgcolor="#ffffff">
+                                    <h2 style="font-size: 16px;"><strong style="font-weight: bold;">Modelo</strong></h2>
+                                    <p>{{ contactus.getModel().getName() }} / {{ contactus.getModel().getCode() }}</p>
+                                </td>
+                                <td valign="bottom" style="padding:0" bgcolor="#ffffff" width="35%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" style="padding:0" bgcolor="#ffffff">
+                                    <h2 style="font-size: 16px;"><strong style="font-weight: bold;">Tipo de plan</strong></h2>
+                                    <p>{{ aditionalFields["tipo"]}}</p>
+                                </td>
+                                <td valign="bottom" style="padding:0" bgcolor="#ffffff" width="35%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" style="padding:0" bgcolor="#ffffff">
+                                    <h2 style="font-size: 16px;"><strong style="font-weight: bold;">Plan</strong></h2>
+                                    <p>{{ aditionalFields["plan"]}}</p>
+                                </td>
+                                <td valign="bottom" style="padding:0" bgcolor="#ffffff" width="35%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" style="padding:0" bgcolor="#ffffff">
+                                    <h2 style="font-size: 16px;"><strong style="font-weight: bold;">Cuota</strong></h2>
+                                    <p>*${{ aditionalFields["fee"]}}</p>
+                                </td>
+                                <td valign="bottom" style="padding:0" bgcolor="#ffffff" width="35%">
+                                </td>
+                            </tr>
+                            {% if aditionalFields["comment"] is defined and aditionalFields["comment"] != "" %}
+                            <tr>
+                                <td valign="top" style="padding:0" bgcolor="#ffffff">
+                                    <h2 style="font-size: 16px;"><strong style="font-weight: bold;">Comentarios</strong></h2>
+                                    <p>{{ aditionalFields["comment"]}}</p>
+                                </td>
+                                <td valign="bottom" style="padding:0" bgcolor="#ffffff" width="35%">
+                                </td>
+                            </tr>
+                            {% endif %}
+                            <tr>
+                                <td valign="top" style="padding:0" bgcolor="#ffffff">
+                                    <h2 style="font-size: 16px;"><strong style="font-weight: bold;">Correo</strong></h2>
+                                    <p>{{ contactus.getEmail() }}</p>
+                                </td>
+                                <td valign="bottom" style="padding:0" bgcolor="#ffffff" width="35%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" style="padding:0" bgcolor="#ffffff">
+                                    <h2 style="font-size: 16px;"><strong style="font-weight: bold;">Teléfono</strong></h2>
+                                    <p>{{ contactus.getMobile() }}</p>
+                                </td>
+                                <td valign="bottom" style="padding:0" bgcolor="#ffffff" width="35%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" style="padding:0" bgcolor="#ffffff">
+                                    <hr>
+                                </td>
+                                <td valign="bottom" style="padding:0" bgcolor="#ffffff" width="35%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" style="padding:0" bgcolor="#ffffff">
+                                    <h2 style="font-size: 16px;"><strong style="font-weight: bold;">Condiciones:</strong></h2>
+                                    <p style="font-size: 10px;">*Cuota es mensual.</p>
+                                    <p style="font-size: 10px;">*13% de IVA incluido.</p>
+                                    <p style="font-size: 10px;">*Cuota corresponde a kilometraje anual de: 25,000 km</p>
+                                    <p style="font-size: 10px;">*Cotización no incluye vehículo sustituto.</p>
+                                    <p style="font-size: 10px;">*Cuota mensual fija por todo el período del contrato siempre que no exceda el kilometraje acordado y se le dé un uso adecuado al vehículo.</p>
+                                    <p style="font-size: 10px;">*Las reparaciones mecánicas y de carrocería deben ser realizadas en los talleres de Purdy Motor.</p>
+                                    <p style="font-size: 10px;">*Validez de la oferta 15 días.</p>
+                                    <h2 style="font-size: 16px;"><strong style="font-weight: bold;">Beneficios:</strong></h2>
+                                    <p style="font-size: 10px;">*Incluye asistencia en carretera 365 días al año.</p>
+                                    <p style="font-size: 10px;">*Incluye Seguros - Marchamo - RTV</p>
+                                    <p style="font-size: 10px;">*Incluye 1 juego de llantas en plazo de 24 y 36 meses. No aplica a 12 meses.</p>
+                                    <p style="font-size: 10px;">*0% depósito * Según condiciones financieras</p>
+                                </td>
+                                <td valign="bottom" style="padding:0" bgcolor="#ffffff" width="35%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" style="padding:0" bgcolor="#ffffff">
+                                    <p style="font-size: 10px;">*Podés cancelar el monto en colones al tipo de cambio aplicable a la transacción, correspondiente al de referencia de venta del Banco Central de Costa Rica.</p>
+                                </td>
+                                <td valign="bottom" style="padding:0" bgcolor="#ffffff" width="35%">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                </tr>
+            </table>
+            <table width="620" class="deviceWidth" border="0" cellpadding="0" cellspacing="0" align="center" bgcolor="#eeeeed" style="margin:0 auto;">
+                <tr>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                    <td valign="top" style="padding:0" bgcolor="#ffffff">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+                            <tr>
+                                <td>
+                                    <div style="height:20px;margin:0 auto;">&nbsp;</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center">
+                                    <table border="0" cellspacing="0" cellpadding="0" align="center">
+                                        <tr>
+                                            <td align="center" width="300px" height="40px" style="-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;" bgcolor="#D0112B">
+                                                <a href="mailto:ventas@grupopurdy.com" style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; font-weight: bold; color: #ffffff; text-decoration: none; text-decoration: none; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; padding: 16px; display: inline-block;">CONTACTANOS</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="height:35px;margin:0 auto;">&nbsp;</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="wspacing" width="70px" bgcolor="#ffffff"></td>
+                </tr>
+            </table>
+
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <tr>
+                    <td bgcolor="#f3f3f3" style="padding:0 0 60px 0">
+                        <table width="580" border="0" cellpadding="10" cellspacing="0" align="center" class="deviceWidth" style="margin:0 auto;">
+                            <tr>
+                                <td>
+                                    <table width="50%" cellpadding="0" cellspacing="0"  border="0" align="center" class="deviceWidth">
+                                        <tr>
+                                            <td valign="top" style="font-size: 11px; color: #f1f1f1; font-weight: normal; font-family: Georgia, Times, serif; line-height: 26px; vertical-align: top; text-align:right" class="center">
+                                                <p style="text-align: center; font-size: 16px; font-weight: bold;">SEGUINOS EN:</p>
+                                                <a href="https://www.facebook.com/ToyotaCostaRica" style="display: inline-block; margin-right: 35px;"><img src="{{ server_url }}/img/email/facebook.png" width="25" height="24" alt="Facebook" title="Facebook" border="0" /></a>
+                                                <a href="https://twitter.com/ToyotaCR" style="display: inline-block; margin-right: 35px;"><img src="{{ server_url }}/img/email/twitter.png" width="25" height="24" alt="Twitter" title="Twitter" border="0" /></a>
+                                                <a href="https://www.youtube.com/user/ToyotaCostaRica" style="display: inline-block; margin-right: 35px;"><img src="{{ server_url }}/img/email/youtube.png" width="25" height="24" alt="Youtube" title="Youtube" border="0" /></a>
+                                                <a href="https://www.instagram.com/toyotacostarica/" style="display: inline-block; margin-right: 35px;"><img src="{{ server_url }}/img/email/instagram.png" width="25" height="24" alt="Instagram" title="Instagram" border="0" /></a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<div style="display:none; white-space:nowrap; font:15px courier; color:#ffffff;">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div>
+</body>
+</html>

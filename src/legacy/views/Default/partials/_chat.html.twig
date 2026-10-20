@@ -1,0 +1,813 @@
+<script type="text/javascript">
+    var is_link = false;
+    function open_chatbox(event)
+    {
+        if(typeof event != "undefined")
+            event.preventDefault();
+        // Ocultar la bolita
+        $(".chat__toggle").fadeOut();
+        $('.chat__box').addClass('chat-is-open');
+        cancelOverflow();
+//        $("#webchatLogin").hide();
+        //$("#winDisplayAgent, #webchat_chat_area").hide();
+
+    }
+    function closeChat()
+    {
+
+        //	And hide login page / please wait page
+
+        $('.chat__box').removeClass('chat-is-open');chat
+        $(".chat__toggle").fadeIn();
+        $("#webchat_user_input").trigger('reset');
+        $("#webchat_user_input #skillset").val('').trigger('change');
+
+        // Mostrar la bolita
+    }
+
+    function finalCloseSession()
+    {
+        closeAgentWin();
+        setCookie("cookie_skillset", "", 0);
+        setCookie("cookie_subject", "", 0);
+        setCookie("cookie_reference", "", 0);
+        setCookie("cookie_username", "", 0);
+        setCookie("ann_session_key", "", 0);
+        contact_id = 0;
+        CustomTextLine = "[Cliente] ";
+        CustomerID = "";
+    }
+
+    function leftSession () {
+        var session_cookie_key = getCookie("session_key");
+
+        // Verificar si hay sesión activa
+        if(typeof session_cookie_key != "undefined" && session_cookie_key != "")
+        {
+            var c = confirm("Desea terminar la conversacion?");
+            // Mostrar la bolita
+            if (c == true) {
+
+                finalCloseSession();
+
+                $("#webchatLogin").show();
+                $("#winDisplayAgent, #webchat_chat_area, #webchat_please_wait").hide();
+                $("#webchat_user_input").show();
+            }
+        }
+        $(".chat__toggle").fadeIn();
+    }
+
+    $(document).ready(function () {
+        $(document).on("click", "a", function(){
+            is_link = true;
+        });
+
+        $(document).on("submit", "form", function(){
+            is_link = true;
+        });
+
+        continueConversation();
+        $(document).on("click", ".chat__top",  closeChat);
+        $(document).on("click", ".chat__close",  leftSession);
+        $(document).on("click", "#chat, .chat-btn",  open_chatbox);
+        $(document).on("click", ".chat__start",  processChatRequest);
+        $(document).on("click", "#comments",  RemovePlaceHolder);
+        $(document).on("keypress", "#comments",  function (event) {
+            return checkEnter(this,event);
+        });
+
+        $(document).on("keypress", ".no-space",  function (event) {
+            return checkSpace(event);
+        });
+        $(document).on("click", "#enterButton",  processText);
+
+        $(".email_send").hide();
+
+
+        $(document).on("click", ".evt_send_email_click", function(){
+            if($(this).is(":checked"))
+            {
+                $(".email_send").show("slow");
+
+
+//                var isMobile = window.matchMedia("only screen and (max-width: 760px)");
+//
+//                if (isMobile.matches) {
+//                    $(".chat__history").attr('style','height: calc(100% - 400px) !important');
+
+//                }
+
+            }
+            else
+            {
+                $(".email_send").hide("slow");
+
+//                var isMobile = window.matchMedia("only screen and (max-width: 760px)");
+//
+//                if (isMobile.matches) {
+//                    $(".chat__history").attr('style','height: calc(100% - 288px) !important');
+//                }
+
+            }
+        });
+
+        $('#history').bind("DOMSubtreeModified", function () {
+            fixBubbles();
+        });
+
+        $('.tools__toggle').on('click', function(e){
+            e.preventDefault();
+            $('.icons--list').toggleClass('open--mobile');
+            if ($('.icons--list').hasClass('open--mobile')){
+                $(this).html('Cerrar <span class="mdi mdi-close"></span>')
+            } else {
+                $(this).html('Herramientas de compra <span class="mdi mdi-chevron-up"></span>')
+            }
+        });
+
+        $(document).click(function(e) {
+            var container = $(".car--buying__tools");
+
+            if (!container.is(e.target) && container.has(e.target).length === 0) {
+                $('.icons--list').removeClass('open--mobile');
+                $('.tools__toggle').html('Herramientas de compra <span class="mdi mdi-chevron-up"></span>');
+            }
+        });
+    });
+
+    function fixBubbles()
+    {
+        $('.clouds-mjs').find("div").each(function (index) {
+            if (this.style.backgroundColor == "rgb(235, 235, 235)") {
+                $(this).attr("class", "chatter");
+            } else {
+                $(this).attr("class", "user");
+            }
+        });
+    }
+
+    function cancelOverflow() {
+
+        var isMobile = window.matchMedia("only screen and (max-width: 760px)");
+
+        if (isMobile.matches) {
+
+            $('html, body').css({
+                overflow: 'hidden',
+                height: '100%'
+            });
+
+        }
+
+    }
+
+
+    function allowOverflow() {
+
+        var isMobile = window.matchMedia("only screen and (max-width: 760px)");
+
+        if (isMobile.matches) {
+            $('html, body').css({
+                overflow: 'auto',
+                height: 'auto'
+            });
+        }
+
+
+    }
+
+
+</script>
+
+{% set day = "now"|date('w') %}
+{% set route = app.request.get('_route') %}
+
+
+{% if route ==  'model_list' or route ==  'model_list_gallery' or route ==  'model_list_characteristic' or route ==  'model_list_specs' %}
+    {% if family.showCalculate == true or test_drive %}
+    <div class="car--buying__tools tools--open">
+        <ul class="icons--list">
+            <li>
+                <a target="_blank" href="{% if familyWhatsapp is defined %}{{ familyWhatsapp}}{% else %}{{ whatsapp_shortened }}{% endif %}">
+                    {# <span>WhatsApp </span> #}
+                    <i class="icon icon-whatsapp whatsapp-background"></i>
+                </a>
+            </li>
+            {% if family.showCalculate == true %}
+           {# <li>
+                <a href="{{path('calculate_select_model', {slug: family.slug})}}">
+                    <span>Calcular financiamiento </span> <i class="icon icon-calculator"></i>
+                </a> 
+            </li>#}
+            {% endif %}
+            {% if test_drive %}
+            {#<li>
+                <a href="{{ path("car-test-drive", {"slug": family.slug}) }}">
+                    <span>Solicitar test drive </span> <i class="icon icon-car-alt"></i>
+                </a>
+            </li>#}
+            {% endif %}
+            {#De lunes a viernes de 7am a 6pm#}
+            {#{% if time_between_interval("7:00:00", "18:00:00") and day >= 1 and day <= 5 %}#}
+                {#<li>#}
+                    {#<a href="#" id="chat">#}
+                        {#<span>Chat</span>#}
+                        {#<i class="icon icon-chat-alt"></i>#}
+                    {#</a>#}
+                {#</li>#}
+            {#Sábados de 7am a 1pm#}
+            {#{% elseif time_between_interval("7:00:00", "13:00:00") and day == 6 %}#}
+                {#<li>#}
+                    {#<a href="#" id="chat">#}
+                        {#<span>Chat</span>#}
+                        {#<i class="icon icon-chat-alt"></i>#}
+                    {#</a>#}
+                {#</li>#}
+            {#Domingos todo el día#}
+            {#{% else %}#}
+                {#<script type="text/javascript">function widgetInit(){var t=document.getElementsByTagName("body").item(0),e=document.createElement("script");e.setAttribute("type","text/javascript"),e.setAttribute("src","https://console.edna.ai/js/franco_bot/widget/rentacar-bp.js"),e.setAttribute("id","chat-widget"),t.appendChild(e),window.widgetData={primary_color:"#d0112b",secondary_color:"#ffffff",bg_url:"http://ws.edna.ai/Content/Toyota/toyotawebchat.png",img_url:"http://ws.edna.ai/content/Toyota/PurdyWidget.jpg",bot_id:"66",text: "Chateá Aquí",color_text: "#d0112b",issset_text: "false"}}document.addEventListener("DOMContentLoaded",widgetInit);</script>#}
+            {#{% endif %}#}
+        </ul>  
+    </div>
+    {% endif %}
+
+ {#De lunes a viernes de 7am a 6pm#}
+    {#{% if time_between_interval("7:00:00", "18:00:00") and day >= 1 and day <= 5 %}#}
+        {##}
+        {#<div id="chat" class="chat__toggle chat--up hidden-md">#}
+            {#<span class="icon icon-chat-alt"></span>#}
+        {#</div>#}
+        {#<div class="floating--container">#}
+            {#<a href="{{path('calculate_select_model', {slug: family.slug})}}" class="btn btn--primary"><i class="icon icon-calculator"></i> Calcular Financiamiento</a>#}
+            {#<a href="#" class="btn"><i class="icon icon-car-alt"></i> Solicitar Test Drive</a>#}
+        {#</div>#}
+    {#Sábados de 7am a 1pm#}
+    {#{% elseif time_between_interval("7:00:00", "13:00:00") and day == 6 %}#}
+        {#<div id="chat" class="chat__toggle chat--up hidden-md">#}
+            {#<span class="icon icon-chat-alt"></span>#}
+        {#</div>#}
+    {#Domingos todo el día#}
+    {#{% else %}#}
+        {#<script type="text/javascript">function widgetInit(){var t=document.getElementsByTagName("body").item(0),e=document.createElement("script");e.setAttribute("type","text/javascript"),e.setAttribute("src","https://console.edna.ai/js/franco_bot/widget/rentacar-bp.js"),e.setAttribute("id","chat-widget"),t.appendChild(e),window.widgetData={primary_color:"#d0112b",secondary_color:"#ffffff",bg_url:"http://ws.edna.ai/Content/Toyota/toyotawebchat.png",img_url:"http://ws.edna.ai/content/Toyota/PurdyWidget.jpg",bot_id:"66",text: "Chateá Aquí",color_text: "#d0112b",issset_text: "false"}}document.addEventListener("DOMContentLoaded",widgetInit);</script>#}
+    {#{% endif %}#}
+
+
+{% else %}
+
+    <div class="car--buying__tools tools--open whatsapp-background small-square">
+        <ul class="icons--list shorter">
+            <li>
+                <a target="_blank" href="{% if familyWhatsapp is defined %}{{ familyWhatsapp}}{% else %}{{ whatsapp_shortened }}{% endif %}">
+                    <span>WhatsApp </span> <i class="icon icon-whatsapp whatsapp-background big-icon"></i>
+                </a>
+            </li>
+        </ul>  
+    </div>
+
+
+
+    {#De lunes a viernes de 7am a 6pm#}
+    {#{% if time_between_interval("7:00:00", "18:00:00") and day >= 1 and day <= 5 and route != 'calculate-all' %}#}
+        {#<div id="chat" class="chat__toggle">#}
+            {#<span class="icon icon-chat-alt"></span>#}
+        {#</div>#}
+    {#Sábados de 7am a 1pm#}
+    {#{% elseif time_between_interval("7:00:00", "13:00:00") and day == 6 and route != 'calculate-all' %}#}
+        {#<div id="chat" class="chat__toggle">#}
+            {#<span class="icon icon-chat-alt"></span>#}
+        {#</div>#}
+    {#Domingos todo el día#}
+    {#{% else %}#}
+        {#<script type="text/javascript">function widgetInit(){var t=document.getElementsByTagName("body").item(0),e=document.createElement("script");e.setAttribute("type","text/javascript"),e.setAttribute("src","https://console.edna.ai/js/franco_bot/widget/rentacar-bp.js"),e.setAttribute("id","chat-widget"),t.appendChild(e),window.widgetData={primary_color:"#d0112b",secondary_color:"#ffffff",bg_url:"http://ws.edna.ai/Content/Toyota/toyotawebchat.png",img_url:"http://ws.edna.ai/content/Toyota/PurdyWidget.jpg",bot_id:"66",text: "Chateá Aquí",color_text: "#d0112b",issset_text: "false"}}document.addEventListener("DOMContentLoaded",widgetInit);</script>#}
+    {#{% endif %}#}
+
+
+{%  endif %}
+
+
+
+
+
+
+
+
+<div id="chatBox" class="chat__box">
+	<div class="chat__top" onclick="allowOverflow()">
+		<div class="chat__title">Bienvenido a Grupo Purdy Motor</div>
+		<div class="chat__close"><span class="mdi mdi-close"></span></div>
+		<div class="chat__minimize"><i class="material-icons minimize">remove</i></div>
+	</div>
+
+	<div class="chat__inner">
+		<div id="webchatLogin" class="overflowForm">
+			<form id="webchat_user_input" class="form scroller " novalidate>
+
+				<div class="input-field">
+					<input type="text" class="input" placeholder="Nombre Completo" id="username" name="username" required>
+				</div>
+				<div class="input-field">
+					<input type="email" class="input" placeholder="Correo Electrónico" id="email" name="email" required>
+				</div>
+				<div class="input-field">
+					<input type="text" class="input" placeholder="Teléfono" id="phone" name="phone" required>
+				</div>
+				<div class="input-field">
+					<input type="text" class="input" placeholder="Número de identificación" id="subject" name="idNumber">
+				</div>
+				<div class="input-field">
+					<input type="text" class="input" placeholder="Número de Placa" id="reference" name="plateNumber">
+				</div>
+
+				<div class="select selector-chat">
+					<label>Seleccione el departamento con el que desea comunicarse</label>
+					<select class="js-select select2-hidden-accessible" tabindex="-1" aria-hidden="true" name="department" id="skillset" required>
+						<option value="">Seleccione el departamento</option>
+						<option value="WC_Vehiculos_Nuevos">Ventas Vehículos Nuevos</option>
+						<option value="WC_Vehiculos_Usados">Ventas Vehículos Usados</option>
+						<option value="WC_Repuestos">Repuestos y Accesorios</option>
+                        <option value="WC_Citas">Citas de Talleres</option>
+						<option value="WC_Quejas_o_Reclamos">Quejas o Reclamos</option>
+					</select>
+				</div>
+
+                {#<div class="input-field select">#}
+
+                {#<select style="width: 100%;" name="department" id="skillset" required>#}
+                {#<option value="">Seleccione el departamento</option>#}
+                {#<option value="WC_Vehiculos_Nuevos">Ventas Vehículos Nuevos</option>#}
+                {#<option value="WC_Vehiculos_Usados">Ventas Vehículos Usados</option>#}
+                {#<option value="WC_Repuestos">Repuestos y Accesorios</option>#}
+                {#<option value="WC_Citas">Citas de Talleres</option>#}
+                {##}
+                {#</select>#}
+                {#</div>#}
+                {#<input type="hidden" id="skillset" value="WC_Default_Skillset">#}
+
+				<div class="input-field clearfix">
+					<button type="button" class="chat__start">Comenzar Chat</button>
+				</div>
+			</form>
+			<div id="webchat_please_wait" style="display:none;">
+				<p id="PleaseWait">Por favor espere</p>
+			</div>
+		</div>
+        {{ requireOnce('includes.php', '') }}
+
+
+	</div>
+
+    <div class="chat__inner-agent" id="winDisplayAgent" style="display: none;">
+
+        <div class="parent-mobile-chat">
+            <div class="child-mobile-chat">
+
+
+                <div class="History-area">
+                    <!-- WebChat Section -->
+
+                    <div id="webchat_chat_area" class="chatArea" style="display:none;">
+
+                        <!-- History -->
+
+                        <div id="history" name="history" class="chat__history clouds-mjs">
+
+
+                        </div>
+
+                        <!-- End History -->
+
+
+                        <!-- Agent Typing -->
+
+                        <p id="AgentStatus" class="chat__status">
+
+                        </p>
+
+                        <!-- End Agent Typing -->
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="chat-body">
+
+                    <!-- No Agents Available-->
+                    <div id="webchat_no_agents" style="display:none;">
+                        <p>No hay agentes disponibles para responder a su chat en este momento.</p>
+                    </div>
+                    <!-- End No Agents Available-->
+
+                    <!-- Max Concurrent Chats Per Customer -->
+
+                    <id id="webchat_max_concurrent_per_customer" style="display:none;" >
+                        <tr>
+                            <p>Ha alcanzado un máximo de sesiones de chat simultáneas.</p>
+                        </tr>
+                    </id>
+
+                    <!-- End Max Concurrent Chats Per Customer -->
+
+                    <!-- Max Concurrent Chats Per Skillset -->
+
+                    <div id="webchat_max_concurrent_per_skillset" style="display:none;" >
+                        <tr>
+                            <p>Actualmente no hay agentes disponibles para responder a su chat.</p>
+                        </tr>
+                    </div>
+
+                    <!-- End Max Concurrent Chats Per Skillset -->
+
+
+
+                    <!-- WebChat Text Section -->
+
+                    <div class="chat__input clearfix">
+                        <!-- Input -->
+
+                        <textarea name="comments" id="comments"></textarea>
+
+                        <input type="submit" class="sent-btn-chat" id='enterButton' value="Enviar" />
+
+                        <!-- End Input -->
+
+                    </div>
+                    <!-- End WebChat Text Section -->
+
+                    <!-- Email/Call Me Section -->
+
+                    <div class="chat__contact">
+
+
+                        <div class="input-field checkboxFive">
+                            <input id="SendChatHistory" class="evt_send_email_click" type="checkbox" value="1" />
+                            <label for="SendChatHistory"></label>
+
+                        </div>
+                        <span class="label-checkbox-chat"> Enviar historial de chat al correo</span>
+
+
+                        <div class="email_send">
+                            <div class="input-field ">
+                                <input type="text" class="input" placeholder="Correo electrónico" id="EmailMeAddress" disabled />
+                            </div>
+
+                            <div class="input-field">
+                                <input type="text" class="input" placeholder="Número de contacto" id="CallMeNumber" disabled />
+                            </div>
+                        </div>
+                        <!-- <input TYPE="image" style="cursor:hand;margin-left:10px;vertical-align:bottom;" height="20" title="Llamarme." border="0" src="/chat/img/icon_callme_small.gif" onClick="CallMeNow()"> -->
+                    </div>
+
+                    <!-- End Email/Call Me Section -->
+
+                    <!-- End WebChat Section -->
+
+                    <!-- Footer -->
+
+                    <div class="chat__footer" style="display: none">
+				<span id="status">
+					<b>
+						<font class="status_color">Estado</font>
+						No conectado.
+					</b>
+				</span>
+                        <span class="chat__trademark">Powered by Avaya Aura&trade; Contact Center</span>
+                    </div>
+
+                    <!-- End Footer -->
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+        </div>
+    </div>
+
+
+
+</div>
+<script type="text/javascript">
+
+    function confirmUnload() {
+        var session_cookie_key = getCookie("session_key");
+
+        // Verificar si hay sesión activa
+        if(typeof session_cookie_key != "undefined" && session_cookie_key != "" && is_link == false)
+        {
+            return "Desea terminar la conversacion?";
+        }
+        return null;
+    }
+    function closeSession () {
+        var session_cookie_key = getCookie("session_key");
+
+        // Verificar si hay sesión activa
+        if(typeof session_cookie_key != "undefined" && session_cookie_key != "" && is_link == false)
+        {
+
+            finalCloseSession();
+            document.getElementById('webchatLogin').style.display = "none";
+            //	Show chat window
+            document.getElementById('winDisplayAgent').style.display = "";
+            document.getElementById('webchat_chat_area').style.display = "";
+
+        }
+
+    }
+    function continueConversation () {
+        var session_cookie_key = getCookie("session_key");
+        session_key = session_cookie_key;
+        var ann_session_key = getCookie("ann_session_key");
+        var session_cookie_contact = getCookie("contact_id");
+        contact_id = session_cookie_contact;
+        var previous_url = document.referrer;
+        var domain = "{{ chat_continue_domain }}";
+
+        if (session_cookie_key != '') {
+
+            //	Use existing session key if supplied
+
+
+            var FirstName = getCookie("cookie_username");
+            CustomTextLine = "["+FirstName+"] ";
+
+            var email = getCookie("cookie_email");
+
+            var phone = getCookie("phone_number");
+
+            document.getElementById('username').value = FirstName;
+            document.getElementById('email').value = email;
+
+            document.getElementById('phone').value = phone;
+            document.getElementById('skillset').value = getCookie("cookie_skillset");
+            document.getElementById('subject').value = getCookie("cookie_subject");
+            document.getElementById('reference').value = getCookie("cookie_reference");
+
+
+            $("#webchatLogin").hide();
+            $("#winDisplayAgent, #webchat_chat_area").show();
+            //	Show chat window
+
+            document.getElementById('EmailMeAddress').disabled = true;
+            document.getElementById('CallMeNumber').disabled = true;
+
+            CustomerID = getCookie("CustomerID");
+
+            {#
+            var text = CustomTextLine + "Abrí la página "+window.location.href;
+            jqSajax.x_SendMessage(session_cookie_key, session_cookie_contact, text , "", "Chat_Message_from_Customer", "");
+            #}
+            Refresh();
+
+            fixBubbles();
+            open_chatbox();
+
+        }
+    }
+
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires="+d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    function checkCookie() {
+        setCookie("username", "", 0);
+
+        //alert(document.cookie);
+    }
+    var elementID;
+
+    function onLoginLoadDo()
+    {
+        //	On window load resize
+        resizeWindow(438, 438, 438, 415, 433, 397, 0);
+
+        //	Set focus to name field
+        document.getElementById('username').focus();
+    }
+
+    function replaceWithHTMLEntities(str)
+    {
+        //	Replace certain 'vulnerable' characters with their html entities
+        str = str.replace("<", "&#60;");
+        str = str.replace(">", "&#62;");
+        str = str.replace("$", "&#36;");
+        str = str.replace("[", "&#91;");
+        str = str.replace("[", "&#93;");
+        return str;
+    }
+
+    function processChatRequest()
+    {
+        var error = false;
+        elementID = 0;
+
+        //	Get input
+        var username = replaceWithHTMLEntities(		document.getElementById('username').value	);
+        var email = replaceWithHTMLEntities(		document.getElementById('email').value		);
+        var phone = replaceWithHTMLEntities(		document.getElementById('phone').value		);
+        var skillset = replaceWithHTMLEntities(		document.getElementById('skillset').value	);
+        var subject = replaceWithHTMLEntities(		document.getElementById('subject').value	);
+        var reference = replaceWithHTMLEntities(	document.getElementById('reference').value	);
+
+        setCookie("phone_number", phone, 365);
+        setCookie("cookie_email", email, 365);
+
+        setCookie("cookie_username", username, 365);
+        setCookie("cookie_skillset", skillset, 365);
+        setCookie("cookie_subject", subject, 365);
+        setCookie("cookie_reference", reference, 365);
+        //	Other potentially useable input objects
+        var AddressLine1 = "";
+        var AddressLine2 = "";
+        var AddressLine3 = "";
+        var AddressLine4 = "";
+        var AddressLine5 = "";
+        var AddressCountry = "";
+        var AddressLineZipcode = "";
+        var FirstName = "";
+        var LastName = "";
+        var Title = "";
+        var CustomField_1_Name = "Página Web";
+        var CustomField_1_Value = "www.toyotacr.com";
+        //
+
+        //	Retrieve platform and browser information to pass to agent
+        var WebCommsQuery = "PLATFORM: [" + navigator.platform + "]; BROWSER: [" + navigator.appName + "]; HEADER: [" + navigator.userAgent + "]";
+
+        //	Assign username to first name for creating user in database
+        FirstName = username;
+
+        // document.getElementById('email_error').innerHTML = "";
+        // document.getElementById('phone_error').innerHTML = "";
+
+        jQuery.extend(jQuery.validator.messages, {
+            pattern: "Formato inválido",
+            required: "Este campo es obligatorio.",
+            // remote: "Please fix this field.",
+            email: "Por favor ingresar un correo electrónico válido.",
+            // url: "Please enter a valid URL.",
+            // date: "Please enter a valid date.",
+            // dateISO: "Please enter a valid date (ISO).",
+            number: "Por favor ingresar un número válido.",
+            digits: "Por favor ingresar un número válido.",
+            // creditcard: "Please enter a valid credit card number.",
+            // equalTo: "Por favor ingresar el mismo valor nuevamente.",
+            // accept: "Please enter a value with a valid extension.",
+            maxlength: jQuery.validator.format("Por favor ingresar no más de {0} caracteres."),
+            minlength: jQuery.validator.format("Por favor ingresar al menos {0} caracteres."),
+            // rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
+            // range: jQuery.validator.format("Please enter a value between {0} and {1}."),
+            // max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
+            min: jQuery.validator.format("Por favor ingresar un número válido."),
+        });
+
+        $(".form").validate({
+            ignore: "input[type=text]:hidden, textarea:hidden",
+            errorElement: 'span',
+            rules: {
+                'idNumber': {
+                    digits: true,
+                    // pattern: /^[1-9]-\d{4}-\d{4}$/
+                },
+                'phone': {
+                    digits: true,
+                    minlength: 8,
+                    maxlength: 8
+                },
+                'email': {
+                    pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                }
+            },
+            messages: {
+                'idNumber': {
+                    pattern: 'El formáto de la cédula es incorrecto.'
+                }
+            }
+        });
+
+        if($(".form").valid()){
+
+
+            //	Append reference number to subject
+            if (!reference == "")
+                subject += " [Placa: " + reference + "]";
+
+            //	Hide user input panel
+            //	Show loading panel while we do all the web service calls and it can take a few seconds to complete
+            $('#webchat_user_input').slideUp('slow', function(){
+                $('#webchat_please_wait').slideDown();
+            });
+
+            //	Get session key
+            var result = jqSajax.x_GetAnonymousSessionKey(`<?php echo $home?>`);
+            SessionKey = result.SessionKey;
+            setCookie("session_key", SessionKey, 365);
+            setCookie("ann_session_key", result.AnonymousID, 365);
+            // buardar codigo anonimo
+
+            if(SessionKey == null)
+            {
+                //	Display error - usual cause is the chat cannot connect to the CCMM server - check config for server name
+                document.getElementById('PleaseWait').innerHTML = "No se puede conectar al chat";
+                return;
+            }
+
+            //	Get Customer ID
+            var CustomerID = jqSajax.x_GetAndUpdateAnonymousCustomerID(SessionKey, result.AnonymousID, email, phone, FirstName, LastName, Title, AddressLine1, AddressLine2, AddressLine3, AddressLine4, AddressLine5, AddressCountry, AddressLineZipcode, "<?php echo $home?>");
+
+            if(CustomerID == -1)
+            {
+                //	Try to remove phone number (known bug)
+                CustomerID = jqSajax.x_GetAndUpdateAnonymousCustomerID(SessionKey, result.AnonymousID, email, "", FirstName, LastName, Title, AddressLine1, AddressLine2, AddressLine3, AddressLine4, AddressLine5, AddressCountry, AddressLineZipcode, "<?php echo $home?>");
+
+                if(CustomerID == -1)
+                {
+                    //	Can happen when ImpersonateCustomer is disabled
+                    document.getElementById('PleaseWait').innerHTML = "{{ "CUSTOMER_ID_ERROR_TEXT"  | trans | raw }}";
+                    return;
+                }
+            }
+            setCookie("CustomerID", CustomerID, 365);
+
+            //	Get Skillset ID from Skillset Name
+            var result = jqSajax.x_ReadSkillsetByName(SessionKey, skillset, "<?php echo $home?>");
+            var SkillsetID = result.id;
+
+            var WebOnHoldTag = result.webTag;
+
+            if(SkillsetID == null)
+            {
+                //	Can happen when an invalid skillset name is used
+                document.getElementById('PleaseWait').innerHTML = "{{ "SKILLSET_ID_ERROR_TEXT"  | trans  | raw}}";
+                return;
+            }
+
+            //	Request text chat
+            // showAgentWin(username, SkillsetID, CustomerID, SessionKey, email, phone, subject, CustomField_1_Name, CustomField_1_Value, WebCommsQuery, WebOnHoldTag);
+
+            showAgentWin(username, SkillsetID, CustomerID, SessionKey, email, phone, subject, CustomField_1_Name, CustomField_1_Value, WebCommsQuery, WebOnHoldTag);
+
+            return;
+        }
+
+
+    }
+
+    //	Globally used functions
+
+    function sound(surl)
+    {
+        document.getElementById("NewMessageBeepHolder").innerHTML = "<embed src=\""+surl+"\" hidden=\"true\" autostart=\"true\" loop=\"false\" />";
+    }
+
+    //	Whitespace removal functions:
+    //	At source
+    function checkSpace(event)
+    {
+        var key = event.keyCode || event.which; // get key cross-browser
+        if (key == 32) //Space bar key code
+        {
+            //Prevent default action, which is inserting space
+            if (event.preventDefault)
+                event.preventDefault(); //normal browsers
+            event.returnValue = false; //IE
+        }
+    }
+    //	In string
+    function whitespaceTrim(str)
+    {
+        return str.replace(/\s+/g,'');
+    }
+
+
+
+</script>

@@ -1,0 +1,174 @@
+{% extends "base.html.twig"%}
+{% block title %}Renting{% endblock %}
+{% block metaFace %}
+	<meta property="og:title" content="Renting"/>
+	<meta property="og:site_name" content="Ford - Renting"/>
+	<meta property="og:description" content="{{ renting.description }}"/>
+	<meta property="og:type" content="website"/>
+	<meta property="article:author" content="Ford" />
+	<meta property="article:publisher" content="Ford" />
+	<meta property="og:image" content="{{ server_url }}/img/content/banner-renting.jpg"/>
+	<meta property="og:image:type" content="image/png">
+	<meta property="og:image:width" content="465">
+	<meta property="og:image:height" content="200">
+{% endblock %}
+{% block body %}
+
+<div class="wrapper">
+	<div class="container container--breadcrumb">
+		<ol class="breadcrumb steps--backbot">
+			<li><a href="{{path('home')}}"><i class="icon icon-arrow-left breadcrumb-back"></i> </a></li>
+			<li><a href="{{path('home')}}">Inicio</a></li>
+			<li>Renting</li>
+		</ol>
+	</div>
+	<div class="banner container">
+		<img src="{{asset('/img/content/banner-renting.jpg')}}" alt="banner">
+		<div class="banner__inner banner--renting">
+			<h2 class="banner__title title--renting">renting</h2>
+			<p>{{ renting.description }}</p>
+			<a href="#cotizar" class="btn btn--red js-click-scroll">COTIZAR</a>
+		</div>
+	</div>
+	<div class="bg">
+		<div class="container text-center">
+			<h2 class="title title-margin">beneficios</h2>
+			<p>Seleccioná cada beneficio para obtener más información</p>
+		    <ul class="list--icons list--benefits js-equal-height-parent">
+				{% for benefit in benefits %}
+	            <li class="js-equal-height">
+					<a href="#" data-toggle="modal" data-target="#benefitModal">
+						<i class="mdi {{ benefit.icon }}"></i>
+	                	<p class="text">
+	                		{{ benefit.title }} <br><small>{{ benefit.disclaimer }}</small>
+	                	</p>
+						<p class="description hidden">
+							{{ benefit.description }}
+						</p>
+					</a>
+	            </li>
+				{% endfor %}
+		    </ul>
+		</div>
+	</div>
+	<div class="bg bg--gray">
+		<div class="container container--md">
+			<h2 class="title title-margin text-center text--red">¿Por qué Purdy Motor?</h2>
+			<p class="text-center text--large">{{ renting.whyPurdy }}</p>
+		</div>
+		<div class="container mt-3">
+			<img src="{{asset('/img/content/renting.png')}}" alt="autos" class="img-responsive">
+		</div>
+	</div>
+	<div class="bg" id="cotizar">
+		<div class="container">
+			<h2 class="title title-margin text-center">cotizar</h2>
+			<p class="text text-center">Seleccioná el perfil que mejor refleje tu negocio. </p>
+			<div class="row js-equal-height-parent">
+				{% for category in categories %}
+				<div class="col-sm-4">
+					<div class="card card--image">
+						<div class="card__image"><img src="/img/content/renting-card-{{loop.index}}.jpg"></div>
+						<div class="card__content js-equal-height">
+							<h3 class="card__title">{{ category.title }}</h3>
+							<p class="text">{{ category.description }}</p>
+						</div>
+						<div class="card__action">
+							<a href="{{ path('renting-auto', {'type' :  category.title | lower | replace(' ', '_')} ) }}">cotizar</a>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+			<hr>
+		</div>
+		<div class="container">
+			<h2 class="title title-margin text-center">Renovar</h2>
+			<div class="row">
+				<div class="col-sm-4 col-sm-offset-4">
+					<div class="card card--red">
+						<div class="card__content">
+							<i class="mdi mdi-car"></i>
+							<h3 class="card__title">¿Ya tenés un auto con nosotros?</h3>
+						</div>
+						<div class="card__action">
+							<a href="{{path('renting-auto', {'type': "renovar"} )}}">renovar</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<p class="text text-center">{{ renting.disclaimer }} </p>
+			<hr>
+		</div>
+	</div>
+	<div class="container">
+		<h2 class="title title-margin text-center">PREGUNTAS FRECUENTES</h2>
+	</div>
+	<ul class="collapsible rentals--faq">
+		{% for faq in faqs %}
+		<li>
+			<button type="button" class="collapsible__header js-collapse-next">
+				<i class="mdi mdi-plus"></i> {{ faq.question }}
+			</button>
+
+			<div class="collapsible__body collapsible__padding">
+                {{ faq.answer | raw }}
+			</div>
+		</li>
+		{% endfor %}
+	</ul>
+	<div class="bg">
+		<div class="container">
+			<div class="row--flex">
+				<div class="col-sm-4">
+					<a href="{{ path('contactar-asesor-renting') }}" class="card card--link card--flex">
+						<div class="card__content">
+							<i class="mdi mdi-human-greeting"></i>
+							<h2 class="card__title">Contactar renting</h2>
+						</div>
+					</a>
+				</div>
+				<div class="col-sm-4">
+					<a href="tel:+(506)2520-9880" class="card card--link card--flex">
+						<div class="card__content">
+							<i class="mdi mdi-phone"></i>
+							<h2 class="card__title">Llamar <span class="visible-xs-inline">(506) 2520-9880</span></h2>
+							<p class="card__text hidden-xs">(506) 2520-9880</p>
+						</div>
+					</a>
+				</div>
+				<div class="col-sm-4">
+					<a href="mailto:{{ correo_renting }}" class="card card--link card--flex">
+						<div class="card__content">
+							<i class="mdi mdi-email"></i>
+							<h2 class="card__title">Enviar correo</h2>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade modal--benefit" id="benefitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body text-center">
+				<button type="button" class="modal__close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true" class="text--red"><span class="mdi mdi-close"></span></span>
+				</button>
+				<h1 class="modal-title text--red"><i class=""></i></h1>
+
+				<h2 class="subtitle"></h2>
+				<p class="description"></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

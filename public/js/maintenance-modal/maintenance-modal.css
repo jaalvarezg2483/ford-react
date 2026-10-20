@@ -1,0 +1,173 @@
+/**
+ * Maintenance modal — reusable overlay dialog
+ * Theme via CSS variables on .mm-root or :root
+ */
+.mm-root {
+  --mm-accent: #2e3162;
+  --mm-surface: #ffffff;
+  --mm-text: #333333;
+  --mm-text-muted: #555555;
+  /* Negro semitransparente: deja entrever el contenido detrás sin perder foco */
+  --mm-overlay: rgba(0, 0, 0, 0.78);
+  --mm-close-bg: #e8e8e8;
+  --mm-close-fg: #666666;
+  --mm-radius-dialog: 28px;
+  --mm-radius-button: 999px;
+  --mm-shadow: 0 24px 48px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.12);
+  --mm-font: "Montserrat", "Open Sans", system-ui, -apple-system, sans-serif;
+}
+
+.mm-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2147483000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  box-sizing: border-box;
+  background: var(--mm-overlay);
+  font-family: var(--mm-font);
+}
+
+.mm-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  padding: 40px 28px 32px;
+  box-sizing: border-box;
+  background: var(--mm-surface);
+  border-radius: var(--mm-radius-dialog);
+  box-shadow: var(--mm-shadow);
+  text-align: center;
+}
+
+.mm-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--mm-close-bg);
+  color: var(--mm-close-fg);
+  font-size: 20px;
+  line-height: 1;
+  cursor: not-allowed;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.mm-close[aria-disabled="true"] {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.mm-icon-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.mm-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--mm-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mm-icon-inner {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.mm-title {
+  margin: 0 0 16px;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--mm-accent);
+  line-height: 1.3;
+}
+
+.mm-body {
+  margin: 0 0 28px;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--mm-text);
+}
+
+.mm-body strong {
+  font-weight: 700;
+  color: var(--mm-text);
+}
+
+.mm-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.mm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 68%;
+  max-width: 100%;
+  padding: 14px 32px;
+  border-radius: var(--mm-radius-button);
+  background: var(--mm-accent);
+  color: #ffffff !important;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-align: center;
+  box-sizing: border-box;
+  border: none;
+  cursor: pointer;
+  -webkit-transition: filter 0.15s ease, transform 0.1s ease;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.mm-btn:hover {
+  filter: brightness(1.08);
+}
+
+.mm-btn:focus {
+  outline: 3px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 3px;
+}
+
+.mm-btn:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 380px) {
+  .mm-dialog {
+    padding: 36px 20px 28px;
+  }
+
+  .mm-title {
+    font-size: 1.2rem;
+  }
+}

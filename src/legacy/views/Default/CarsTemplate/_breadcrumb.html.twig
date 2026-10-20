@@ -1,0 +1,11 @@
+<div class="container container--breadcrumb">
+	<ol class="breadcrumb">
+	<li><a href=""><i class="icon icon-arrow-left breadcrumb-back"></i></a></li>
+	{% if fromPT == true %}
+		<li><a href="{{path('purdy-trabajo')}}"> Purdy Trabajo</a></li>
+    {% else %}
+		<li><a href="{{path('index')}}"> Inicio</a></li>
+	{% endif %}
+	<li>{{ family.name }}</li>
+	</ol>
+</div>

@@ -1,0 +1,166 @@
+<div class="wrapper-calculate" style="padding-top: 0px">
+<section class="container container-cards-calculate">
+    <h6 class="title6 title-margin-more text-center text-uppercase">Seleccioná el modelo</h6>
+    <br>
+    {% set quantity = 0 %}
+        {% for key, model in models %}
+            {% set quantity = quantity + 1 %}
+            {% set image = server_url ~ "/" ~ model.getWebPath() %}
+            {% set name = model.name %}
+            {% set price = model.startPrice | number_format(0, ",", ".") %}
+            {% set code = model.code %}
+            {% set slug = family.slug %}
+            {%  set caracteristicas = model.mainFeatures %}
+            {% if quantity == 1 %}
+                <div class="row content-cards-car">
+            {% endif %}
+            {% if key == 0 %}
+                <script>
+                    var vehiclePrice = {{ model.startPrice }};
+                </script>
+            {% endif %}
+                <div class="calculate-card">
+			        <div class="calculate-card-content">
+                        <img src="{{ image }}" class="calculate-card-img">
+                    </div>
+                    <div class="calculate-card-text">
+                        <h4 class="title">{{ name }}</h4>
+                        <p>desde</p>
+                        <h4 class="title">${{ price }}</h4>
+                    </div>
+                    <div class="content-caract-vehicle">
+                        <ul class="list--bullets">
+                            {% for feature in model.features %}
+                                <li>{{ feature.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {#<a class="viewmore-calculate js-collapse-prev js-text-change">VER MÁS</a>#}
+                    <a id="{{ model.id }}" data="{{ model.startPrice }}" class="btn btn--clear elegir"><i class="icon icon-arrow-right"></i></a>
+                </div>
+            {% if quantity == 4 or loop.last == true%}
+                </div>
+                {% set quantity = 0 %}
+            {% endif %}
+        {% endfor %}
+    <div id="calculator" class="row content-insurances" hidden>
+        <h2 class="subtitle--large not-bold text-center title-margin-more" id="opciones">opciones de financiamiento</h2>
+        <div class="row js-equal-height-parent">
+            {% for entidad in entidades %}
+                <div class="col-sm-6 col-md-4">
+                    <form id="{{ entidad.name }}" data-calculator="{{ entidad.name }}" class="frm_calculator_wdg form-reload--disable">
+                        <div class="card card--finance js-equal-height" style="min-height: 545px">
+                            <div class="card__content">
+                                <div class="logo-{{entidad | lower}}">
+                                    <img class="" src="{{ entidad.getImagePath() }}">
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        <label class="label">Tasa fija:</label>
+                                    </div>
+                                    <div class="col-xs-7">
+                                        <p>{{ entidad.rate }}%</p>
+                                    </div>
+                                </div>
+                                <div class="row card--finance__down">
+                                    <div class="col-xs-5">
+                                        <label class="label">Prima ($):</label>
+                                    </div>
+                                    <div class="col-xs-7">
+                                        <input type="text" placeholder="$11 000" class="validate rate_prima" value="">
+                                    </div>
+                                    {#<p class="text--error js-rate--error col-xs-12"><sup>*</sup>La prima no puede ser menor a ${{ entidad.calcPrima(model.startPrice + total) }}</p>#}
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        <label class="label">Plazo:</label>
+                                    </div>
+                                    <div class="col-xs-7">
+
+                                        {#cambiar plazo de select a radio #}
+
+                                        {% for term in entidad.getTermArray() %}
+                                            <div>
+                                                <input class="radio rate_term" type="radio" name="term" id="{{entidad}}-{{term}}" value="{{term}}" {%  if loop.first %}checked="checked"{% endif %} %}>
+                                                <label for="{{entidad}}-{{term}}">{{ term }} años</label>
+                                            </div>
+                                        {% endfor %}
+
+                                        {#<div class="select">#}
+                                        {#<select class="js-select rate_term">#}
+                                        {#{% for term in entidad.getTermArray() %}#}
+                                        {#<option value="{{ term }}">{{ term }} Años</option>#}
+                                        {#{% endfor %}#}
+                                        {#</select>#}
+                                        {#</div>#}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card__content">
+                                <p>Cuota Mensual</p>
+                                {#{%  set insurance = maintenanceInsurance[insVar] | first %}#}
+                                <h4 class="title text-center fee_wdg"></h4>
+                                {#<h4 class="title text-center fee_wdg">${{ (entidad.calculate(model.startPrice + total ) + (insurance["price"] | default(0))) | number_format(2,',','.')}}</h4>#}
+                            </div>
+                            {% if '' != entidad.disclamer | trim %}
+                                <div class="card__content">
+                                    <small>*{{ entidad.disclamer | nl2br }}</small>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+</div>
+
+{% block scripts %}
+
+    <script type="text/javascript">
+
+        $( document ).ready(function() {
+            {% set vehicle_temp = "" %}
+            try{
+                var text = $("#form-testDrive").find(".quotation__model").text();
+            }
+            catch (err) {
+
+            }
+
+            $(".elegir").click(function () {
+                $(".elegir").css("background-color","#2E2D34");
+                $(".elegir").css("border-color","#2E2D34");
+                $(this).css("background-color","#D71921");
+                $(this).css("border-color","#D71921");
+                $(this).attr("id");
+                {% for model in models %}
+                    if($(this).attr("id") == {{ model.id }}){
+                        {% set vehicle_temp = model %}
+                        vehiclePrice = {{ model.startPrice }};
+                        {% for entidad in entidades %}
+                            var prima = {{ entidad.calcPrima(vehicle_temp.startPrice) }};
+                            $("#{{ entidad.name }}").find(".rate_prima").val(prima);
+                            $("#{{ entidad.name }}").find(".fee_wdg").text("$" + {{ entidad.calculate(vehicle_temp.startPrice) | number_format(2,',','.') }} );
+                            {% if loop.last == true %}
+                                $("#calculator").removeAttr("hidden");
+                                try{
+                                    $("#form-testDrive").find(".quotation__model").text(text + " / {{ vehicle_temp.name }}");
+                                    $("#idModel").val("{{ vehicle_temp.id }}");
+                                    $("#form-testDrive").removeAttr("hidden");
+                                }catch (err){
+                                }
+                            {% endif %}
+                        {% endfor %}
+
+
+                    }
+                {% endfor %}
+                var opciones = $('#opciones');
+                var opcionesTop = opciones.offset().top - opciones.height();
+                $('html, body').animate({scrollTop:opcionesTop-60}, 500);
+            });
+        });
+    </script>
+{% endblock %}

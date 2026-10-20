@@ -1,37 +1,63 @@
-# Ford React
+# Ford Costa Rica
 
-Nueva implementación del sitio Ford Costa Rica. El proyecto vive en `modern/` para mantener separado el código modernizado del sitio Symfony legado mientras se realiza la migración. Las imágenes de la flota y los banners usados en esta primera portada apuntan temporalmente al CDN público de Ford; deben copiarse a la biblioteca de contenido administrada por el nuevo CMS antes del corte definitivo.
+Clon de [www.ford.cr](https://www.ford.cr) con **Next.js 16 + Payload CMS 3 + PostgreSQL**. Se ve y funciona igual que el sitio Symfony: mismas URLs, mismo HTML, mismo CSS y JS, mismos correos y los mismos microservicios. Lo nuevo es el backend, el CMS y la base de datos.
 
-La rama de Azure conserva el repo existente y contiene esta aplicación bajo `modern/`. La rama de GitHub `feature/ford-react-railway` tiene este subdirectorio como raíz; se publicó así para no copiar al repo personal el historial anterior. Al actualizar GitHub desde el repo Azure, usá:
+## Cómo está armado
 
-```sh
-git subtree split --prefix=modern
-git push origin <sha-generado>:refs/heads/feature/ford-react-railway
-```
+| Pieza | Dónde |
+|---|---|
+| Sitio público | `src/app/[[...path]]/route.ts`: cada URL del Symfony se resuelve contra el CMS y se arma con la plantilla de `base.html.twig` (`src/site/render.ts`). |
+| Encabezado, menú y submenú de vehículos | `src/site/chrome.ts`, con datos de **Vehículos** y **Categorías**. |
+| Contenido de cada página | Colección **Páginas**. Es el HTML que publicaba el CMS anterior y se puede editar en el admin. |
+| Bloques dinámicos dentro del contenido | `<div data-controller="…">`, igual que en el CMS anterior: banners (**Sliders**), vehículos del inicio y últimas notas del **Blog** (`src/site/controllers.ts`). |
+| Archivos `/uploads/…` y `/media/cache/…` | Colección **Archivos**. Cada archivo se sirve en su URL original (`legacyPath`). |
+| CSS, JS, imágenes y documentos estáticos | `public/`: los mismos archivos de `web/` del Symfony (`npm run assets:sync`). |
+| Formularios y correos | `src/site/forms.ts` y `src/site/contactus.ts` (port de `handleContactus`). Las plantillas de correo son las Twig originales (`src/legacy/views/Email`), renderizadas con twig.js. |
+| Citas de taller | `src/site/citas.ts` (port de `CitasController`) + `src/site/gateway.ts` (gateway de microservicios con token OAuth). |
+| Calculadora y accesorios | `src/site/calculator.ts` (sesión del visitante en la tabla `site_sessions`). |
+| Sucursales por cercanía | `src/site/location.ts` (`/save/location`). |
+| Solicitudes recibidas | Colección **Solicitudes (leads)**: guarda cada envío con a quién se mandó el correo y si salió. |
 
-No hagás `git push origin feature/ford-react-railway` desde el repo Azure: esa rama incluye el historial legado.
+Los destinatarios de cada formulario están en **Formularios y correos**. Arrancan con los mismos correos de `parameters.prod.yml`.
 
-## Desarrollo
+## Desarrollo local
 
-Requiere Node.js 22 y PostgreSQL.
+Requiere Node 22 y PostgreSQL.
 
-```sh
-cp .env.example .env
+```bash
+cp .env.example .env          # DATABASE_URL, PAYLOAD_SECRET, NEXT_PUBLIC_SERVER_URL
 npm install
 npm run db:migrate
-npm run dev
+npm run dev                   # http://localhost:3000  ·  admin: /admin
+npm run import:ford           # trae páginas, archivos y datos de www.ford.cr
 ```
 
-Vite sirve el sitio en `http://localhost:5173`; la API corre en `http://localhost:4174`.
+Para probar correos sin enviarlos: `SMTP_HOST=__file__` guarda cada correo como `.eml` en `data/mail/`.
 
-## Railway y Azure
+## Railway (mientras se habilita Azure)
 
-Railway puede desplegar desde `modern/` con `railway.json`. Configurá `DATABASE_URL`, `MICROSERVICES_GATEWAY_URL`, `MICROSERVICES_CLIENT_ID`, `MICROSERVICES_CLIENT_SECRET`, `SENDGRID_API_KEY`, `SENDGRID_FROM_EMAIL` y `CONTACT_TO_EMAIL` como variables del entorno. No se deben copiar valores de `app/config/parameters.*.yml`.
+1. Crear un servicio desde este repositorio de GitHub. Usa el `Dockerfile` y `railway.json`.
+2. Agregar un **PostgreSQL** y en el servicio poner `DATABASE_URL=${{Postgres.DATABASE_URL}}`.
+3. Montar un **volumen** en `/app/media`; ahí quedan los archivos subidos al CMS.
+4. Variables: `NEXT_PUBLIC_SERVER_URL` (URL pública del servicio), `PAYLOAD_SECRET` (32+ caracteres aleatorios), `SMTP_PASSWORD` (API key de SendGrid), `EMAIL_FROM`, y las demás de `.env.example` que apliquen.
+5. Al arrancar, las migraciones se aplican solas. Entrar a `/admin`, crear el primer usuario y usar **Importar ahora** en el escritorio. Eso trae todo el contenido de www.ford.cr.
 
-El servidor usa `PORT` y una URL PostgreSQL estándar, por lo que la misma aplicación podrá pasar a Azure App Service/PostgreSQL sin cambiar código. El stack inicial es React + Express + PostgreSQL; la administración editorial con Payload y las rutas internas pendientes del sitio se agregan en las siguientes etapas.
+## Azure (después)
 
-## Integraciones
+Es el mismo código y no hay que cambiarlo. Solo cambian las variables:
 
-`POST /api/microservices/:service/:action` solicita un token OAuth al gateway y reenvía únicamente servicios/acciones permitidos. Las rutas cubren vehículos del usuario, citas, sucursales, configuración y consentimiento. Las credenciales viven en variables de entorno y nunca se envían al navegador.
+- PostgreSQL con identidad administrada: `DATABASE_AUTH_MODE=managed_identity`, `POSTGRES_HOST`, `POSTGRES_DATABASE` y `POSTGRES_USER`.
+- Archivos en Blob: `STORAGE_PROVIDER=azure` y `AZURE_STORAGE_*`.
+- Microservicios: `MICROSERVICES_GATEWAY` apuntando al gateway interno (hoy es `http://microservice-gateway:3000` dentro del clúster).
+- Para el paquete ZIP de App Service: `BUILD_STANDALONE=1 npm run build`.
 
-`POST /api/contact` guarda el lead en PostgreSQL y lo envía por SendGrid. La tabla se crea con `npm run db:migrate`.
+## Verificación contra ford.cr
+
+- `npm run verify:pages -- <captura>/html`: comprueba que cada página capturada se descompone y se vuelve a armar igual.
+- `npm run compare -- <captura> http://localhost:3000`: compara el HTML que entrega el sitio nuevo contra la captura. Ignora espacios y dominio.
+
+## Pendiente
+
+- Llamada SOAP a Salesforce (`createApointment`) del test drive y la reserva: los WSDL viven en la tabla `parameter` del Symfony, que no está en el repositorio. Por ahora el lead queda en el CMS y los correos salen igual.
+- Búsqueda `/resultados` (Elasticsearch), filtros del blog y PDF de cotización: hoy se sirven las páginas capturadas.
+- Página de cada vehículo (`/autos/…`): el contenido se edita como HTML. El precio "desde" del menú y del inicio sí sale de **Vehículos**.

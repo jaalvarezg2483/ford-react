@@ -1,0 +1,18 @@
+<div class="container">
+    <p class="text-medium">Compartir:</p>
+    <section class="content_buttons blog-share">
+        <div class="btn_social share_fb">
+            <i class="icon icon-facebook"></i>
+            <div class="fb fb-share-button"
+                data-href="{{ server_url}}{{ referer }}"></div>
+        </div>
+        <div class="btn_social share_twitter">
+            <a class="twitter-share-button" href="https://twitter.com/intent/tweet?url={{ server_url}}{{ referer }}&hashtags=fordCR"
+            data-size="large" target="_blank">
+                <i class="icon icon-twitter"></i></a>
+        </div>
+        <div class="btn_social share_linkedin">
+            <a class="linked-in" href="javascript:void(0)" onclick="window.open( 'http://www.linkedin.com/shareArticle?mini=true&url={{ server_url}}{{ referer }}', 'sharer', 'toolbar=0, status=0, width=626, height=436');return false;" title="Linkedin"><i class="mdi mdi-linkedin"></i></a>
+        </div>
+    </section>
+</div>

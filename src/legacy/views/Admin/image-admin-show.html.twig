@@ -1,0 +1,9 @@
+{% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
+
+{% block field %}
+    {% if field_description.options.data is defined and field_description.options.data == "mobile" and object.imageMobile != "default.jpg"%}
+            <img  src="{{ object.imageMobile }}" width="180px">
+    {% elseif object.image != "default.jpg"%}
+            <img  src="{{ object.image }}" width="180px">
+    {% endif %}
+{% endblock %}

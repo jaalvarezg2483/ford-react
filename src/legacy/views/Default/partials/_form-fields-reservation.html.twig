@@ -1,0 +1,113 @@
+<p class="form__title">MIS DATOS</p>
+<p class="text--gray"><small>* Campos obligatorios</small></p>
+{% if cedula | default(false) %}
+<div class="input-field">
+  {#<p class="text--gray"><small>*Obligatorio</small></p>#}
+  <label class="label--black" for="tipoCedula">Tipo de identificación<small class="text--gray">*</small></label>
+  <div class="select">
+      {{ form_widget(form.tipoCedula, {"attr":{"class":"js-select change_identification_type", "required":"required"}}) }}
+  </div>
+</div>
+<div class="input-field">
+  {#<p class="text--gray"><small>*Obligatorio</small></p>#}
+  <label class="label--black" for="cedula">Identificación<small class="text--gray">*</small></label>
+    {{ form_widget(form.cedula, {attr: {"class": "input identification", "data-parent": form.tipoCedula.vars.id}}) }}
+</div>
+{% endif %}
+<div class="input-field">
+  {#<p class="text--gray"><small>*Obligatorio</small></p>#}
+  <label class="label--black" for="first_name">Nombre<small class="text--gray">*</small></label>
+  {{ form_widget(form.first_name, {attr: {"class": "input", "placeholder": "Juan", "maxlength": 20}}) }}
+</div>
+<div class="input-field">
+  {#<p class="text--gray"><small>*Obligatorio</small></p>#}
+  <label class="label--black" for="last_name">Apellido<small class="text--gray">*</small> </label>
+    {{ form_widget(form.last_name, {attr: {"class": "input", "required":"required", "placeholder": "Rodríguez", "maxlength": 40}}) }}
+</div>
+<div class="input-field">
+  {#<p class="text--gray"><small>*Obligatorio</small></p>#}
+  <label class="label--black" for="email">Correo Electrónico<small class="text--gray">*</small> </label>
+  {{ form_widget(form.email, {attr: {"class": "input", "placeholder":"ejemplo@mail.com", "maxlength": 50}}) }}
+</div>
+<div class="input-field">
+  {#<p class="text--gray"><small>*Obligatorio</small></p>#}
+  <label class="label--black" for="mobile">Teléfono<small class="text--gray">*</small> </label>
+  {{ form_widget(form.mobile, {attr: {"class": "input", "placeholder":"88888888", "maxlength": 8}}) }}
+</div>
+{% if direccion | default(false) %}
+<div class="input-field">
+  {#<p class="text--gray"><small>*Obligatorio</small></p>#}
+  <label class="label--black" for="provincia">Provincia<small class="text--gray">*</small> </label>
+  <div class="select">
+      {{ form_widget(form.provincia, {"attr":{"required":"required", "data-target":form.canton.vars.id, "class":"js-select "~form.provincia.vars.attr.class|default("")}}) }}
+  </div>
+</div>
+
+<div class="input-field">
+  {#<p class="text--gray"><small>*Obligatorio</small></p>#}
+  <label class="label--black" for="canton">Cantón<small class="text--gray">*</small> </label>
+  <div class="select">
+      {{ form_widget(form.canton, {"attr":{"required":"required","data-target":form.distrito.vars.id, "class":"js-select "~form.canton.vars.attr.class |default("")}}) }}
+  </div>
+</div>
+
+<div class="input-field">
+  {#<p class="text--gray"><small>*Obligatorio</small></p>#}
+  <label class="label--black" for="distrito">Distrito<small class="text--gray">*</small> </label>
+  <div class="select">
+      {{ form_widget(form.distrito, {"attr":{"required":"required","class":"js-select "~form.distrito.vars.attr.class|default("")}}) }}
+  </div>
+</div>
+
+<div class="input-field">
+  {#<p class="text--gray"><small>*Obligatorio</small></p>#}
+  <label class="label--black" for="direccion">Dirección<small class="text--gray">*</small> </label>
+  {{ form_widget(form.direccion, {attr: {"class": "input", "placeholder": "Urbanización o Barrio", "maxlength": 100}}) }}
+</div>
+{% endif %}
+
+{% if modoContacto | default(false) %}
+<p class="form__title">MEDIO DE CONTACTO<small class="text--gray">*</small> </p>
+<div class="input-field">
+  {#<p class="text--gray"><small>* Obligatorio</small></p>#}
+  <div class="select">
+    <select name="Modo_Contacto" class="js-select" required="true">
+      <option value="Email">Email</option>
+      <option value="Telefono">Teléfono</option>
+      <option value="Whatsapp">Whatsapp</option>
+    </select>
+  </div>
+</div>
+{% endif %}
+
+{% if sucursal | default(false) %}
+<div class="input-field">
+  <label class="label--black" for="sucursal">Sucursal<small class="text--gray">*</small> </label>
+    {#<p class="text--gray"><small>* Obligatorio</small></p>#}
+  <div class="select">
+    {{ form_widget(form.sucursal, {"attr":{"class":"js-select"}}) }}
+  </div>
+</div>
+{% endif %}
+
+<div class="input-field">
+  <label class="label--black" for="sucursal">Color<small class="text--gray">*</small> </label>
+  <div class="color-radio-container" id="color-radio-container">
+      {% include "LumenAppBundle:Default/partials:colors-radio-input.html.twig" %}
+  </div>
+</div>
+
+<div class="form__terms">
+  Ver <a href="/article/terminos-condiciones" target="_blank">Términos y Condiciones</a>
+</div>
+{#<div class="input-field">#}
+{#  <input id="autorizo_envio" name="autorizo_envio" type="checkbox" value="1" checked="" class="checkbox" required="required">#}
+{#  <label for="autorizo_envio">Autorizo a Grupo Purdy el envío de información de sus productos y la utilización de mis datos de contacto.</label>#}
+{#</div>#}
+{% include "LumenAppBundle:Default/partials:_checkbox-consentimiento-informado.html.twig" %}
+{% if captcha is defined and show_captcha == "true" %}
+  {% include "@LumenApp/Default/partials/_form-captcha-field.html.twig" %}
+{% endif %}
+<div class="center">
+<button id="send-button" type="submit" name="button" class="btn btn--black btn--block">ENVIAR</button>
+</div>

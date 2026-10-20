@@ -1,0 +1,12 @@
+{% for color in colors %}
+    <div>
+        <input class="color-radio-input" type="radio" {% if loop.first %}checked{% endif %} name="color" id="color-{{ color.id }}" value="{{ color.color.name }}{% if color.secondaryColor is not null %} / {{ color.secondaryColor.name }}{% endif %}">
+        <label class="color-radio-label" for="color-{{ color.id }}">
+            {% if color.secondaryColor is not null %}
+                <span class="radio-color" style="background:linear-gradient(135deg, #{{ color.color.webCode | default("FFFF") }} 50%, #{{ color.secondaryColor.webCode | default("FFFF") }} 50%)"></span>
+            {% else %}
+                <span class="radio-color" style="background-color: #{{ color.color.webCode }}"></span>
+            {% endif %}
+        </label>
+    </div>
+{% endfor %}

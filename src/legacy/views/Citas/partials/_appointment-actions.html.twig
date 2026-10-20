@@ -1,0 +1,34 @@
+{% set debugValidation = debug is defined and debug is not null %}
+<div class="appointment-actions">
+    {% if appointmentData["completed"] is not defined or appointmentData["completed"] == false %}
+        <p class="email-action">Correo electrónico:</p>
+        <p>Por favor <span>ingresa un correo electrónico</span> al que deseas que se te envíe la información de la cita. {% if appointmentData["completed"] is defined and appointmentData["completed"] == false %} y el horario {% endif %}</p>
+        <div class="inputs-wrapper">
+            <div class="email-form">
+                <input id="client-email" type="email" class="input" placeholder="ejemplo@email.com" {% if appointmentData["email"] is defined %}value="{{appointmentData["email"]}}"{% endif %}>
+            </div>
+            {% if appointmentData["completed"] is defined and appointmentData["completed"] == false %}
+                <div class="email-form">
+                    {#Show all the hours#}
+                    <select id="hour-selected" class="input hour-selected">
+                        {% for time in timesAvailable %}
+                            {% set timeValue = time | date("Y-m-d g:i a") %}
+                            <option {% if timeValue == appointmentData["date"] %}selected{% endif %} value="{{ timeValue }}">{{ time | date("g:i a") }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+        </div> {# Close external if div #}
+            {% else %}
+        </div> {# Close external if div #}
+            <input id="hour-selected" type="{% if debugValidation %}text{% else %}hidden{% endif %}" class="" value="{{ appointmentData["date"] }}">
+            {% endif %}
+            <input id="company" type="{% if debugValidation %}text{% else %}hidden{% endif %}" class="" value="{{ appointmentData["branch"]["Empresa"] }}">
+            <input id="branch" type="{% if debugValidation %}text{% else %}hidden{% endif %}" class="" value="{{ appointmentData["branch"]["Suc_Id"] }}">
+            <input id="plate" type="{% if debugValidation %}text{% else %}hidden{% endif %}" class="" value="{{ vehicleSelected["Placa"] }}">
+            <input id="task" type="{% if debugValidation %}text{% else %}hidden{% endif %}" class="" value="{{ taskSelected["CTrabajo_Id"] }}">
+            <input id="odometer" type="{% if debugValidation %}text{% else %}hidden{% endif %}" class="" value="{{ odometer }}">
+    {% else %}
+        <h2>¡Tu cita está confirmada!</h2>
+        <p>Hemos enviado la confirmación a <strong>{{ appointmentData["email"] | default("") }}</strong>, si tienes alguna duda comunicate al número <a target="_blank" href="tel:+50625197777">2519-7777</a></p>
+    {% endif %}
+</div>

@@ -1,0 +1,74 @@
+{% extends "base.html.twig" %}
+{% block title %}Boletín PRO800{% endblock %}
+
+{% block body %}
+<div class="wrapper--car">
+    <div class="menu--inner">
+        <button type="button" class="menu--inner__toggle js-collapse-next">
+            <p>REPUESTOS</p>
+            <i class="mdi mdi-chevron-down"></i>
+        </button>
+        <ul class="tabs--drop-mobile">
+            <p class="menu--inner__name">REPUESTOS</p>
+            <li class="tab"><a href="{{ path('category_by_alias', {"category_alias": 'repuestos'}) }}">Contacto</a></li>
+            <li class="tab"><a href="{{ path('repuestos-ford') }}">Repuestos Toyota</a></li>
+            <li class="tab active"><a href="{{ path('boletin') }}">Boletín Pro800</a></li>
+        </ul>
+    </div>
+    <div class="container container--breadcrumb">
+        <ol class="breadcrumb">
+            <li><a href=""><i class="icon icon-arrow-left breadcrumb-back"></i></a></li><li><a href="{{path('index')}}"> Inicio</a></li><li><a href="{{ path('category_by_alias', {"category_alias": 'repuestos'}) }}">Repuestos</a></li><li>Boletín Pro800</li>
+        </ol>
+    </div>
+    <div class="container bulletins">
+        <h1 class="subtitle">BOLetín pro800</h1>
+        <div class="bulletins__filter">
+            <button type="button" data-filter="all" class="btn--tab" id="bulletinFilterAll">Todos</button>
+            <div class="select--icon">
+                <i class="mdi mdi-calendar"></i>
+                <div class="select">
+                    <select name="filter" id="bulletinFilter" class="js-select">
+                        <option value="all" disabled selected>Filtrar por fecha</option>
+                        {% for year in list|keys %}
+                            <option date-filter="{{ loop.index }}" value="{{ loop.index }}">{{ year }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="js-filter-bulletin bulletins__wrapper">
+            {% for year, items in list %}
+                <div class="filtr-item bulletins__items clearfix" data-category="{{ loop.index }}">
+                    <p class="text"><strong>{{ year }}</strong></p>
+                    {% for item in items %}
+                        <div class="bulletin__item">
+                            <a href="{{ item.fileReal }}" class="card">
+                                <div class="card__image">
+                                    <img src="{{ item.getWebPath() | imagine_filter('card_portrait') }}"/>
+                                </div>
+                                <div class="card__action">
+                                    <p class="">{{ item.name }}</p>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% include "LumenAppBundle:Default/partials:_banner-bottom.html.twig" with {} %}
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+var boletinFilter = $('.js-filter-bulletin').filterizr({
+  animationDuration: 0.5,
+  easing: 'ease-out',
+  layout: 'packed'
+});
+</script>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html.twig"%}
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+<div class="wrapper">
+  <div class="container container--breadcrumb">
+    <a href="javascript:history.back()" class="btn--back"><span class="icon icon-arrow-left"></span>Volver</a>
+  </div>
+  <div class="container container--full-mobile">
+    <h1 class="title text-center">{{ title }}</h1>
+    <div class="card card--form">
+      <form action=" {{ path("save_contactus", {slug: family.slug, code: model.code, type: app.request.get("_route")}) }} " method="post">
+        <div class="card__content bg--gray">
+          <div class="container">
+            <p><strong>Categoría: {{ type }}</strong></p>
+            <p><strong>Plan: {{ plan }}</strong></p>
+            <p><strong>ME INTERESA EL VEHÍCULO:</strong></p>
+            <p class="quotation__model">
+                <span>{{ family.name }}</span>
+                {% if hino is not defined %}
+                  {{ model.name }}
+                {% endif %}
+            </p>
+          </div>
+        </div>
+        <div class="card__content">
+          <div class="container">
+              {% include 'LumenAppBundle:Default/partials:_form-fields.html.twig' with {'renting':"true"} %}
+
+                <input type="text" hidden name="tipo" value="{{ type }}">
+                <input type="text" hidden name="plan" value="{{ plan }}">
+                <input type="text" hidden name="fee" value="{{ fee }}">
+
+                {% if hino is defined %}
+                  <input type="text" hidden name="tipo_id" value="{{ type_id }}">
+                  <input type="text" hidden name="plan_id" value="{{ plan_id }}">
+                {% endif %}
+
+          </div>
+        </div>
+          {{ form_rest(form) }}
+      </form>
+      </div>
+  </div>
+</div>
+
+{% endblock %}

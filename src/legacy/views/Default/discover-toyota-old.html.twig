@@ -1,0 +1,103 @@
+{% extends "base.html.twig"%}
+{% form_theme form "LumenAppBundle:Form:default_radio.html.twig" %}
+{% block title %}Descubrir Toyota{% endblock %}
+
+
+{% block stylesheet %}
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/css/bootstrap-slider.min.css" rel="stylesheet">
+{% endblock %}
+{% block body %}
+	<div class="wrapper">
+		<div class="container container--breadcrumb">
+			<ol class="breadcrumb">
+				<li><i class="icon icon-arrow-left breadcrumb-back"></i></li><li><a href="">Inicio</a></li><li>Descubrir Mi Toyota</li>
+			</ol>
+		</div>
+		<section class="container form-discover-toyota container--discover">
+			<h1 class="title text-center">Descubrir Mi Toyota</h1>
+			<form class="section form--borders js-equal-height-parent-desktop" method="post" action="{{path('discover-toyota-result')}}">
+                {#{{ form(form) }}#}
+				<div class="form--borders__inner">
+					<fieldset class="js-equal-height fieldset">
+						<div class="fieldset__inner">
+							<label for="">Rango de precio</label>
+                            {{ form_widget(form.startPrice, {"attr":{"class": "range", "data-slider-min": min_price, "data-slider-max" : max_price, "data-slider-step": 5, "data-slider-value": "["~min_price~","~max_price~"]" }}) }}
+							<ul class="value-prices">
+								<li>${{ min_price | number_format(0, ',','.') }}</li>
+								<li>${{ max_price | number_format(0, ',','.') }}</li>
+							</ul>
+						</div>
+					</fieldset>
+					<fieldset class="js-equal-height fieldset">
+						<div class="fieldset__inner">
+							<label for="">Transmisión</label>
+                            {{ form_widget(form.transmission) }}
+						</div>
+					</fieldset>
+					<fieldset class="js-equal-height fieldset">
+						<div class="fieldset__inner">
+							<label for="">Tracción</label>
+                            {{ form_widget(form.traction) }}
+						</div>
+					</fieldset>
+					<fieldset class="js-equal-height fieldset">
+						<div class="fieldset__inner">
+							<label>Pasajeros</label>
+							<div class="input--number clearfix js-input-number">
+								<button type="button" class="less">-</button>
+                                {{ form_widget(form.pasajeros, {"value" : 5}) }}
+								<button type="button" class="more">+</button>
+							</div>
+						</div>
+					</fieldset>
+					<fieldset class="js-equal-height fieldset">
+						<div class="fieldset__inner">
+							<label for="">Tipo de combustible</label>
+                            {{ form_widget(form.gas) }}
+
+						</div>
+						<div class="fieldset__inner-bottom">
+                            {{ form_widget(form.hibrido, {"attr":{"class":"checkbox"}}) }}
+                            {{ form_label(form.hibrido, null, {"label":"Busco un vehículo Híbrido"}) }}
+						</div>
+					</fieldset>
+					<fieldset class="js-equal-height fieldset">
+						<div class="fieldset__inner">
+							<label for="">Motor</label>
+                            {#<input id="ex3" type="text" class="range" value="" data-slider-min="1000" data-slider-max="3000" data-slider-step="5" data-slider-value="[1300,2000]"/>#}
+                            {{ form_widget(form.cc, {"attr":{"class": "range", "data-slider-min": min_cc, "data-slider-max" : max_cc, "data-slider-step": 5, "data-slider-value": "["~min_cc~","~ max_cc~"]" }}) }}
+							<ul class="value-prices">
+								<li>{{ min_cc }}cc</li>
+								<li>{{ max_cc | number_format(0,"", "")}}cc</li>
+							</ul>
+						</div>
+					</fieldset>
+				</div>
+				<div class="container--btn">
+					<button type="reset" class="btn btn--white btn--block">Reestablecer campos</button>
+					<button type="submit" class="btn btn--black btn--block">DESCUBRIR vehículos</button>
+				</div>
+                {{ form_rest(form) }}
+			</form>
+		</section>
+
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/bootstrap-slider.min.js"></script>
+	<script>
+        $(".range").slider(function(){});
+
+        $('.js-input-number .more').on('click', function(){
+            var input = parseInt($(this).prev().val());
+            $(this).prev().val(input + 1);
+        })
+
+        $('.js-input-number .less').on('click', function(){
+            var input = parseInt($(this).next().val());
+            $(this).next().val(input - 1);
+        })
+	</script>
+{% endblock %}

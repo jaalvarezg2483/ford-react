@@ -1,0 +1,44 @@
+<div class="container">
+    <ul class="tabs tabs-home js-tabs-car">
+        {% for type in familyTypes %}
+            <li class="tab {{ loop.first ? "active" : "" }} {{ type.textColor is defined and type.textColor is not null and type.code == 'ford-performance' ? 'custom-color' : '' }}"
+                style="--category-text-color:#{{ type.textColor is defined and type.textColor is not null ? type.textColor : '#141414' }};
+                        --underlined-text-color:#{{ type.underlinedTextColor is defined and type.underlinedTextColor  is not null ? type.underlinedTextColor   : '#05629D'}};">
+                <a href="#slider{{ loop.index }}" data-toggle="tab">{{ type.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <ul class="collapsible tab-content js-collapse-car">
+        {% for type in familyTypes %}
+            <li class="tab-pane fade tab--find-car {{ loop.first ? "in active" : "" }}" id="slider{{ loop.index }}">
+                <div class="row">
+                    <div class="slider slider--car js-slider-car js-equal-height-parent">
+                        {% for family in type.families2 %}
+                            <div style="--linear-gradient-custom:{{ type.code == 'ford-performance' ?
+                            'linear-gradient(to right,#'~ type.color ~' 13%, transparent 13% 44%, #'~ type.color ~' 44% 60%, transparent 60% 92%, #'~ type.color ~' 92%),
+                            linear-gradient(to bottom, #003561, #163F67 30%, #'~ type.color ~' 80%)' :
+                            'linear-gradient(35deg, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0) 30%)' }}; ">
+                                <div class="model-bg" style="background-color:#{{type.color}}"></div>
+                                <a href="{{ path("model_list", {slug: family.slug}) }}" class="slider__link js-equal-height {% if family.blockMenu == true %}link-disabled{% endif %}">
+                                    <p>{{ family.familyBrand.name }}</p>
+                                    <h2>{{ family.name }}</h2>
+                                    {% if family.hidePrice is defined and not family.hidePrice %}
+                                        <p>desde</p>
+                                        <h3>${{ family.startPrice | number_format(0,',','.') }}</h3>
+                                    {% else %}
+                                        {% if family.comingSoon is defined and family.comingSoon %}
+                                            <h3>Coming Soon</h3>
+                                        {% endif %}
+                                    {% endif %}
+                                    <img src="{{ server_url ~ family.getFoto3() }}" alt="car">
+
+                                    <button class="btn btn--clear">Ver más <i class="icon icon-arrow-right"></i></button>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

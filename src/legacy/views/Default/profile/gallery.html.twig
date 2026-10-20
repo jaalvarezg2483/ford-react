@@ -1,0 +1,117 @@
+{% extends "base.html.twig"%}
+
+{% block title %} {{ family.name }} {% endblock %}
+
+{% block metaFace %}
+	<meta property="og:title" content="{{ family.name }} | Galería"/>
+	<meta property="og:site_name" content="Ford"/>
+	<meta property="og:description" content="{{ family.description }}"/>
+	<meta property="og:type" content="website"/>
+	<meta property="article:author" content="Ford" />
+	<meta property="article:publisher" content="Ford" />
+	<meta property="og:image" content="{{server_url ~ "/" ~ family.getWebPath()}}"/>
+{% endblock %}
+
+{% block customStyles %}
+    {% if banner is not null %}
+        <style>
+            .car-profile-hero {
+                background-image: url("{{ banner.imageMobile }}");
+            }
+            @media screen and (min-width: 768px){
+                .car-profile-hero {
+                    background-image: url("{{ banner.image }}");
+                }
+            }
+        </style>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+	<div class="wrapper--car wrapper-car-gallery">
+
+		<div class="profile-back hidden-md">
+			<a class="btn btn--clear" href="javascript:history.back()"><i class="icon icon-arrow-left"></i> Volver</a>
+		</div>
+		<div class="hero car-profile-hero">
+			{% include 'LumenAppBundle:Default/CarsTemplate:_menu-inner.html.twig' with {page:'profile'} %}
+		</div>
+		<section>
+			<div class="car-profile-description container">
+				<div class="car-profile-text">
+					<h1 class="title"><span>{{ family.familyBrand.name }}</span> {{ family.name }}</h1>
+					<h3 class="title">Galería</h3>
+				</div>
+				<div class="car-profile-text">
+					<p class="text">{{ family.description }}</p>
+					{% if family.showCalculate == true %}
+						<a href="{{path('calculate_select_model', {slug: family.slug})}}" class="btn btn--primary"><i class="icon icon-calculator"></i> Calcular Financiamiento</a>
+					{% endif %}
+					{% if test_drive == true %}
+						<a href="{{ path("car-test-drive", {"slug": family.slug}) }}" class="btn"><i class="icon icon-car-alt"></i> Solicitar Test Drive</a>
+					{% endif %}
+				</div>
+			</div>
+		</section>
+
+		<!-- Tab panes -->
+		<div class="container">
+            {% for key,gallery in baseModel.getModelGalleries(["principal", "colour"]) if 0 != gallery.galleryFiles | length %}
+				<h2 class="title">{{ gallery.getGalleryType().getCode() | capitalize }}</h2>
+				<ul class="gallery-slider margin--bottom">
+					{% for image in gallery.galleryFiles %}
+						{% if image.isVideo() %}
+							<li class="gallery__item gallery__item--video filtr-item">
+								<a href="{{ image.getVideo() }}" class="js-popup-img js-popup-video img-container" title="{{image.name}}" data-image_id="video-{{image.id}}">
+									<img src="{{ image.getWebPath() }}" alt="video {{family.name}}" class="gallery__img">
+									<button class="btn btn--secondary"><i class="icon icon-play"></i> Ver video</button>
+								</a>
+								<p>{{ image.name }}</p>
+							</li>
+						{% else %}
+							<li class="gallery__item filtr-item">
+								<a href="{{ server_url ~ "/" ~ image.getWebPath() }}" class="js-popup-img img-container" title="{{ image.name }}" data-image_id="{{image.id}}">
+									<img src="{{ server_url ~ "/" ~ image.getWebPath() }}" alt="galería {{family.name}}" class="gallery__img">
+								</a>
+								<p>{{ image.name }}</p>
+							</li>
+						{% endif %}
+					{% endfor %}
+				</ul>
+			{% endfor %}
+			{%  if (family.urlViewInterior or family.urlViewExterior) and ('' != family.urlViewInterior | trim or '' != family.urlViewExterior  | trim)%}
+				<h2 class="title">Vistas 360</h2>
+			{% endif %}
+			<ul class="gallery-slider margin--bottom">
+				 {%  if " " != family.urlViewExterior | default(" ") %}
+					<li class="gallery__item gallery__item--360 filtr-item" data-category="2">
+						<a href="{{ family.urlViewExterior }}" class="js-popup-img js-popup-video img-container" data-image_id="360-ext">
+							<img src="{{ server_url ~ "/" ~ baseModel.getOneImage("exterior").getWebPath }}" alt="360 exterior {{ family.name }}" class="gallery__img">
+							<button class="btn btn--primary"><i class="icon icon-play"></i> Ver 360</button>
+						</a>
+						<p>{{ family.descriptionViewExterior }}</p>
+					</li>
+				{% endif %}
+				{%  if " " != family.urlViewInterior | default(" ") %}
+					<li class="gallery__item gallery__item--360 filtr-item" data-category="2">
+						<a href="{{ family.urlViewInterior }}" class="js-popup-img js-popup-video img-container" data-image_id="360-int" title="{{ family.descriptionViewInterior }}">
+							<img src="{{ server_url ~ "/" ~ baseModel.getOneImage("interior").getWebPath }}" alt="360 interior {{ family.name }}" class="gallery__img">
+							<button class="btn btn--primary"><i class="icon icon-play"></i> Ver 360</button>
+						</a>
+						<p>{{ family.descriptionViewInterior }}</p>
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+	<script>
+        var serverPath = '{{ server_url }}';
+		{% if selected is not null %}
+        	$("[data-gallery={{ selected }}]").trigger("click");
+		{% endif %}
+	</script>
+{% endblock %}

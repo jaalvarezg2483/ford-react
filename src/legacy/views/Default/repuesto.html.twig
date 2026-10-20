@@ -1,0 +1,82 @@
+{% extends "base.html.twig"%}
+{% block title %} Repuestos {% endblock %}
+
+{% block body %}
+{% include '@LumenCMS/MenuTemplates/script-select-menu.html.twig' with {'searchMenu': 'Servicios'} %}
+
+
+<div class="wrapper--car">
+  <div class="text-left padding-2 bg--accent-light hidden-xs">
+		<div class="container">
+			<a href="javascript:history.back()" class="text--primary"><i class="icon icon-arrow-left"></i>  Volver</a>
+		</div>
+	</div>
+
+  <div class="container">
+    <div class="replacement">
+      <h2 class="title">{{repuesto.title}}</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="replacement__img">
+            <img src="{{repuesto.previewImage}}" alt="">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="replacement__text">
+            <p><strong>Información sobre el repuesto</strong></p>
+            {{repuesto.description|raw}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row margin--bottom">
+      <div class="col-md-4">
+        <h4 class="title">Contacto</h4>
+        <a href="tel:+50620100777" class="title-icon title-icon--responsive margin--top">
+          <div class="icon-box">
+            <i class="icon icon-phone"></i>
+          </div>
+          <div>
+            <p>Central telefónica</p>
+            <p>(506) 2010-0777</p>
+          </div>
+        </a>
+        <a href="mailto:mail@grupopurdy.com" class="title-icon title-icon--responsive margin--top">
+          <div class="icon-box">
+            <i class="icon icon-mail"></i>
+          </div>
+          <div>
+            <p>Enviar correo</p>
+            <p>mail@grupopurdy.com</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-8">
+        <h4 class="title">¿Qué desea hacer?</h4>
+        <a href="{{path('contactar-asesor-repuestos')}}" class="title-icon title-icon--responsive margin--top">
+          <div class="icon-box">
+            <i class="icon icon-phone"></i>
+          </div>
+          <div>
+            <p>Solicitar seguimiento y <br>contactar asesor de ventas</p>
+          </div>
+        </a>
+        <a href="{{path('contactar-asesor-repuestos')}}" class="title-icon title-icon--responsive margin--top">
+          <div class="icon-box">
+            <i class="icon icon-mail"></i>
+          </div>
+          <div>
+            <p>Enviar cotización a mi correo</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  {% include "LumenAppBundle:Default/partials:_banner-bottom.html.twig" with {} %}
+
+</div>
+
+{% endblock %}

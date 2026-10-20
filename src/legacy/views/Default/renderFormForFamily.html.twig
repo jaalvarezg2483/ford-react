@@ -1,0 +1,52 @@
+<div id="form-family" class="row quotation__form">
+    <h1 class="subtitle--large not-bold text-center title-margin-more">Completá tus datos y pronto te contactaremos</h1>
+    <div class=" form--custom card">
+    <form action="{{ path('form-family', {slug: family.slug}) }}" method="post" class="form" id="contactForm">
+        {#{{ path('prueba-manejo', {slug: family.slug, code: model.code}) }}#}
+        <div class="card__content bg--gray">
+            <div class="container">
+                <p><strong>ME INTERESA EL VEHÍCULO:</strong></p>
+                <p class="quotation__model">
+                    <span>{{ family.name }}</span>
+                </p>
+            </div>
+        </div>
+        <div class="card__content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p><strong>MIS DATOS</strong></p>
+                        <div class="input-field">
+                            <input name="name" type="text" class="input" placeholder="Nombre" required>
+                        </div>
+                        <div class="input-field">
+                            <input name="last_name" type="text" class="input" placeholder="Apellidos" required>
+                        </div>
+                        <div class="input-field">
+                            <input name="email" type="text" class="input" placeholder="Correo Electrónico" required>
+                        </div>
+                        <div class="input-field">
+                            <input name="phone" type="tel" class="input telefono" placeholder="Teléfono" required data-inputmask="mask: 99999999" >
+                        </div>
+                        <div class="input-field">
+                            <input name="identification" type="text" class="input identification" required placeholder="Cédula" >
+                        </div>
+                        <div class="input-field">
+                            <div class="select">
+                                <label>Medio por el que le gustaría ser contactado</label>
+                                <select name="contact_preference" class="input js-select">
+                                    <option value="Email">Email</option>
+                                    <option value="Whatsapp">Whatsapp</option>
+                                    <option value="Teléfono">Teléfono</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" name="button" class="btn btn--black btn--block">ENVIAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Accesorios - Elegir familia{% endblock %}
+
+{% block meta %}
+    <meta name="identifier-url" content="" />
+    <meta name="title" content="Accesorios"/>
+    <meta name="description" content="Seleccione la familia del vehiculo" />
+    <meta name="abstract" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="revisit-after" content="1" />
+    <meta name="language" content="es" />
+    <meta name="copyright" content="© 2017" />
+    <meta name="organization" content="">
+    <meta name="revisit-after" content="1 day">
+    <meta name="origen" content="">
+    <meta name="locality" content="San José , Costa Rica">
+    <meta name="distribution" content="global">
+    <link rel="image_src" href="" >
+    <meta name="dcterms.abstract" content="">
+    <meta name="dcterms.rightsHolder" content="">
+    <meta NAME="robots" CONTENT="noindex">
+{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        <div class="container container--breadcrumb">
+            <ol class="breadcrumb">
+                <li><i class="icon icon-arrow-chevron-left breadcrumb-back"></i></li><li><a href="{{path('index')}}">Inicio</a></li><li>Elegir Modelo</li>
+            </ol>
+        </div>
+        <div class="container">
+            <h2 class="title text-center">Accesorios</h2>
+            <p class="text text-center">Elegí el modelo para ver los accesorios</p>
+        </div>
+        <div class="container container--full-mobile">
+            <section class="section">
+                {% include "LumenAppBundle:Default/partials:_select_family.html.twig" with {"categories": categories} %}
+            </section>
+        </div>
+    </div>
+    {% include "LumenAppBundle:Default/partials:_banner-bottom.html.twig" with {} %}
+{%  endblock %}

@@ -1,0 +1,33 @@
+{% for branch in branches %}
+<div class="selection-branch" id="suc{{ loop.index }}">
+    <div class="radio-selection"> 
+        <label for="branch{{ branch["Empresa"] }}-{{ branch["Suc_Id"] }}"><i class="mdi mdi-map-marker"></i> {{ branch["Suc_Nombre"]}}<p class="txt-btn-regular">SELECCIONAR</p></label>
+        <input class="input-radios" type="radio" name="date-cita" data-idsuc="{{ branch["Suc_Id"] }}" data-idcomp="{{ branch["Empresa"] }}" data-nameSuc="{{ branch["Suc_Nombre"] }}" id="branch{{ branch["Empresa"] }}-{{ branch["Suc_Id"] }}"  />
+    </div>
+    <article class="info-branch"> 
+        <a class="view-map js-toggle-map" data-lat="{{branch["Suc_Latitud"]}}" data-long="{{branch["Suc_Longitud"]}}"><i class="mdi mdi-map-marker"></i>VER MAPA</a> 
+        <div class="map" id="map{{ loop.index }}"></div> 
+        <p class="select-day">Selecciona la fecha para ver las horas disponibles en {{ branch["Suc_Nombre"]}} </p> 
+        <div class="container-date"> 
+            <input class="datepicker" data-toggle="datepicker"> 
+            <div class="content-picker"> 
+                </div> 
+             <span class="indicator-days"><i></i>Fechas disponibles</span> 
+            </div> 
+        <div class="container-times"> 
+            <span class="selected-day">Martes 11 de noviembre</span> 
+            <a class="editDate">EDITAR FECHA</a> 
+            <div class="time-wrapper"> 
+                <p><span>HORA CITA</span></p> 
+                <span class="title-times morning">En la mañana</span> 
+                <ul class="timesMorning"> 
+                </ul>
+                <span class="title-times afternoon">En la tarde</span> 
+                <ul class="timesAfternoon"> 
+                </ul>
+            </div>
+            <a class="btn btn--primary send-hour" disabled="disabled">CONFIRMAR</a>
+        </div>
+    </article>
+</div>
+{% endfor %}

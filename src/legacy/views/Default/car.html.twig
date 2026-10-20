@@ -1,0 +1,457 @@
+{% extends "base.html.twig"%}
+{% block title %} {{ family.webTitle }} {% endblock %}
+
+{% block metaFace %}
+	<meta property="og:title" content="{{ family.name }}"/>
+	<meta property="og:site_name" content="Ford"/>
+	<meta property="og:description" content="{{ family.description }}"/>
+	<meta property="og:type" content="website"/>
+	<meta property="article:author" content="Ford" />
+	<meta property="article:publisher" content="Ford" />
+	<meta property="og:image" content="{{server_url ~ "/" ~ family.getWebPath()}}"/>
+{% endblock %}
+
+
+{%  block template_car %}
+	<div>
+		<div class="card">
+			<button type="button" class="card__close js-remove-slide"> <i class="mdi mdi-close"></i> </button>
+			<div class="card__image">
+				<img src="{{ model_picture }}" alt="{{ model_name }}">
+			</div>
+			<div class="card__content">
+				<h2 class="card__title">{{ model_name }}</h2>
+				<p class="card__text">{{ family_name }}</p>
+			</div>
+			<div class="card__action">
+				<a href="#" class="compare__replace" >Cambiar vehículo</a>
+			</div>
+			<input type="hidden" id="code_{{ index }}" data-type="code" data-code="{{ index }}" name="code[{{ index }}]" value="{{ code }}" />
+			<input type="hidden" id="year_{{ index }}" data-type="year" name="year[{{ index }}]" value="{{ year }}" />
+			<input type="hidden" id="id_{{ index }}" data-type="id" name="id[{{ index }}]" value="{{ id }}" />
+		</div>
+	</div>
+{% endblock %}
+
+{% block body %}
+	<script id="car_template" type="text/x-tmpl">
+		{% set model_picture = "{image_exterior}" %}
+		{% set model_name = "{description}" %}
+		{% set family_name = "{family_name}" %}
+		{% set year = "{year}" %}
+		{% set index = "{number}" %}
+		{% set code = "{code}" %}
+		{% set id = "{id}" %}
+        {{ block("template_car") }}
+    </script>
+
+<div class="menu--inner menu--inner-car" id="carMenu">
+	<img class="menu--inner__logo" src="{{ server_url ~ family.getFoto2() | default('/img/logos/logo-fortuner-black.png')}} " alt="logo {{ family.name }}">
+	<button type="button" class="menu--inner__toggle js-collapse-next">
+		<img src="{{ server_url ~ family.getFoto2() | default('/img/logos/logo-fortuner-black.png')}} " alt="logo {{ family.name }}">
+		<i class="mdi mdi-chevron-down"></i>
+	</button>
+	<ul class="js-nav-scroll tabs--drop-mobile">
+        <li class="tab"><a href="#modelos">Modelos</a></li>
+        <li class="tab"><a href="#especificaciones">especificaciones</a></li>
+        <li class="tab"><a href="#galeria">galería</a></li>
+        <li class="tab"><a href="#descargas">Descargas</a></li>
+        <li class="tab"><a href="#accesorios">Accesorios</a></li>
+        <li class="tab"><a href="#comparar">Comparar autos</a></li>
+    </ul>
+</div>
+<div class="overlay"></div>
+<div class="wrapper--car">
+	<div class="container container--breadcrumb">
+		<ol class="breadcrumb">
+	      <li><a href=""><i class="icon icon-arrow-left breadcrumb-back"></i></a></li>
+	      <li><a href="{{path('index')}}"> Inicio</a></li>
+	      <li>{{ family.name }}</li>
+	    </ol>
+	</div>
+	<section class="scrollspy text-center car__colors">
+		<img class="car__logo" src="{{ server_url ~ family.getFoto2() | default('/img/logos/logo-fortuner-black.png')  }}" alt="logo {{ family.name }}">
+		<h1 class="car__title--main"><strong>{{ family.name }}</strong> - Ford Costa Rica</h1>
+		{%  set colorGallery =  baseModel.getColorGallery()%}
+        {% if colorGallery | default(false) %}
+            {%  set colors = colorGallery.getGalleryFiles() %}
+			<div class="slider slider--colors js-slider-colors">
+                {%  for color in colors %}
+					<div>
+						<img src="{{server_url ~ "/" ~color.getWebPath() | default('/img/content/fortuner.png') }}" alt="{{ family.name }} {{ color.color.name }}">
+						<p class="text--gray subtitle">{{ color.color.name }} ({{ color.color.purdyCode }})</p>
+					</div>
+                {% endfor %}
+			</div>
+			<div class="slider slider--nav slider--colors-nav js-slider-colors-nav">
+                {%  for color in colors %}
+					<div>
+						<span style="background-color: #{{ color.color.webCode }}"></span>
+
+					</div>
+                {% endfor %}
+			</div>
+        {% endif %}
+
+		<h2 class="car__title"><strong>{{ family.name }} </strong> {{ family.currentYear }} <span>Desde <strong>${{ family.startPrice | number_format(0, ',', '.')}} </strong></span></h2>
+		<div class="container">
+			<a href="{{path('calculate_select_model', {slug: family.slug})}}" class="btn btn--red">Calcular Cuota mensual</a>
+			<button type="button" class="car__scroll js-car-scroll"><i class="mdi mdi-chevron-down"></i></button>
+		</div>
+	</section>
+	<section class="section car__text">
+		<div class="container">
+			<h2 class="title text-center">{{ family.webTitle }}</h2>
+			<p class="text--large">{{ family.description }}</p>
+		</div>
+	</section>
+	<section class="section bg--gray scrollspy text-center car__models" id="modelos">
+		<div class="container">
+			<h2 class="title">Modelos</h2>
+			<div class="slider slider--nav slider--model-nav js-slider-model js-slider-model-nav">
+				{% for model in models %}
+				<div>
+					<p>{{ model.name }}</p>
+				</div>
+				{%  endfor %}
+			</div>
+		</div>
+		<div class="slider slider--model js-slider-model js-slider-model-car">
+            {% for model in models %}
+			<div class="js-slider-model-inner">
+				<img src="{{server_url ~ "/" ~ model.getFoto() | default('/img/content/car-lg-white.png') }}" alt="{{ model.name }}">
+				<h2>{{ model.name }}</h2>
+				<p>${{ model.startPrice | number_format(0, ',','.') }}</p>
+			</div>
+            {%  endfor %}
+
+		</div>
+		<div class="container">
+			<div class="slider slider--model-specs js-slider-model js-slider-model-specs">
+                {% for model in models %}
+				<div>
+					{% set maxFeatures = model.mainFeatures | length %}
+					<ul class="slider--model-specs__main js-equal-height-parent">
+						{% for feature in model.mainFeatures | slice(0,6) %}
+						<li class="js-equal-height">
+							<img src="{{ (feature.image and feature.image != 'imagen.jpg') ? (server_url ~ "/" ~feature.getWebPath()) : '/img/content/icons/seats.png' }}" alt="ícono {{ feature.name }}">
+							{{ feature.name }}
+						</li>
+						{% endfor %}
+
+					</ul>
+					{# {% if maxFeatures > 6 %}
+					<div class="slider--model__more">
+						<ul class="list--bullets">
+                            {% for feature in model.features | slice(6,maxFeatures) %}
+								<li>
+                                    {{ feature.name }}
+								</li>
+                            {% endfor %}
+
+						</ul>
+					</div>
+					<button type="button" class="slider--model__more-btn js-collapse-slider"> <i class="mdi mdi-plus"></i> <span>Ver más</span> </button>
+					{% endif %} #}
+				</div>
+                {%  endfor %}
+			</div>
+		</div>
+	</section>
+	<section class="section scrollspy text-center car__specs" id="especificaciones">
+		<h2 class="title">Especificaciones</h2>
+		<div class="slider slider--cards js-slider-cards js-equal-height-parent">
+			{%  for type in specs %}
+				<div>
+					<div class="card card--collapse">
+						<div class="card__image">
+							 <img src="/{{ (type.image and (type.image != 'default.jpg') ) ? type.getWebPath() : (type.featureType.path ? type.featureType.getWebPath() : 'img/content/card-img2.png') }}" alt="{{ type.featureType.name }}">
+						</div>
+						<div class="card__content">
+							<h2 class="card__title">{{ type.featureType.name }}</h2>
+							<p class="card__text js-equal-height">{{ type.information | default("__Con un motor de 3.1 L Turbo Diesel Intercooler y un caballaje de161HP este auto es el mejor de todos.__")}}</p>
+							<div class="card__collapse">
+								<ul>
+									{% for feature in type.featureType.features %}
+									<li>{{ feature.name }}</li>
+									{%  endfor %}
+
+								</ul>
+							</div>
+						</div>
+						<div class="card__action">
+							<button type="button" class="js-card-collapse">Ver Detalles</button>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</section>
+	<section class="section scrollspy text-center car__gallery" id="galeria">
+		<h2 class="title">Galería</h2>
+
+		<ul class="tabs" role="tablist">
+		    {#<li class="tab active"><a href="#fotos" role="tab" data-toggle="tab">Fotos</a></li>#}
+		    {#<li class="tab"><a href="#videos" role="tab" data-toggle="tab">Videos</a></li>#}
+            {% for key,gallery in baseModel.getModelGalleries(["principal","colour"]) if 0 != gallery.galleryFiles | length  %}
+				<li class="tab {% if key == 0 %} active {% endif %}"><a href="#{{ gallery.getGalleryType().getCode() }}" role="tab" data-toggle="tab">{{ gallery.getGalleryType().getCode() | upper }}</a></li>
+            {% endfor %}
+		    {%  if (family.urlViewInterior or family.urlViewExterior) and ('' != family.urlViewInterior | trim or '' != family.urlViewExterior  | trim)%}
+		    <li class="tab"><a href="#360" role="tab" data-toggle="tab">Vistas 360</a></li>
+		    {% endif %}
+		</ul>
+
+		  <!-- Tab panes -->
+		<div class="tab-content">
+            {% for key,gallery in baseModel.getModelGalleries(["principal", "colour"]) %}
+				<div role="tabpanel" class="tab-pane {% if key == 0 %} active {% endif %} clearfix" id="{{ gallery.getGalleryType().getCode() }}">
+					<ul class="gallery gallery--closed">
+                        {% for image in gallery.galleryFiles %}
+                            {% if image.isVideo() %}
+								<li class="gallery__item gallery__item--video filtr-item">
+									<a href="{{ image.getVideo() }}" class="js-popup-img js-popup-video">
+										<img src="{{ image.getWebPath() }}" alt="video {{family.name}}" class="gallery__img">
+									</a>
+								</li>
+                            {% else %}
+								<li class="gallery__item filtr-item">
+									<a href="{{ server_url ~ "/" ~ image.getWebPath() }}" class="js-popup-img">
+										<img src="{{ server_url ~ "/" ~ image.getWebPath() }}" alt="galería {{family.name}}" class="gallery__img">
+									</a>
+								</li>
+                            {% endif %}
+                        {% endfor %}
+					</ul>
+					<div class="gallery__btn">
+						<button type="button" class="btn btn--border-white js-gallery-more">Cargar más fotos</button>
+						<p><small>*Imágenes con fines ilustrativos. Para especificaciones por favor consultar ficha técnica.</small></p>
+					</div>
+				</div>
+			{% endfor %}
+		    {#<div role="tabpanel" class="tab-pane clearfix" id="videos">#}
+		    	{#<ul class="gallery">#}
+		    		{#{% for gallery in baseModel.getModelGalleries(["principal","colour"]) %}#}
+			            {#{% for image in gallery.galleryFiles %}#}
+							{#{% if image.isVideo() %}#}
+							{#<li class="gallery__item gallery__item--video filtr-item" data-category="{{ image.isVideo() ? image.modelGallery.galleryType.id : '1' }}">#}
+								{#<a href="{{ image.getVideo() }}" class="js-popup-img js-popup-video">#}
+									{#<img src="{{ image.getWebPath() }}" alt="video {{ family.name }}" class="gallery__img">#}
+								{#</a>#}
+							{#</li>#}
+							{#{% endif %}#}
+			            {#{% endfor %}#}
+		            {#{% endfor %}#}
+		    	{#</ul>#}
+		    {#</div>#}
+		    <div role="tabpanel" class="tab-pane clearfix" id="360">
+		    	<ul class="gallery">
+		    		{%  if " " != family.urlViewExterior | default(" ") %}
+					<li class="gallery__item gallery__item--360 filtr-item" data-category="2">
+						<a href="{{ family.urlViewExterior }}" class="js-popup-img js-popup-video">
+							<img src="{{ server_url ~ "/" ~ baseModel.getOneImage("exterior").getWebPath }}" alt="360 exterior {{ family.name }}" class="gallery__img">
+						</a>
+					</li>
+					{% endif %}
+		            {%  if " " != family.urlViewInterior | default(" ") %}
+					<li class="gallery__item gallery__item--360 filtr-item" data-category="2">
+						<a href="{{ family.urlViewInterior }}" class="js-popup-img js-popup-video">
+							<img src="{{ server_url ~ "/" ~ baseModel.getOneImage("interior").getWebPath }}" alt="360 interior {{ family.name }}" class="gallery__img">
+						</a>
+					</li>
+		            {% endif %}
+		    	</ul>
+		    </div>
+		</div>
+
+		{# <ul class="tabs js-filter-tabs">
+			<li class="tab active"><button type="button" data-filter="all">Todos</button></li>
+			<li class="tab"><button type="button" data-filter="1">Fotos</button></li>
+            {% for gallery in baseModel.getModelGalleries(["principal","colour", "interior", "exterior"]) if 0 != gallery.galleryFiles | length  %}
+			<li class="tab"><button type="button" data-filter="{{ gallery.galleryType.id }}">{{ gallery.galleryType.name }}</button></li>
+			{% endfor %}
+			{%  if (family.urlViewInterior or family.urlViewExterior) and ('' != family.urlViewInterior | trim or '' != family.urlViewExterior  | trim)%}
+			<li class="tab"><button type="button" data-filter="2">Vistas 360°</button></li>
+			{% endif %}
+		</ul> #}
+
+		{# <ul class="gallery gallery--closed filtr-container">
+            {% for gallery in baseModel.getModelGalleries(["principal","colour"]) %}
+	            {% for image in gallery.galleryFiles %}
+					{% if image.isVideo() %}
+					<li class="gallery__item gallery__item--video filtr-item" data-category="{{ image.isVideo() ? image.modelGallery.galleryType.id : '1' }}">
+						<a href="{{ image.getVideo() }}" class="js-popup-img js-popup-video">
+							<img src="{{ image.getWebPath() }}" alt="" class="gallery__img">
+						</a>
+					</li>
+					{% else %}
+					<li class="gallery__item filtr-item" data-category="{{ image.isVideo() ? image.modelGallery.galleryType.id : '1' }}">
+						<a href="{{ server_url ~ "/" ~ image.getWebPath() }}" class="js-popup-img">
+							<img src="{{ server_url ~ "/" ~ image.getWebPath() }}" alt="" class="gallery__img">
+						</a>
+					</li>
+					{% endif %}
+	            {% endfor %}
+            {% endfor %}
+			
+		</ul>
+		<div class="gallery__btn">
+			<button type="button" class="btn btn--border-white js-gallery-more">Cargar más fotos</button>
+		</div> #}
+
+	</section>
+	<section class="section scrollspy car__downloads" id="descargas">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4">
+					<p class="subtitle">Descargas:</p>
+				</div>
+				<div class="col-sm-8">
+					<div class="link--icon-container">
+						{%  for datasheet in family.dataSheets %}
+							<a class="link--icon" href="{{ "/" ~ datasheet.getWebPath() }}" target="_blank"> <i class="mdi mdi-download"></i> {{ datasheet.description | replace({"DESCARGAR": ""}) | trim }}</a>
+						{% endfor %}
+		                {% if (family.urlCatalog | default(false)) and (family.urlCatalog != ' ') %}
+							<a class="link--icon" href="{{ family.urlCatalog }}" target="_blank"> <i class="mdi mdi-download"></i> Catálogo</a>
+		                {% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="section scrollspy text-center car__accesories" id="accesorios">
+		<h2 class="title">Accesorios</h2>
+		<div class="slider slider--cards js-slider-cards js-equal-height-parent">
+			{% for accesory in baseModel.accessories %}
+    		<div>
+    			<div class="card">
+    				<div class="card__image">
+	              		<img src="{{ accesory.getFoto() ? (server_url ~ accesory.getFoto())| default('/img/content/card-img2.png') }}" alt="{{ accesory.name }}">
+    	            </div>
+    	            <div class="card__content js-equal-height">
+	              		<h2 class="card__subtitle">{{ accesory.name }}</h2>
+    	            </div>
+    	            <div class="card__action">
+	              		<p class="card__title text--red">$ {{ accesory.price }}</p>
+    	            </div>
+    			</div>
+    		</div>
+			{% endfor %}
+    	</div>
+	</section>
+	<section class="section scrollspy text-center car__compare bg--gray" id="comparar">
+		<form action="{{ path("comparador") }}" method="get">
+		<div class="container">
+			<h2 class="title">Comparar vehículo</h2>
+
+            <div class="slider slider--cards slider--compare js-slider-compare">
+                <div>
+                    <button type="button" class="card compare__add">
+						<div>
+							<i class="mdi mdi-car"></i>
+	                        <p class="subtitle">Agregar otro vehículo</p>
+						</div>
+                    </button>
+                </div>
+				{%  set vechile_agregar = array_rand(models, 2) %}
+                {% for vehicle in  vechile_agregar%}
+                    {% set model_picture = server_url ~ vehicle.getFoto() %}
+                    {% set model_name = vehicle.name %}
+                    {% set family_name = vehicle.family.name %}
+                    {% set index = loop.index %}
+                    {% set code = vehicle.code %}
+                    {% set year = vehicle.year %}
+                    {% set id = vehicle.id %}
+                    {{ block("template_car") }}
+                {% endfor %}
+
+            </div>
+			<a href="{{ path("comparador") }}" class="btn btn--black compare_submit">Comparar Ahora</a>
+		</div>
+		</form>
+	</section>
+    {% if 0 < (tePodriaGustar | length) %}
+	<section class="section scrollspy text-center car__suggest">
+		<h2 class="title">te podría gustar</h2>
+		<div class="slider slider--model js-slider-model-car">
+            {% for canLikeFamily in tePodriaGustar%}
+				<div class="js-slider-model-inner">
+					<a href="" class="slider__link">
+						<img src="{{ server_url ~ canLikeFamily.getFoto3() }}" alt="{{ canLikeFamily.name }}">
+						<h2>{{ canLikeFamily.name }}</h2>
+						{% if canLikeFamily.slug != "camry" and canLikeFamily != "prius" %}
+							<p>${{ canLikeFamily.startPrice | number_format(0,',', '.') }}</p>
+						{% endif %}
+					</a>
+				</div>
+            {% endfor %}
+		</div>
+	</section>
+    {% endif %}
+</div>
+
+<div id="compare" class="modal fade modal--compare">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal__inner">
+				<button type="button" class="modal__close" data-dismiss="modal"> <i class="mdi mdi-close"></i> </button>
+				<h2 class="subtitle--large text-center">Seleccionar Vehículo</h2>
+			</div>
+			<div class="modal__inner bg--gray">
+				<form action="" class="container">
+					<p class="subtitle">Elegir vehículo</p>
+					<div class="row">
+						<div class="col-sm-6 select">
+							<select name="family" id="compare_family" data-target="compare_model" data-repo="familyModel" class="js-select">
+								<option value="">Seleccione una familia</option>
+                                {% for family in familyList %}
+									<option value="{{ family.id }}">{{ family.name }}</option>
+                                {% endfor %}
+							</select>
+						</div>
+						<div class="col-sm-6 select">
+							<select name="model" id="compare_model" class="js-select" data-index="models" data-text="name">
+								<option value="">Debe seleccionar primero una Familia</option>
+							</select>
+						</div>
+					</div>
+					<div class="text-center">
+						<button type="button" class="btn btn--border-black vehicle_click">Elegir Vehículo</button>
+					</div>
+				</form>
+			</div>
+		    <div class="modal__inner">
+		        <h2 class="subtitle--large text-center">Otros modelos relacionados</h2>
+		    </div>
+			<div class="modal__inner">
+				<div class="container">
+					<div class="row row--flex">
+                        {% for vehicle in array_rand(models, 4, true, vechile_agregar) %}
+							<div class="col-sm-3">
+								<input type="radio" class="radio radio--large car__select" id="car{{ loop.index }}" name="car" value="{{ vehicle.id }}" data-family="{{ vehicle.family.id }}">
+								<label for="car{{ loop.index }}" class="family">
+									<div class="family__img">
+		                                <img src="{{ server_url ~ vehicle.getFoto() }}" alt="{{ vehicle.name }}" class="img-responsive">
+		                            </div>
+									<div class="family__text">
+										<h2>{{ vehicle.name }}</h2>
+										<p class="family__cta-price">desde <span>$ {{ vehicle.startPrice | number_format(0, ',', '.')}} </span></p>
+									</div>
+									<p class="check">Elegir</p>
+								</label>
+							</div>
+                        {% endfor %}
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+	<script>
+        var serverPath = '{{ server_url }}';
+		scrollspy( $('#carMenu') );
+	</script>
+{% endblock %}

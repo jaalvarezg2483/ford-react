@@ -1,0 +1,30 @@
+{% extends "base.html.twig"%}
+{% block title %}Contactar seguros{% endblock %}
+
+{% block body %}
+
+<div class="wrapper">
+  <div class="container container--breadcrumb">
+    <a href="/pagina/seguros" class="btn--back"><span class="icon icon-arrow-left"></span>Volver a <strong>Seguros</strong></a>
+  </div>
+  <div class="section">
+    <div class="container">
+      <h1 class="title text-center">Contactar Seguros</h1>
+    </div>
+    <div class="container container--full-mobile">
+      <div class="card card--form">
+        <form action="{{ path("contactar-seguros") }}" class="form" id="contactForm" novalidate method="post">
+            {%  set aditionalValues = form.vars.value.aditionalFields | default([])%}
+          <div class="card__content">
+            <div class="container">
+              {% include 'LumenAppBundle:Default/partials:_form-fields.html.twig' %}
+            </div>
+          </div>
+          {{ form_rest(form) }}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

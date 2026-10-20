@@ -1,33 +1,55 @@
 {
-  "name": "ford-react",
+  "name": "ford-cr",
+  "version": "1.0.0",
   "private": true,
-  "version": "0.1.0",
+  "description": "Ford Costa Rica — Next.js + Payload CMS + PostgreSQL",
+  "license": "UNLICENSED",
   "type": "module",
-  "engines": { "node": ">=22.12.0" },
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
-    "dev": "concurrently -k \"npm:dev:web\" \"npm:dev:api\"",
-    "dev:web": "vite --host 0.0.0.0",
-    "dev:api": "node --watch server.mjs",
-    "build": "tsc -b && vite build",
-    "start": "node server.mjs",
-    "db:migrate": "node scripts-migrate.mjs"
+    "dev": "cross-env TZ=America/Costa_Rica NODE_OPTIONS=--no-deprecation next dev",
+    "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=6000\" next build",
+    "start": "cross-env TZ=America/Costa_Rica NODE_OPTIONS=--no-deprecation next start -H 0.0.0.0 -p ${PORT:-3000}",
+    "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
+    "db:migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
+    "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
+    "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
+    "import:ford": "cross-env NODE_OPTIONS=--no-deprecation payload run scripts/import-ford.ts",
+    "typecheck": "tsc --noEmit",
+    "verify:pages": "tsx scripts/verify-parse.ts",
+    "compare": "node scripts/compare-live.mjs",
+    "assets:sync": "bash scripts/sync-legacy-assets.sh ../web"
   },
   "dependencies": {
-    "express": "^5.1.0",
-    "pg": "^8.16.3",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-router-dom": "^7.8.2"
+    "@azure/identity": "4.13.1",
+    "@payloadcms/db-postgres": "3.88.0",
+    "@payloadcms/email-nodemailer": "3.88.0",
+    "@payloadcms/next": "3.88.0",
+    "@payloadcms/richtext-lexical": "3.88.0",
+    "@payloadcms/storage-azure": "3.88.0",
+    "@payloadcms/translations": "3.88.0",
+    "@payloadcms/ui": "3.88.0",
+    "cheerio": "^1.0.0",
+    "cross-env": "7.0.3",
+    "graphql": "16.10.0",
+    "next": "16.2.11",
+    "nodemailer": "^7.0.5",
+    "payload": "3.88.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "sharp": "0.34.2",
+    "twig": "^1.17.1",
+    "zod": "3.25.28"
   },
   "devDependencies": {
-    "@types/express": "^5.0.3",
-    "@types/node": "^22.18.6",
-    "@types/pg": "^8.15.5",
-    "@types/react": "^19.1.12",
-    "@types/react-dom": "^19.1.9",
-    "@vitejs/plugin-react": "^5.0.2",
-    "concurrently": "^9.2.1",
-    "typescript": "~5.9.2",
-    "vite": "^7.1.5"
+    "@types/node": "22.15.21",
+    "@types/nodemailer": "^6.4.17",
+    "@types/react": "19.1.4",
+    "@types/react-dom": "19.1.5",
+    "@types/twig": "^1.12.17",
+    "tsx": "4.19.4",
+    "typescript": "5.8.3"
   }
 }

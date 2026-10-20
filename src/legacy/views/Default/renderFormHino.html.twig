@@ -1,0 +1,48 @@
+<div id="form-family" class="row quotation__form">
+    {#<h1 class="subtitle--large not-bold text-center title-margin-more">Completá tus datos y pronto te contactaremos</h1>#}
+    <div class=" form--custom card">
+    <form action="{{ path('form-hino') }}" method="post" class="form" id="contactForm">
+        <div class="card__content bg--gray">
+            <div class="container">
+                {#<p><strong>ME INTERESA EL VEHÍCULO:</strong></p>#}
+                {#<p class="quotation__model">#}
+                    {#<span>{{ family.name }}</span>#}
+                {#</p>#}
+            </div>
+        </div>
+        <div class="card__content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p><strong>MIS DATOS</strong></p>
+                        <div class="input-field">
+                            <input name="name" type="text" class="input" placeholder="Nombre Completo" required>
+                        </div>
+                        <div class="input-field">
+                            <input name="email" type="text" class="input" placeholder="Correo Electrónico" required>
+                        </div>
+                        <div class="input-field">
+                            <input name="phone" type="tel" class="input telefono" placeholder="Teléfono" required id="mobile">
+                        </div>
+                        <div class="input-field">
+                            <p class="text--gray"><small>Seleccione el modelo de interés</small></p>
+                            <div class="select">
+                                <select class="js-select" name="family">
+                                    {% for family in families %}
+                                        <option value="{{ family.id }}">{{ family.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-field">
+                            <textarea class="textarea" placeholder="Describe tu duda o consulta" name="comment" required></textarea>
+                        </div>
+
+                        <button type="submit" name="button" class="btn btn--black btn--block">ENVIAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>

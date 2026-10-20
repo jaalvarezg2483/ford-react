@@ -1,0 +1,53 @@
+{% extends "base.html.twig"%}
+{% block title %} Ford Nation | {{ fordNation.title }} {% endblock %}
+
+{% block body %}
+<div class="wrapper--car">
+  <div class="text-left padding-2 bg--accent-light hidden-xs">
+		<div class="container">
+			<a href="javascript:history.back()" class="text--primary"><i class="icon icon-arrow-left"></i>  Volver</a>
+		</div>
+	</div>
+
+  <div class="container">
+    <div class="replacement">
+      <h2 class="title">{{fordNation.title}}</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="replacement__img">
+            <img src="{{fordNation.image}}" alt="">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="replacement__text">
+            <h4 class="title">Información</h4>
+            <p>{{fordNation.description}}</p>
+          </div>
+          <div>
+            <h4 class="title">Compartir</h4>
+            <section class="content_buttons blog-share">
+                <div class="btn_social share_fb">
+                    <i class="icon icon-facebook"></i>
+                    <div class="fb fb-share-button"
+                        data-href="{{ app.request.uri }}"></div>
+                </div>
+                <div class="btn_social share_twitter">
+                    <a class="twitter-share-button" href="https://twitter.com/intent/tweet?url={{ app.request.uri }}&hashtags=fordCR"
+                    data-size="large" target="_blank">
+                        <i class="icon icon-twitter"></i></a>
+                </div>
+                <div class="btn_social share_linkedin">
+                    <a class="linked-in" href="javascript:void(0)" onclick="window.open( 'http://www.linkedin.com/shareArticle?mini=true&url={{ app.request.uri }}', 'sharer', 'toolbar=0, status=0, width=626, height=436');return false;" title="Linkedin"><i class="mdi mdi-linkedin"></i></a>
+                </div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+</div>
+
+{% endblock %}

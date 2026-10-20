@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contacto - Gracias{% endblock %}
+
+{% block body %}
+
+    <div class="error__container">
+        <div class="container">
+            <div class="error__wrap text-center no_icon">
+                {% if rifa is defined and rifa == true %}
+                    <p>¡Gracias! <span>Tus datos ya fueron enviados y estás participando por un Kit Toyotero.</span></p>
+                    <div class="error__btns">
+                        <a href="{{path('index')}}" class="btn btn--btn--primary">IR A PÁGINA DE INICIO</a>
+                    </div>
+                {% elseif taller_movil is defined %}
+                    <p>¡Gracias! <span>Tu solicitud fue enviada y pronto serás atendido por nuestros asesores para gestionar la cita.</span></p>
+                    <div class="error__btns">
+                        <a href="{{ path("renting") }}" class="btn btn--primary">IR A PÁGINA DE INICIO</a>
+                    </div>
+                {% else %}
+                    <p>¡Gracias! <span>Tu información fue enviada y pronto te contactaremos.</span></p>
+                    {% if renting_renovar is defined %}
+                        <p><small>En las próximas 24 horas un Asesor de Renting se pondrá en contacto con más información.</small></p>
+                        <div class="error__btns">
+                            <a href="{{ path("renting") }}" class="btn btn--primary">IR A PÁGINA DE INICIO</a>
+                        </div>
+                    {% else %}
+                        {% if reconexion is not defined %}
+                            <p><small>El tiempo de respuesta aproximado es de 24 horas.</small></p>
+                        {% endif %}
+                        <div class="error__btns">
+                            {% if family is defined %}
+                                {% if "hino" in family or "Hino" in family or "HINO" in family %}
+                                    <a href="{{path('category_by_alias', {"category_alias":"purdytrabajo"})}}" class="btn btn--red">Más información</a>
+                                {% endif %}
+                            {% else %}
+                                    <a href="{{path('index')}}" class="btn btn--primary">IR A PÁGINA DE INICIO</a>
+                            {% endif %}
+
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html.twig"%}
+{% block title %}Enviar cotización{% endblock %}
+
+{% block body %}
+
+<div class="wrapper">
+  <div class="container container--breadcrumb">
+    <a href="{{ path("accessory-resume", {slug: family.slug}) }}" class="btn--back"><span class="icon icon-arrow-left"></span>Volver a <strong>Cotización</strong></a>
+  </div>
+  <div class="section">
+    <div class="container">
+      <h1 class="title text-center">Enviar cotización al correo</h1>
+    </div>
+    <div class="container container--full-mobile">
+      <div class="card card--form">
+        <form action="{{ path("accesorios-correo", {slug: family.slug}) }}" method="post" id="contactForm" class="verify-captcha" novalidate>
+          <div class="card__content bg--gray">
+            <div class="container">
+              <p class="form__title">ME INTERESAN LOS SIGUIENTES ACCESORIOS PARA:</p>
+              <p class="quotation__model">
+                <p>{{ family.name }}</p>
+                <ul>
+                    {% for accesory in accesories %}
+                        <li>{{ accesory["name"] }}</li>
+                    {% endfor %}
+                </ul>
+              </p>
+            </div>
+          </div>
+          <div class="card__content">
+            <div class="container">
+              {% include 'LumenAppBundle:Default/partials:_form-fields.html.twig' with {'captcha': true} %}
+            </div>
+          </div>
+            {{ form_rest(form) }}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

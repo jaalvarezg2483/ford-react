@@ -1,0 +1,53 @@
+{% extends "base.html.twig"%}
+{% block title %}Citas Ford{% endblock %}
+{% block stylesheet %}
+    <link href="/css/citas.css?v={{ assetsVersion }}" rel="stylesheet">
+{% endblock %}
+
+{% set activeStep = 3 %}
+
+{% block body %}
+    <div class="wrapper load-step-3">
+        {# {% include 'LumenAppBundle:Citas/partials:_nav.html.twig' %}
+        {% include 'LumenAppBundle:Citas/partials:_breadcrumb.html.twig' %} #}
+        <div class="padding-1 bg--accent-light">
+            <div class="container">
+                <a class="text--primary text--bold" href="{{  path(currentAppointment ? 'step1' : 'step2' ) }}"><i class="icon icon-arrow-left"></i> Volver</a>
+            </div> 
+        </div>
+        <div class="container margin--top separador_steps">
+            <h1 class="titulo_agendar text-center">Agendar cita de mantenimiento</h1>
+        </div>
+        {% include 'LumenAppBundle:Citas/partials:_steps.html.twig' with {
+        'activeStep' : activeStep, 'blockStep': {2: currentAppointment} } only %}
+
+         <section class="citas-select">
+            <p class="title">Seleccioná el taller, fecha y la hora para llevar tu vehículo al mantenimiento preventivo.</p>
+            <form class="cards-select-vehicle select-date">
+                <div class="info-locations">
+                    {#Ajax html comes here#}
+                </div>
+
+            </form>
+            <div class="main-option-buttons">
+                <div class="btns-steps text-center">
+                {% if currentAppointment %}
+                    <a class="btn__cancelar_cita" href="{{ path('step1') }}">Anterior</a>
+                {% else %}
+                    <a class="btn__cancelar_cita" href="{{ path('step2') }}">Anterior</a>
+                {% endif %}
+{#                    <a href="{{path('step4')}}" class="btn__continuar_cita btn--ford next-step-citas disabled">Confirmar</a>#}
+                </div>
+            </div>
+       </section>
+        {% include 'LumenAppBundle:Citas/partials:_modal.html.twig' %}
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{google_maps_api_key}}"></script>
+    <script src="/js/dependencies/jstorage.min.js"></script>
+    <script src="/js/dependencies/datepicker.min.js"></script>
+    <script src="/js/dependencies/datepicker.es-ES.js"></script>
+    <script src="/js/citas/citas.min.js?v={{ assetsVersion }}"></script>
+    {% include 'LumenAppBundle:Citas/partials:_maintenance_modal.html.twig' %}
+{% endblock %}

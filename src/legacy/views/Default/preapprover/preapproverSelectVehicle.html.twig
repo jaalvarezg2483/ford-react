@@ -1,0 +1,48 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Pre aprobación de crédito | Ford Costa Rica | Grupo Purdy | Elegir familia{% endblock %}
+
+{% block meta %}
+    <meta name="identifier-url" content="" />
+    <meta name="title" content="Pre aprobación de crédito | Ford Costa Rica | Grupo Purdy"/>
+    <meta name="description" content="Solicita la preaprobación rápida para crédito de vehículos Ford en línea. Asegura el financiamiento y acelera tu compra. ¡Solicítalo en nuestra web hoy!" />
+	<meta name="keywords" content="credito para compra de vehiculo, preaprobado vehiculo, credito vehiculo Ford" />
+    <meta name="revisit-after" content="1" />
+    <meta name="language" content="es" />
+    <meta name="copyright" content="© {{ "now" | date("Y")}}" />
+    <meta name="organization" content="">
+    <meta name="revisit-after" content="1 day">
+    <meta name="origen" content="">
+    <meta name="locality" content="San José , Costa Rica">
+    <meta name="distribution" content="global">
+    <link rel="image_src" href="" >
+    <meta name="dcterms.abstract" content="">
+    <meta name="dcterms.rightsHolder" content="">
+    <meta NAME="robots" CONTENT="noindex">
+{% endblock %}
+
+{% block body %}
+
+{% include '@LumenCMS/MenuTemplates/script-select-menu.html.twig' with {'searchMenu': 'Herramientas de compra'} %}
+    <div class="wrapper wrapper-accesories">
+        <div class="calculate--cancel bg--accent-light">
+            <div class="container">
+                <a class="btn btn--clear" href="javascript:history.back()"><i class="icon icon-arrow-left"></i> Atrás</a>
+            </div>
+        </div>
+        <div class="container">    
+            <div class="margin--top">
+                <h1 class="title text-center">Pre Aprobación de Crédito</h1>
+            </div>
+            {#<div class="calculate-nav">#}
+                {#<div class="calculate-nav-item current"><button class="calculate-nav-btn">1</button><span>Vehículo</span></div>#}
+                {#<div class="calculate-nav-item"><button class="calculate-nav-btn">2</button><span>Adicionales</span></div>#}
+                {#<div class="calculate-nav-item"><button class="calculate-nav-btn">3</button><span>Cálculo</span></div>#}
+            {#</div>#}
+        </div>
+        <div class="container">
+            {% include "LumenAppBundle:Default/partials:_select_family.html.twig" with {"categories": categories, "routePath": "preapproved-model", 'columns':3} %}
+        </div>
+    </div>
+    
+{%  endblock %}

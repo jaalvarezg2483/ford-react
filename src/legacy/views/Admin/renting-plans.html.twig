@@ -1,0 +1,9 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{% block field %}
+    <ul>
+    {% for plan in object.fees %}
+        <li>{{ plan }}</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

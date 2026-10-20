@@ -1,0 +1,552 @@
+{% extends "base.html.twig"%}
+{% block title %}{{ family.currentYear }} {{ family.familyBrand.name }} {{ family.name }} {{ family.getFamilyTypesToString() }} | {{ family.webTitle }}{% endblock %}
+{% macro removeExtension(model_picture)%}
+    {% set name = model_picture | split(".") %}
+    {{ name | first }}
+{%  endmacro %}
+
+{% block metaFace %}
+	<meta property="og:title" content="{{ family.currentYear }} {{ family.familyBrand.name }} {{ family.name }} {{ family.getFamilyTypesToString() }} | {{ family.webTitle }}"/>
+	<meta property="og:site_name" content="Ford"/>
+	<meta property="og:description" content="{{ family.getSeoDescription() }}"/>
+	<meta property="og:type" content="website"/>
+	<meta property="article:author" content="Ford" />
+	<meta property="article:publisher" content="Ford" />
+	<meta property="og:image" content="{{server_url ~ "/" ~ family.getWebPath()}}"/>
+{% endblock %}
+
+{% block meta %}
+	<meta name="title" content="{{ family.currentYear }} {{ family.familyBrand.name }} {{ family.name }} {{ family.getFamilyTypesToString() }} | {{ family.webTitle }}"/>
+	<meta name="description" content="{{ family.getSeoDescription() }}" />
+	<meta name="abstract" content="" />
+	<meta name="keywords" content="{{ family.getSeoTags() }}" />
+	<meta name="author" content="" />
+	<meta name="revisit-after" content="1" />
+	<meta name="language" content="es" />
+	<meta name="copyright" content="© {{ "now"|date("Y") }}" />
+	<meta name="robots" content="index,follow" />
+	<meta name="googlebot" content="index, follow">
+	<meta name="organization" content="">
+	<meta name="revisit-after" content="1 day">
+	<meta name="origen" content="">
+	<meta name="locality" content="San José, Costa Rica">
+	<meta name="distribution" content="global">
+{% endblock %}
+
+{%  block template_car %}
+	<div>
+		<div class="card">
+			<button type="button" class="card__close js-remove-slide"> <i class="mdi mdi-close"></i> </button>
+			<div class="card__image">
+				<img src="{{ model_picture }}" alt="Ford {{ model_name }}  {{ "now"|date("Y") }}">
+			</div>
+			<div class="card__content">
+				<h2 class="card__title">{{ model_name }}</h2>
+				<p class="card__text">{{ family_name }}</p>
+			</div>
+			<div class="card__action">
+				<a href="#" class="compare__replace" >Cambiar vehículo</a>
+			</div>
+			<input type="hidden" id="code_{{ index }}" data-type="code" data-code="{{ index }}" name="code[{{ index }}]" value="{{ code }}" />
+			<input type="hidden" id="year_{{ index }}" data-type="year" name="year[{{ index }}]" value="{{ year }}" />
+			<input type="hidden" id="id_{{ index }}" data-type="id" name="id[{{ index }}]" value="{{ id }}" />
+		</div>
+	</div>
+{% endblock %}
+
+{% block body %}
+	<script id="car_template" type="text/x-tmpl">
+		{% set model_picture = "{image_exterior}" %}
+		{% set model_name = "{description}" %}
+		{% set family_name = "{family_name}" %}
+		{% set year = "{year}" %}
+		{% set index = "{number}" %}
+		{% set code = "{code}" %}
+		{% set id = "{id}" %}
+        {{ block("template_car") }}
+    </script>
+
+	<div class="agya">
+		
+		{% include 'LumenAppBundle:Default/CarsTemplate:_menu-inner.html.twig' with {especificaciones:true,descargas:true, accesorios:true, comparar:true, calcular:family.showCalculate, tecnologia: show_technology} %}
+
+		<div class="wrapper--car">
+			{% include 'LumenAppBundle:Default/CarsTemplate:_breadcrumb.html.twig' %}
+
+			<section class="scrollspy text-center car__colors">
+				<div class="container">
+					{% include 'LumenAppBundle:Default/CarsTemplate:_logo-title.html.twig' %}
+				</div>
+				
+				{# <img src="{{ asset('/img/content/banner-agya-desktop.png') }}" alt="Ford {{ family.name }} {{ "now"|date("Y") }}" class="car__banner"> #}
+				<div class="container">
+					
+					<ul class="car__links">
+						{%  for datasheet in family.dataSheets %}
+                            {% if datasheet.hideFrom360 == false %}
+								<li><a href="{{ path("download_datasheet", {"id": datasheet.id, "path" : datasheet.path}) }}" target="_blank"><span class="mdi mdi-arrow-down-bold-circle-outline"></span> {{datasheet.description}}</a></li>
+							{% endif %}
+						{% endfor %}
+						{% if test_drive == true %}
+							<li><a href="{{ path("car-test-drive", {"slug": family.slug}) }}"><span class="mdi mdi-steering"></span> Solicitar Prueba de manejo</a></li>
+						{% endif %}
+					</ul>
+
+					{%  set colorGallery =  baseModel.getColorGallery()%}
+					{% if colorGallery | default(false) %}
+						{%  set colors = colorGallery.getGalleryFiles() %}
+						<div class="slider slider--colors js-slider-colors">
+							{%  for color in colors %}
+								<div>
+									<img src="{{server_url ~ "/" ~color.getWebPath() | default('/img/content/fortuner.png') }}" alt="Ford {{ family.name }} {{ color.color.name }} {{ "now"|date("Y") }}">
+									<p class="text--gray subtitle">{{ color.color.name }} ({{ color.color.purdyCode }})</p>
+								</div>
+							{% endfor %}
+						</div>
+						<div class="slider slider--nav slider--colors-nav js-slider-colors-nav">
+							{%  for color in colors %}
+								<div>
+									<span style="background-color: #{{ color.color.webCode }}"></span>
+								</div>
+							{% endfor %}
+						</div>
+					{% endif %}
+					
+					<h2 class="car__title"><strong>{{ family.name }} </strong> {{ family.currentYear }} <span>Desde <strong>${{ family.startPrice | number_format(0, ',', '.')}} </strong></span></h2>
+					<div class="car__btns">
+                        {% if family.showCalculate == true %}
+							<a href="{{path('calculate_select_model', {slug: family.slug})}}" class="btn btn--green-grad">Calcular Cuota mensual</a>
+						{% endif %}
+					</div>
+					<button type="button" class="car__scroll js-car-scroll"><i class="mdi mdi-chevron-down"></i></button>
+				</div>
+			</section>
+
+			<section class="section car__text">
+				{% if infoFamily != false %}
+					{% include 'LumenAppBundle:Default/CarsTemplate:_description-video.html.twig' %}
+				{% else %}
+				<div class="container">
+					<h2 class="title text-center sr-fadeInLeft">{{ family.webTitle }}</h2>
+					<p class="text--large sr-fadeInRight">{{ family.description }}</p>
+				</div>
+				{% endif %}
+			</section>
+
+			<section class="section bg--gray scrollspy text-center car__agya" id="modelos">
+				<div class="container">
+					<h2 class="title sr-fadeInBottom">Modelos</h2>
+					<div class="slider slider--nav slider--model-nav js-slider-model js-slider-model-nav">
+						{% for model in models %}
+						<div>
+							<p>{{ model.name }}</p>
+						</div>
+						{%  endfor %}
+					</div>
+				</div>
+				<div class="slider slider--model js-slider-model js-slider-model-car">
+					{% for model in models %}
+					<div class="js-slider-model-inner">
+						<img src="{{server_url ~ "/" ~ model.getFoto() | default('/img/content/car-lg-white.png') }}" alt="Ford {{ model.name }} {{ "now"|date("Y") }}">
+						<h2>{{ model.name }}</h2>
+						<p>${{ model.startPrice | number_format(0, ',','.') }}</p>
+					</div>
+					{%  endfor %}
+
+				</div>
+				<div class="container sr-fadeInBottom">
+					<div class="slider slider--model-specs js-slider-model js-slider-model-specs">
+						{% for model in models %}
+						<div>
+							{% set maxFeatures = model.mainFeatures | length %}
+							<ul class="slider--model-specs__main js-equal-height-parent">
+								{% for feature in model.mainFeatures | slice(0,6) %}
+								<li class="js-equal-height">
+									<img src="{{ (feature.image and feature.image != 'imagen.jpg') ? (server_url ~ "/" ~feature.getWebPath()) : '/img/content/icons/seats.png' }}" alt="ícono {{ feature.name }}">
+									{{ feature.name }}
+								</li>
+								{% endfor %}
+							</ul>
+						</div>
+						{%  endfor %}
+					</div>
+				</div>
+				<div class="car__btns">
+					<a href="{{ server_url }}/documents/Libro-de-Coberturas.pdf" class="btn btn--border-black btn--green-aqua" target="_blank">DESCARGAR RESPALDO GRUPO PURDY</a>
+				</div>
+			</section>
+			{% if benefits | length > 0 %}
+				{% include 'LumenAppBundle:Default/CarsTemplate:_benefits.html.twig' %}
+			{% endif %}
+
+			<section class="section scrollspy text-center car__specs" id="especificaciones">
+				<h2 class="title sr-fadeInBottom">Especificaciones</h2>
+				<div class="slider slider--cards js-slider-cards js-equal-height-parent">
+					{%  for type in specs %}
+						<div>
+							<div class="card card--collapse sr-sequenceFadeInBottom">
+								<div class="card__image">
+									{% set imgSpecs =  (type.image and (type.image != 'default.jpg') ) ? type.getWebPath() : (type.featureType.path ? type.featureType.getWebPath() : 'img/content/card-img2.png') %}
+									<img src="{{ imgSpecs | imagine_filter('accesories') }}" alt="{{ type.featureType.name }}">
+								</div>
+								<div class="card__content">
+									<h2 class="card__title">{{ type.featureType.name }}</h2>
+									<p class="card__text js-equal-height">{{ type.information | default("__Con un motor de 3.1 L Turbo Diesel Intercooler y un caballaje de161HP este auto es el mejor de todos.__")}}</p>
+									<div class="card__collapse">
+										<ul>
+											{% for feature in type.featureType.features %}
+											<li>{{ feature.name }}</li>
+											{%  endfor %}
+
+										</ul>
+										<ul class="disclaimer">
+											{% for disclaimer in type.disclamers %}
+												<li>
+													{{ disclaimer.asterisc | trim }}{{ disclaimer.name }}
+												</li>
+											{% endfor %}
+										</ul>
+									</div>
+								</div>
+								<div class="card__action">
+									<button type="button" class="js-card-collapse">Ver Detalles</button>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</section>
+			{% if show_technology | default(false) %}
+			<section class="section scrollspy text-center car__specs" id="tecnologia">
+				<h2 class="title sr-fadeInBottom">Tecnología</h2>
+				<div class="slider slider--cards js-slider-cards js-equal-height-parent">
+                    {%  for item in technology.items %}
+						<div>
+							<div class="card card--collapse sr-sequenceFadeInBottom">
+								<div class="card__image">
+									<img src="{{ (item.image and (item.image != 'default.jpg') ) ? item.image(): 'img/content/card-img2.png' }}" alt="{{ item.title }}" id="interno">
+								</div>
+								<div class="card__content">
+									<h2 class="card__title">{{ item.title }}</h2>
+									<p class="card__text js-equal-height">{{ item.description | default("__Con un motor de 3.1 L Turbo Diesel Intercooler y un caballaje de161HP este auto es el mejor de todos.__")}}</p>
+								</div>
+							</div>
+						</div>
+                    {% endfor %}
+				</div>
+			</section>
+			{% endif %}
+
+			{% if family.specialBanners %}
+				{% for banner in family.specialBanners %}
+					<section class="banner--full">
+						<a href="{{ banner.link }}">
+							<img src="{{ banner.image }}"/>
+						</a>
+					</section>
+				{% endfor %}
+			{% endif %}
+
+			<section class="section scrollspy text-center car__gallery" id="galeria">
+				<h2 class="title sr-fadeInBottom">Galería</h2>
+
+				<ul class="tabs" role="tablist">
+					{#<li class="tab active"><a href="#fotos" role="tab" data-toggle="tab">Fotos</a></li>#}
+                    {% for gallery in baseModel.getModelGalleries(["principal","colour"]) if 0 != gallery.galleryFiles | length  %}
+						<li class="tab {% if loop.first %} active {% endif %}"><a href="#{{ gallery.getGalleryType().getCode() }}" role="tab" data-toggle="tab">{{ gallery.getGalleryType().getCode() | upper }}</a></li>
+                    {% endfor %}
+					{%  if (family.urlViewInterior or family.urlViewExterior) and ('' != family.urlViewInterior | trim or '' != family.urlViewExterior  | trim)%}
+					<li class="tab"><a href="#360" role="tab" data-toggle="tab">Vistas 360</a></li>
+					{% endif %}
+				</ul>
+
+				<div class="tab-content">
+                    {% for key,gallery in baseModel.getModelGalleries(["principal", "colour"]) %}
+						<div role="tabpanel" class="tab-pane {% if loop.first %} active {% endif %} clearfix" id="{{ gallery.getGalleryType().getCode() }}">
+							<ul class="gallery gallery--closed">
+                                {% for image in gallery.galleryFiles %}
+                                    {% if image.isVideo() %}
+										<li class="gallery__item gallery__item--video filtr-item">
+											<a href="{{ image.getVideo() }}" class="js-popup-img js-popup-video">
+												<img src="{{ image.getWebPath() }}" alt="video {{family.name}}" class="gallery__img">
+											</a>
+										</li>
+                                    {% else %}
+										<li class="gallery__item filtr-item">
+											<a href="{{ server_url ~ "/" ~ image.getWebPath() }}" class="js-popup-img">
+												<img src="{{ image.getWebPath() | imagine_filter('hero_bg') }}" alt="galería {{family.name}}" class="gallery__img">
+											</a>
+										</li>
+                                    {% endif %}
+                                {% endfor %}
+							</ul>
+							<div class="gallery__btn">
+								<button type="button" class="btn btn--border-white js-gallery-more-agya">Cargar más fotos</button>
+								<p><small>*Imágenes con fines ilustrativos. Para especificaciones por favor consultar ficha técnica.</small></p>
+							</div>
+						</div>
+					{% endfor %}
+					{#<div role="tabpanel" class="tab-pane clearfix" id="videos">#}
+						{#<ul class="gallery">#}
+							{#{% for gallery in baseModel.getModelGalleries(["principal","colour", "interior", "exterior"]) %}#}
+								{#{% for image in gallery.galleryFiles %}#}
+									{#{% if image.isVideo() %}#}
+									{#<li class="gallery__item gallery__item--video filtr-item">#}
+										{#<a href="{{ image.getVideo() }}" class="js-popup-img js-popup-video">#}
+											{#<img src="{{ image.getWebPath() }}" alt="video {{ family.name }}" class="gallery__img">#}
+										{#</a>#}
+									{#</li>#}
+									{#{% endif %}#}
+								{#{% endfor %}#}
+							{#{% endfor %}#}
+						{#</ul>#}
+					{#</div>#}
+					<div role="tabpanel" class="tab-pane clearfix" id="360">
+						<ul class="gallery">
+							{%  if " " != family.urlViewExterior | default(" ") %}
+							<li class="gallery__item gallery__item--360 filtr-item" data-category="2">
+								<a href="{{ family.urlViewExterior }}" class="js-popup-img js-popup-video">
+									<img src="{{ server_url ~ "/" ~ baseModel.getOneImage("exterior").getWebPath }}" alt="360 exterior {{ family.name }}" class="gallery__img">
+								</a>
+							</li>
+							{% endif %}
+							{%  if " " != family.urlViewInterior | default(" ") %}
+							<li class="gallery__item gallery__item--360 filtr-item" data-category="2">
+								<a href="{{ family.urlViewInterior }}" class="js-popup-img js-popup-video">
+									<img src="{{ server_url ~ "/" ~ baseModel.getOneImage("interior").getWebPath }}" alt="360 interior {{ family.name }}" class="gallery__img">
+								</a>
+							</li>
+							{% endif %}
+						</ul>
+					</div>
+				</div>
+			</section>
+
+			<section class="section scrollspy car__downloads" id="descargas">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-4">
+							<p class="subtitle">Descargas:</p>
+						</div>
+						<div class="col-sm-8 col-xs-12 col-mb">
+							<div class="link--icon-container">
+								{%  for datasheet in family.dataSheets %}
+									<a class="link--icon" href="{{ path("download_datasheet", {"id": datasheet.id, "path" : datasheet.path}) }}" target="_blank"> <i class="mdi mdi-download"></i> {{ datasheet.description | replace({"DESCARGAR": ""}) | trim }}</a>
+								{% endfor %}
+								{% if (family.urlCatalog | default(false)) and (family.urlCatalog != ' ') %}
+									<a class="link--icon" href="{{ family.urlCatalog }}" target="_blank"> <i class="mdi mdi-download"></i> Catálogo</a>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<p class="subtitle">Ver en línea:</p>
+						</div>
+						<div class="col-sm-8 col-xs-12 col-mb">
+							<div class="link--icon-container">
+                                {%  for datasheet in family.dataSheets %}
+									<a class="link--icon" href="{{ path("view-pdf", {"id": datasheet.id, "slug" : family.slug}) }}" target="_blank"> <i class="mdi mdi-download"></i> {{ datasheet.description | replace({"DESCARGAR": ""}) | trim }}</a>
+                                {% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="section scrollspy text-center car__accesories" id="accesorios">
+				<h2 class="title sr-fadeInBottom">Accesorios</h2>
+				<div class="slider slider--cards js-slider-cards js-equal-height-parent">
+					{% for accesory in accesories %}
+					<div>
+						<div class="card sr-sequenceFadeInBottom">
+							<div class="card__image">
+								{% set img_accesory = accesory.getFoto() ? accesory.getFoto() | default('/img/content/card-img2.png') %}
+								<img src="{{ img_accesory | imagine_filter('accesories') }}" alt="{{ accesory.name }}">
+							</div>
+							<div class="card__content js-equal-height">
+								<h2 class="card__subtitle">{{ accesory.name }}</h2>
+							</div>
+							<div class="card__action">
+								<p class="card__title text--red">$ {{ accesory.price }}</p>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+				<div class="row">
+					<div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 ">
+						<p class="text-justify">
+							<small>
+								*COBERTURAS DE EXTRAS: La vigencia será de acuerdo con la descrita de manera individual para cada Extra.
+								Poseen sus propias condiciones de cobertura de Garantía y de Respaldo de Grupo Purdy Motor, sin que estén vinculadas al vehículo y sus coberturas, cada extra se considera un bien independiente.
+								Para más información contacte a su asesor de confianza.
+							</small>
+						</p>
+					</div>
+				</div>
+			</section>
+
+			<div class="car__btns">
+				{% if family.showCalculate == true %}
+					<a href="{{path('calculate_select_model', {slug: family.slug})}}" class="btn btn--green-grad">Calcular Cuota mensual</a>
+				{% endif %}
+			</div>
+
+			<section class="section scrollspy text-center car__compare bg--gray" id="comparar">
+				<form action="{{ path("comparador") }}" method="get">
+				<div class="container">
+					<h2 class="title sr-fadeInBottom">Comparar vehículo</h2>
+
+					<div class="slider slider--cards slider--compare js-slider-compare">
+						<div>
+							<button type="button" class="card compare__add">
+								<div>
+									<i class="mdi mdi-car"></i>
+									<p class="subtitle">Agregar otro vehículo</p>
+								</div>
+							</button>
+						</div>
+						{%  set vechile_agregar = array_rand(models, 2) %}
+						{% for vehicle in  vechile_agregar%}
+							{% set model_picture = server_url ~ vehicle.getFoto() %}
+							{% set model_name = vehicle.name %}
+							{% set family_name = vehicle.family.name %}
+							{% set index = loop.index %}
+							{% set code = vehicle.code %}
+							{% set year = vehicle.year %}
+							{% set id = vehicle.id %}
+							{{ block("template_car") }}
+						{% endfor %}
+					</div>
+					<a href="{{ path("comparador") }}" class="btn btn--green-grad compare_submit">Comparar Ahora</a>
+				</div>
+				</form>
+			</section>
+
+			{% if 0 < (tePodriaGustar | length) %}
+				<section class="section scrollspy text-center car__suggest">
+					<h2 class="title sr-fadeInBottom">te podría gustar</h2>
+					<div class="slider slider--model js-slider-model-car">
+						{% for canLikeFamily in tePodriaGustar%}
+							<div class="js-slider-model-inner">
+								<a href="{{ path("model_list", {slug: canLikeFamily.slug}) }}" class="slider__link">
+									<img src="{{ server_url ~ canLikeFamily.getFoto3() }}" alt="Ford {{ canLikeFamily.name }} {{ "now"|date("Y") }}">
+									<h2>{{ canLikeFamily.name }}</h2>
+									{% if canLikeFamily.slug != "camry" and canLikeFamily != "prius" %}
+										<p>${{ canLikeFamily.startPrice | number_format(0,',', '.') }}</p>
+									{% endif %}
+								</a>
+							</div>
+						{% endfor %}
+					</div>
+				</section>
+			{% endif %}
+		</div>
+		<div id="compare" class="modal fade modal--compare">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal__inner">
+						<button type="button" class="modal__close" data-dismiss="modal"> <i class="mdi mdi-close"></i> </button>
+						<h2 class="subtitle--large text-center">Seleccionar Vehículo</h2>
+					</div>
+
+					<div class="modal__inner bg--gray">
+						<form action="" class="container">
+							<p class="subtitle">Elegir vehículo</p>
+							<div class="row">
+								<div class="col-sm-6 select">
+									<select name="family" id="compare_family" data-target="compare_model" data-repo="familyModel" class="js-select">
+										<option value="">Seleccione una familia</option>
+										{% for family in familyList %}
+											<option value="{{ family.id }}">{{ family.name }}</option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="col-sm-6 select">
+									<select name="model" id="compare_model" class="js-select" data-index="models" data-text="name">
+										<option value="">Debe seleccionar primero una Familia</option>
+									</select>
+								</div>
+							</div>
+							<div class="text-center">
+								<button type="button" class="btn btn--border-black vehicle_click">Elegir Vehículo</button>
+							</div>
+						</form>
+					</div>
+
+					<div class="modal__inner">
+						<h2 class="subtitle--large text-center">Otros modelos relacionados</h2>
+					</div>
+
+					<div class="modal__inner">
+						<div class="container">
+							<div class="row row--flex">
+								{% for vehicle in array_rand(models, 4, true, vechile_agregar) %}
+									<div class="col-sm-3">
+										<input type="radio" class="radio radio--large car__select" id="car{{ loop.index }}" name="car" value="{{ vehicle.id }}" data-family="{{ vehicle.family.id }}">
+										<label for="car{{ loop.index }}" class="label">
+											<div class="family__img">
+				                                <img src="{{ server_url ~ vehicle.getFoto() }}" alt="Ford {{ vehicle.name }} {{ "now"|date("Y") }}" class="img-responsive">
+				                            </div>
+											<div class="family__text">
+												<h2>{{ vehicle.name }}</h2>
+												<p class="family__cta-price">desde <span>$ {{ vehicle.startPrice | number_format(0, ',', '.')}} </span></p>
+											</div>
+											<p class="check">Elegir</p>
+										</label>
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-10 col-xs-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
+				<p class="text-center"><small>*Podés cancelar el monto en colones al tipo de cambio aplicable a la transacción, correspondiente al de referencia de venta del Banco Central de Costa Rica.</small></p>
+			</div>
+		</div>
+	</div>
+	{% if family.pixelCode != null %}
+<!-- Code for Action: {{ family.name }} _Conversion_Calcular Cuota_Nov2018 -->
+<!-- Begin Sizmek DSP Conversion Action Tracking Code Version 9 -->
+<script type='text/javascript'>
+(function() {
+	var w = window, d = document;
+	var s = d.createElement('script');
+	s.setAttribute('async', 'true');
+	s.setAttribute('type', 'text/javascript');
+	s.setAttribute('src', '//c1.rfihub.net/js/tc.min.js');
+	var f = d.getElementsByTagName('script')[0];
+	f.parentNode.insertBefore(s, f);
+	if (typeof w['_rfi'] !== 'function') {
+		w['_rfi']=function() {
+			w['_rfi'].commands = w['_rfi'].commands || [];
+			w['_rfi'].commands.push(arguments);
+		};
+	}
+	_rfi('setArgs', 'ver', '9');
+	_rfi('setArgs', 'rb', '36891');
+	_rfi('setArgs', 'ca', '{{ family.pixelCode }}');
+	_rfi('setArgs', '_o', '36891');
+	_rfi('setArgs', '_t', '{{ family.pixelCode }}');
+	_rfi('track');
+})();
+</script>
+<noscript>
+  <iframe src='//{{ family.pixelCode }}p.rfihub.com/ca.html?rb=36891&ca={{ family.pixelCode }}&_o=36891&_t={{ family.pixelCode }}&ra=YOUR_CUSTOM_CACHE_BUSTER' style='display:none;padding:0;margin:0' width='0' height='0'>
+</iframe>
+</noscript>
+<!-- End Sizmek DSP Conversion Action Tracking Code Version 9 -->
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+	<script>
+        var serverPath = '{{ server_url }}';
+		scrollspy( $('#carMenu') );
+	</script>
+
+{% endblock %}

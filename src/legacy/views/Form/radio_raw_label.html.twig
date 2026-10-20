@@ -1,0 +1,11 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{%- block choice_widget_expanded -%}
+    {%- for child in form if child.vars.value != '' %}
+        <p>
+            {%  set class = "radio with-gap " ~ (child.vars.attr.class | default("")) %}
+            {{- form_widget(child, {"attr": {"class": class}}) -}}
+            <label for="{{ child.vars.id }}"  style="font-weight: unset">{{ child.vars.label | raw }}</label>
+        </p>
+    {% endfor -%}
+{%- endblock choice_widget_expanded -%}

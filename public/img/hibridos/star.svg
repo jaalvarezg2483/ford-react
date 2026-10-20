@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="35px" height="34px" viewBox="0 0 35 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Path</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="120.440051%" x2="50%" y2="0%" id="linearGradient-1">
+            <stop stop-color="#4895BB" offset="0%"></stop>
+            <stop stop-color="#2AF598" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Home_Hibridos-Copy-5" transform="translate(-202.000000, -5985.000000)" fill="url(#linearGradient-1)" fill-rule="nonzero">
+            <g id="Group-30" transform="translate(202.000000, 5985.000000)">
+                <polygon id="Path" points="17.4572222 -2.16715534e-13 22.8511111 11.0264615 34.9137963 12.7951154 26.1851852 21.3775 28.2456481 33.4971923 17.4572222 27.7753846 6.66814815 33.4971923 8.72861111 21.3775 -1.95399252e-13 12.7951154 12.0626852 11.0264615"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

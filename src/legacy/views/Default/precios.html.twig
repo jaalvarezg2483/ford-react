@@ -1,0 +1,108 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Listas de Precios{% endblock %}
+
+{% block meta %}
+    <meta name="identifier-url" content="" />
+    <meta name="title" content="Listas de Precios"/>
+    <meta name="description" content="Listas de Precios" />
+    <meta name="abstract" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="revisit-after" content="1" />
+    <meta name="language" content="es" />
+    <meta name="copyright" content="© 2017" />
+    <meta name="organization" content="">
+    <meta name="revisit-after" content="1 day">
+    <meta name="origen" content="">
+    <meta name="locality" content="San José , Costa Rica">
+    <meta name="distribution" content="global">
+    <link rel="image_src" href="" >
+    <meta name="dcterms.abstract" content="">
+    <meta name="dcterms.rightsHolder" content="">
+    <meta NAME="robots" CONTENT="noindex">
+{% endblock %}
+
+{% block body %}
+<div class="wrapper">
+    <div class="container container--breadcrumb">
+        <ol class="breadcrumb">
+            <li><button type="button" class="js-back-btn"><i class="icon icon-arrow-left"></i></button></li><li><a href="{{path('index')}}">Inicio</a></li><li>Listas de precios</li>
+        </ol>
+    </div>
+    <div class="container">
+        <h2 class="title text-center">Listas de Precios</h2>
+    </div>
+    <div class="container container--full-mobile">
+        <section class="section">
+            <div class="menu--mock">
+                <div class="hidden-xs hidden-sm">
+                    <div class="container">
+                        <ul class="tabs js-tabs-collapse">
+                            {% for type in familyTypes  %}
+                            <li class="tab {% if loop.index == 1 %} active {% endif %}"><a href="#precios-{{ loop.index }}" data-toggle="tab">{{ type.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <ul class="collapsible tab-content">
+                    {% for type in familyTypes %}
+                    <li class="tab-pane fade {% if loop.index == 1 %} in active {% endif %}" id="precios-{{ loop.index }}">
+                        <button type="button" class="collapsible__header js-collapse-next">
+                            <i class="mdi mdi-plus"></i> {{ type.name }}
+                        </button>
+
+                        <div class="collapsible__body container-fluid">
+                            {% set allFamilies =  type.families2 | merge(type.forceModel)%}
+                            <div class="row row--flex">    
+                            {% for family in allFamilies %}
+                                <div class="col-sm-6 col-md-3 family-wrap family-wrap--collapse">
+                                    <a href="#{{family.slug}}-{{loop.index}}" data-toggle="collapse" class="collapsed js-open-collapse">
+                                        <div class="family">
+                                            <div class="family__img">
+                                                <img src="{{ family.getWebPath() ? server_url ~ '/' ~ family.getWebPath()  : '/img/content/yaris-small.png' }}" alt="Car" class="img-responsive">
+                                            </div>
+                                            <div class="family__text">
+                                                <h2> 
+                                                    {{ family.name }}
+                                                    {{family.hybrid == true ? '<span class="mdi mdi-leaf"></span>' : ''}}
+                                                </h2>
+                                                <p class="family__cta">VER</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <div class="collapse family__collapse" id="{{family.slug}}-{{loop.index}}" data-parent="#collapse-parent">
+                                        <button type="button" class="js-close-collapse family__collapse-close"><span class="mdi mdi-close"></span></button>
+                                        <div class="container">
+                                            <div class="row row--flex">
+                                                {% for model in models[family.id] %}
+                                                    {% if model.startPrice > 0 %}
+                                                    <div class="col-sm-3 price-box">
+                                                        {% if model.family.code == 'HINO300' or model.family.code == 'HINO500' or model.family.code == 'Hino 700' %}
+                                                            <h2>{{ model.family.name }}</h2>
+                                                            <H2>DESDE</H2>
+                                                            <p>${{ model.family.startPrice | number_format(0, ',', '.') }}</p>
+                                                        {% else %}
+                                                            <h2>{{ model.name }}</h2>
+                                                            <p>${{ model.startPrice | number_format(0, ',', '.') }}</p>
+                                                        {% endif %}
+                                                    </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            </div>
+
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    </div>
+</div>
+
+{%  endblock %}

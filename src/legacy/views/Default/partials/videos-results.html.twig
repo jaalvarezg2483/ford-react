@@ -1,0 +1,16 @@
+{% for row in videos | batch(3) %}
+    <div class="row js-equal-height-parent">
+        {% for video in row %}
+            <div class="col-sm-4">
+                <div class="gallery__item gallery__item--video filtr-item">
+                    <a href="{{ video.youtube }}" class="js-popup-img js-popup-video img-container" title="{{video.name}}">
+                        <img src="{{ video.getWebPath() }}" class="gallery__img">
+                        <button class="btn btn--secondary"><i class="icon icon-play"></i> Ver video</button>
+                    </a>
+                    <p><strong>{{ video.name }}</strong></p>
+                    <p>{{ video.description }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endfor %}
