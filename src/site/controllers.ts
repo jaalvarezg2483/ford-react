@@ -95,24 +95,30 @@ const familyList: Controller = async () => {
                 <a href="#slider${i + 1}" data-toggle="tab">${esc(t.name)}</a>
             </li>
 `).join('')
-  const panes = types.map((t, i) => `                    <li class="tab-pane fade tab--find-car ${i === 0 ? 'in active' : ''}" id="slider${i + 1}">
+  const panes = types.map((t, i) => {
+    const cardStyles = new Map(t.cardStyles.map((card) => [card.slug, card]))
+    return `                    <li class="tab-pane fade tab--find-car ${i === 0 ? 'in active' : ''}" id="slider${i + 1}">
                 <div class="row">
                     <div class="slider slider--car js-slider-car js-equal-height-parent">
-${t.families.map((f) => `                                                    <div style="--linear-gradient-custom:${esc(f.homeGradient)}; ">
-                                <div class="model-bg" style="background-color:${esc(f.homeColor)}"></div>
+${t.families.map((f) => {
+  const style = cardStyles.get(f.slug)
+  return `                                                    <div style="--linear-gradient-custom:${esc(style?.gradient || f.homeGradient)}; ">
+                                <div class="model-bg" style="background-color:${esc(style?.color || f.homeColor)}"></div>
                                 <a href="/autos/${esc(f.slug)}" class="slider__link js-equal-height ">
                                     <p>Ford</p>
                                     <h2>${esc(f.name)}</h2>
 ${f.hidePrice ? '' : `                                                                            <p>desde</p>
                                         <h3>$${money(f.startPrice)}</h3>
-`}                                                                        <img src="${esc(f.homeImage)}" alt="car">
+`}                                                                        <img src="${esc(style?.image ? absolute(style.image) : f.homeImage)}" alt="car">
                                     <button class="btn btn--clear">Ver más <i class="icon icon-arrow-right"></i></button>
                                 </a>
                             </div>
-`).join('')}                                            </div>
+`
+}).join('')}                                            </div>
                 </div>
             </li>
-`).join('')
+`
+  }).join('')
   return `<div class="container">
     <ul class="tabs tabs-home js-tabs-car">
 ${tabs}            </ul>

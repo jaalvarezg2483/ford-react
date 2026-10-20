@@ -50,7 +50,9 @@ export async function renderBlog(req: Request, url: URL): Promise<Response> {
   const page = Math.max(1, Number(url.searchParams.get('page')) || 1)
   const filtered = q !== '' || categories.length > 0
   const results = await search(filtered ? q : '', filtered ? categories : [])
-  const pageItems = results.slice((page - 1) * SIZE, page * SIZE).map(article)
+  // The featured post is rendered in its own hero card on the unfiltered page.
+  const listing = filtered ? results : results.filter((post) => !post.featured)
+  const pageItems = listing.slice((page - 1) * SIZE, page * SIZE).map(article)
 
   if (req.headers.get('x-requested-with') === 'XMLHttpRequest') {
     return new Response(renderTwig('Default/partials/blog-results.html.twig', { articles: pageItems }), { headers: { 'Content-Type': 'text/html; charset=UTF-8' } })
@@ -71,7 +73,7 @@ export async function renderBlog(req: Request, url: URL): Promise<Response> {
     else data[k] = v
   }
   const query = new URLSearchParams([...url.searchParams].filter(([k]) => k !== 'page')).toString()
-  const pages = Math.ceil(results.length / SIZE)
+  const pages = Math.ceil(listing.length / SIZE)
   const body = await renderTwigOverPage('LumenAppBundle:Default:blog.html.twig', {
     category: { alias: 'blog' },
     articles: pageItems,
@@ -79,7 +81,7 @@ export async function renderBlog(req: Request, url: URL): Promise<Response> {
     featured: featured ? article(featured) : null,
     subcategories: [...subs.values()].sort((a, b) => a.name.localeCompare(b.name)),
     title: filtered ? 'Resultados de búsqueda' : 'Todos los artículos',
-    moreResults: pages > page && pages > 1,
+    moreResults: pages > page,
     data,
     query,
     pages,

@@ -7,6 +7,7 @@ import * as migration_20261020_003053_posts_featured from './20261020_003053_pos
 import * as migration_20261020_003356_videos from './20261020_003356_videos';
 import * as migration_20261020_003715_page_price_refs from './20261020_003715_page_price_refs';
 import * as migration_20261020_010000_site_sessions from './20261020_010000_site_sessions';
+import * as migration_20261020_142916_family_type_card_styles from './20261020_142916_family_type_card_styles';
 
 export const migrations = [
   {
@@ -52,6 +53,11 @@ export const migrations = [
   {
     up: migration_20261020_010000_site_sessions.up,
     down: migration_20261020_010000_site_sessions.down,
-    name: '20261020_010000_site_sessions'
+    name: '20261020_010000_site_sessions',
+  },
+  {
+    up: migration_20261020_142916_family_type_card_styles.up,
+    down: migration_20261020_142916_family_type_card_styles.down,
+    name: '20261020_142916_family_type_card_styles'
   },
 ];

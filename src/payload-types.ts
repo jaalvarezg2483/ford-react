@@ -354,6 +354,18 @@ export interface FamilyType {
   underlineColor?: string | null;
   families?: (number | Family)[] | null;
   /**
+   * Lista importada por categoría con slug, imagen, color y gradiente para mantener las tarjetas iguales a Ford.
+   */
+  cardStyles?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
    * Ej. el bloque de Ford Performance bajo los vehículos.
    */
   menuHtml?: string | null;
@@ -668,6 +680,7 @@ export interface FamilyTypesSelect<T extends boolean = true> {
   textColor?: T;
   underlineColor?: T;
   families?: T;
+  cardStyles?: T;
   menuHtml?: T;
   updatedAt?: T;
   createdAt?: T;

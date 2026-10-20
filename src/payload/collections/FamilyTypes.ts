@@ -19,6 +19,7 @@ export const FamilyTypes: CollectionConfig = {
       { name: 'underlineColor', type: 'text', label: 'Color del subrayado', defaultValue: '#000000' },
     ] },
     { name: 'families', type: 'relationship', relationTo: 'families', hasMany: true, label: 'Vehículos (en orden)' },
+    { name: 'cardStyles', type: 'json', label: 'Estilos por vehículo en portada', admin: { description: 'Lista importada por categoría con slug, imagen, color y gradiente para mantener las tarjetas iguales a Ford.' } },
     { name: 'menuHtml', type: 'code', label: 'Texto adicional en el menú (HTML)', admin: { language: 'html', description: 'Ej. el bloque de Ford Performance bajo los vehículos.' } },
   ],
 }

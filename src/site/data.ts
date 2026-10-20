@@ -30,6 +30,7 @@ export type FamilyTypeView = {
   underlineColor: string
   menuHtml: string
   families: FamilyView[]
+  cardStyles: { slug: string; image?: string; color?: string; gradient?: string }[]
 }
 export type SiteData = {
   topMenu: { label: string; href: string }[]
@@ -68,6 +69,7 @@ export function getSite(): Promise<SiteData> {
         underlineColor: t.underlineColor || '#000000',
         menuHtml: t.menuHtml || '',
         families: (t.families || []).filter((f: any) => f && typeof f === 'object').map(familyView),
+        cardStyles: Array.isArray(t.cardStyles) ? t.cardStyles : [],
       })),
       headScripts: s.headScripts ?? defaults.headScripts,
       bodyStartHtml: s.bodyStartHtml ?? defaults.bodyStartHtml,

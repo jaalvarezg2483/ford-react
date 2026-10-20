@@ -126,25 +126,31 @@ async function importVehicles(payload: Payload, src: ImportSource, home: Crawled
   const restFamilies: any[] = restBody ? JSON.parse(restBody).info ?? [] : []
   const bySlug = new Map(restFamilies.map((f) => [f.slug, f]))
   const $ = cheerio.load(home.html)
-  // Pestañas del inicio: imagen y color por familia
-  const homeCards = new Map<string, { image?: string; color?: string; gradient?: string }>()
-  $('.tabs-home').closest('[data-controller]').find('.slider__link').each((_, a) => {
-    const slug = ($(a).attr('href') || '').replace('/autos/', '')
-    const wrap = $(a).parent()
-    homeCards.set(slug, {
-      image: $(a).find('img').attr('src'),
-      color: /background-color:([^;"]+)/.exec(wrap.find('.model-bg').attr('style') || '')?.[1],
-      gradient: /--linear-gradient-custom:(.+?);\s*$/.exec(wrap.attr('style') || '')?.[1],
+  // El mismo modelo puede tener una tarjeta distinta en cada categoría de inicio.
+  const homeCardsByType = new Map<string, Map<string, { image?: string; color?: string; gradient?: string }>>()
+  $('.tabs-home li').each((_, tab) => {
+    const name = $(tab).text().trim()
+    const target = $(tab).find('a').attr('href') || ''
+    const pane = $(target)
+    const cards = new Map<string, { image?: string; color?: string; gradient?: string }>()
+    pane.find('.slider__link').each((_, a) => {
+      const slug = ($(a).attr('href') || '').replace('/autos/', '')
+      const wrap = $(a).parent()
+      cards.set(slug, {
+        image: $(a).find('img').attr('src'),
+        color: /background-color:([^;"]+)/.exec(wrap.find('.model-bg').attr('style') || '')?.[1],
+        gradient: /--linear-gradient-custom:(.+?);\s*$/.exec(wrap.attr('style') || '')?.[1],
+      })
     })
+    homeCardsByType.set(name, cards)
   })
   const typeTabs = $('#subNuevos .tabs li').toArray()
   const families = new Map<string, number>()
-  const upsertFamily = async (slug: string, menuCard: cheerio.Cheerio<any>) => {
+  const upsertFamily = async (slug: string, menuCard: cheerio.Cheerio<any>, card: { image?: string; color?: string; gradient?: string }) => {
     if (families.has(slug)) return families.get(slug)!
     const rest = bySlug.get(slug)
     const name = menuCard.find('.family__text h3').text().trim() || rest?.name || slug
     const price = Number((menuCard.find('.family__text h4').text() || '').replace(/[^\d]/g, '')) || rest?.start_price || null
-    const card = homeCards.get(slug) ?? {}
     const data: Record<string, unknown> = {
       name,
       slug,
@@ -180,9 +186,10 @@ async function importVehicles(payload: Payload, src: ImportSource, home: Crawled
     const pane = $(`#subNuevos ${target}`)
     const style = tab.attr('style') || ''
     const ids: number[] = []
+    const homeCards = homeCardsByType.get(name) ?? new Map()
     for (const a of pane.find('.family-wrap').toArray()) {
       const slug = ($(a).find('a').attr('href') || '').replace('/autos/', '')
-      ids.push(await upsertFamily(slug, $(a)))
+      ids.push(await upsertFamily(slug, $(a), homeCards.get(slug) ?? {}))
     }
     const extra = pane.find('.ford-performance-text')
     const data = {
@@ -192,6 +199,7 @@ async function importVehicles(payload: Payload, src: ImportSource, home: Crawled
       textColor: /--category-text-color:([^;]+);/.exec(style)?.[1]?.trim() || '#000000',
       underlineColor: /--underlined-text-color:([^;]+);/.exec(style)?.[1]?.trim() || '#000000',
       families: ids,
+      cardStyles: [...homeCards.entries()].map(([slug, card]) => ({ slug, ...card })),
       menuHtml: extra.length ? `				<div class="ford-performance-text">${extra.html()}</div>\n` : '',
     }
     const found = await payload.find({ collection: 'family-types', where: { name: { equals: name } }, limit: 1, depth: 0 })
