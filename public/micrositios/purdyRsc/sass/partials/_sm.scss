@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+// * -------------------------
+// * Grig Logotype
+// * -------------------------
+.col-custom-5{
+  max-width: 33.33333%;
+}
+
+// * -------------------------
+// * Grig Logotype
+// * -------------------------
+.col-custom-5{
+  &:nth-child(1n+5){
+    display: block;
+  }
+  &:nth-child(1n+7){
+    display: none;
+  }
+}

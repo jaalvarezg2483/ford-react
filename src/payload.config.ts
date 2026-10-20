@@ -20,6 +20,7 @@ import { Families } from './payload/collections/Families'
 import { Posts } from './payload/collections/Posts'
 import { Leads } from './payload/collections/Leads'
 import { Redirects } from './payload/collections/Redirects'
+import { Videos } from './payload/collections/Videos'
 import { SiteSettings } from './payload/globals/SiteSettings'
 import { FormSettings } from './payload/globals/FormSettings'
 import { seedFormSettings } from './payload/seed/formSettings'
@@ -48,7 +49,7 @@ export default buildConfig({
     meta: { titleSuffix: '· CMS Ford Costa Rica', icons: [{ rel: 'icon', type: 'image/png', url: '/favicon-32x32.png' }] },
   },
   i18n: { fallbackLanguage: 'es', supportedLanguages: { es } },
-  collections: [Pages, Sliders, Posts, Families, FamilyTypes, Media, Leads, Redirects, Users],
+  collections: [Pages, Sliders, Posts, Videos, Families, FamilyTypes, Media, Leads, Redirects, Users],
   globals: [SiteSettings, FormSettings],
   editor: lexicalEditor(),
   secret: env.PAYLOAD_SECRET || 'ford-cr-local-development-secret-change-me',

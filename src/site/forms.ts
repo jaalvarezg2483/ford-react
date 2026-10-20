@@ -7,6 +7,7 @@ import { getSession, json, withSession } from './session'
 import { handleCitas } from './citas'
 import { handleCalculatorPost } from './calculator'
 import { saveLocation } from './location'
+import { quotationPdf } from './pdf'
 
 /** Formularios del sitio (POST). Mismas URLs que el Symfony. */
 export async function handleForm(req: Request): Promise<Response | null> {
@@ -16,6 +17,8 @@ export async function handleForm(req: Request): Promise<Response | null> {
 
   if (p.startsWith('/citas/')) return handleCitas(req, url)
   if (p === '/save/location') return saveLocation(req)
+  const pdf = /^\/generate-pdf-quotation\/([^/]+)\/([^/]+)$/.exec(p)
+  if (pdf) return quotationPdf(req, pdf[1], pdf[2])
   const calc = await handleCalculatorPost(req, url)
   if (calc) return calc
 

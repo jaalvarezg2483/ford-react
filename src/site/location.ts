@@ -28,7 +28,7 @@ export async function saveLocation(req: Request): Promise<Response> {
     let html = $.html(node)
     if (node.is('button')) html += $.html(node.next('.collapsible__body'))
     const d = haversine(lat, lng, Number(btn.attr('data-lat')), Number(btn.attr('data-long')))
-    html = html.replace(/(<button[^>]*collapsible__header[^>]*>[^<]*<strong>)[^<]*(<\/strong>)/, `$1${d.toFixed(1)} km de vos$2`)
+    html = html.replace(/(<button[^>]*collapsible__header[^>]*>[^<]*<strong>)[^<]*(<\/strong>)/, (_m: string, a: string, b: string) => `${a}${d.toFixed(1)} km de vos${b}`)
     units.push({ html, distance: d })
   })
   units.sort((a, b) => a.distance - b.distance)

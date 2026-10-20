@@ -67,6 +67,7 @@ export const Pages: CollectionConfig = {
     { name: 'route', type: 'text', label: 'Nombre de ruta Symfony (var route)', admin: { position: 'sidebar' } },
     { name: 'tail', type: 'code', label: 'Final del <body> propio (si difiere del común)', admin: { language: 'html', condition: (data) => data?.template !== 'raw' } },
     { name: 'scripts', type: 'code', label: 'Scripts de la página (al final del <body>)', admin: { language: 'html', condition: (data) => data?.template !== 'raw' } },
+    { name: 'priceRefs', type: 'json', admin: { hidden: true }, label: 'Precios de vehículos en el contenido' },
     { name: 'rawDocument', type: 'code', label: 'Documento HTML completo', admin: { language: 'html', condition: (data) => data?.template === 'raw' } },
   ],
 }

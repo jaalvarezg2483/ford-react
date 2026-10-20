@@ -1,7 +1,12 @@
 import { handleCalculatorGet } from './calculator'
 import { handleCitas, renderCitasStep } from './citas'
+import { renderComparador } from './compare'
+import { renderBlog } from './blog'
+import { renderSearch } from './search'
+import { renderVideos } from './videos'
 import { getPage, getPosts, getMediaByPath } from './data'
 import { allFamilies } from './legacy-data'
+import { renderTwig } from '@/legacy/twig'
 import { serveMedia } from './media'
 import { html } from './respond'
 import { renderPage } from './render'
@@ -18,6 +23,7 @@ export async function renderDynamic(req: Request, url: URL): Promise<Response | 
   if (calc) return calc
 
   if ((m = /^\/citas\/(step[1-4]|scheduled-car)$/.exec(p))) return renderCitasStep(req, m[1])
+  if (p === '/comparador') { const r = await renderComparador(url); if (r) return r }
   if (/^\/citas\/(getParameters|sucursals-list)$/.test(p)) return handleCitas(req, url)
 
   // Páginas de "gracias": todas usan la misma plantilla (gracias.html.twig).
@@ -25,6 +31,18 @@ export async function renderDynamic(req: Request, url: URL): Promise<Response | 
     const own = await getPage(p)
     const base = own ?? (await getPage('/contacto/gracias'))
     if (base) return html(await renderPage({ ...base, path: p, activeMenu: own ? base.activeMenu : '', route: own ? base.route : 'thanks_route' }))
+  }
+
+  // Ficha técnica en visor (flipbook): /view-pdf/{familia}/{id}
+  if ((m = /^\/view-pdf\/([^/]+)\/(\d+)$/.exec(p))) {
+    const fam = (await allFamilies()).find((f) => f.slug === m![1])
+    const sheet = fam?.dataSheets.find((d) => String(d.legacyId) === m![2])
+    if (fam && sheet?.url) {
+      const meta = (await getPage(`/autos/${fam.slug}`))?.metaHtml || ''
+      const pick = (n: string) => new RegExp(`<meta name="${n}" content="([^"]*)"`).exec(meta)?.[1] ?? ''
+      const body = renderTwig('Default/seeFile.html.twig', { family: { name: fam.name, getSeoDescription: () => pick('description'), getSeoTags: () => pick('keywords') }, file: { path: sheet.url.split('/').pop() } })
+      return new Response(body, { headers: { 'Content-Type': 'text/html; charset=UTF-8' } })
+    }
   }
 
   // Fichas técnicas: /datasheet/{id}/{archivo}
@@ -37,12 +55,10 @@ export async function renderDynamic(req: Request, url: URL): Promise<Response | 
     if (direct) return serveMedia(direct.legacyPath, req)
   }
 
-  // "Cargar más" del blog: /blog?page=N devuelve solo las tarjetas.
-  if (p === '/blog' && url.searchParams.get('page') && req.headers.get('x-requested-with') === 'XMLHttpRequest') {
-    const page = Number(url.searchParams.get('page')) || 2
-    const posts = (await getPosts()).slice(1).slice((page - 1) * 10, page * 10)
-    return new Response(posts.map(blogCard).join(''), { headers: { 'Content-Type': 'text/html; charset=UTF-8' } })
-  }
+  if (p === '/blog') return renderBlog(req, url)
+  if (p === '/resultados' && url.searchParams.has('q')) return renderSearch(url)
+  if (p === '/videos') { const r = await renderVideos(req, url, null); if (r) return r }
+  if ((m = /^\/videos\/([^/]+)$/.exec(p))) { const r = await renderVideos(req, url, decodeURIComponent(m[1])); if (r) return r }
   return null
 }
 

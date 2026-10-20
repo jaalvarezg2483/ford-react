@@ -18,6 +18,10 @@ RUN npm run build
 
 FROM node:22-bookworm-slim AS run
 WORKDIR /app
+# Chromium para el PDF de la cotización (el Symfony usaba Flying Saucer).
+RUN apt-get update && apt-get install -y --no-install-recommends chromium fonts-liberation fonts-dejavu-core \
+  && rm -rf /var/lib/apt/lists/*
+ENV PDF_CHROMIUM_PATH=/usr/bin/chromium
 ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 TZ=America/Costa_Rica PORT=3000
 COPY --from=build /app ./
 RUN mkdir -p /app/media && chown -R node:node /app/media

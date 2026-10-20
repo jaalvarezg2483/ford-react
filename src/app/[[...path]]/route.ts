@@ -6,6 +6,7 @@ import { renderDynamic } from '@/site/dynamic'
 import { applyCalculatorSession } from '@/site/calculator'
 import { withSession } from '@/site/session'
 import { snippetModal } from '@/site/snippet'
+import { syncPrices } from '@/site/prices'
 
 export const dynamic = 'force-dynamic'
 
@@ -20,6 +21,7 @@ export async function GET(req: Request) {
   let page = (url.search ? await getPage(pathname + url.search) : null) ?? await getPage(pathname) ?? (url.pathname !== pathname ? await getPage(url.pathname) : await getPage(pathname + '/'))
   if (!page) return notFound(req)
 
+  page = await syncPrices(page)
   const calc = await applyCalculatorSession(req, url, page.content || '')
   if (calc) page = { ...page, content: calc.content }
   const modal = snippetModal(req)

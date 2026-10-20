@@ -1,0 +1,60 @@
+@charset "UTF-8";
+/*------------------------------------------------
+                    Funciones
+/*------------------------------------------------*/
+@function ems($value, $font) {
+    @return $value / $font + em;
+}
+
+@function percent($target, $container) {
+    @return $target / $container * 100%;
+}
+
+@mixin max-to($breakpoint) {
+    @media only screen and (max-width: $breakpoint + px) {
+        @content;
+    }
+}
+
+@mixin min-to($breakpoint) {
+    @media only screen and (min-width: $breakpoint + px) {
+        @content;
+    }
+}
+
+/*border radius*/
+$default-prefixes: webkit moz ms o;
+
+@mixin build-prefix-values($property, $value, $prefixes: $default-prefixes) {
+    @each $prefix in $prefixes {
+        -#{$prefix}-#{$property}: #{$value};
+    }
+    #{$property}: #{$value};
+}
+
+@mixin create($name, $value) {
+    $prefixes: webkit moz ms o;
+    @include build-prefix-values($name, $value, $prefixes);
+}
+
+@mixin bg($img, $opciones) {
+    background: url("../img/"+$img) $opciones;
+}
+
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+  @-ms-keyframes #{$name} {
+    @content;
+  }
+  @-o-keyframes #{$name} {
+    @content;
+  }
+  @keyframes #{$name} {
+    @content;
+  }
+}

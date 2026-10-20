@@ -18,24 +18,33 @@ type Item = { id: string; price: number; name: string }
 
 /** Catálogo de accesorios con id/precio/nombre, tomado de las páginas del cotizador. */
 function accessoryCatalog(): Promise<Map<string, Item>> {
-  return cached('accessory-catalog', async () => {
+  return catalogs().then((c) => c.all)
+}
+
+/** Catálogo global y, por familia, los accesorios que se le pueden cotizar. */
+function catalogs(): Promise<{ all: Map<string, Item>; byFamily: Map<string, Set<string>> }> {
+  return cached('accessory-catalog:v2', async () => {
     const payload = await payloadClient()
     const map = new Map<string, Item>()
+    const byFamily = new Map<string, Set<string>>()
     let page = 1
     for (;;) {
-      const res = await payload.find({ collection: 'pages', where: { or: [{ path: { like: '/autos/%/calcular/%' } }, { path: { like: '/accesorios/%' } }] }, limit: 100, page, depth: 0, select: { content: true } as any })
+      const res = await payload.find({ collection: 'pages', where: { or: [{ path: { like: '/autos/%/calcular/%' } }, { path: { like: '/accesorios/%' } }] }, limit: 100, page, depth: 0, select: { path: true, content: true } as any })
       for (const d of res.docs as any[]) {
+        const slug = String(d.path).split('/')[2]
+        const ids = byFamily.get(slug) ?? new Set<string>()
+        byFamily.set(slug, ids)
         for (const m of String(d.content || '').matchAll(/<input[^>]*class="checkbox control-resume"[^>]*>/g)) {
           const tag = m[0]
           const attr = (n: string) => new RegExp(`${n}="([^"]*)"`).exec(tag)?.[1]
           const id = attr('data-id'), price = attr('data-price'), name = attr('data-name')
-          if (id && price && name) map.set(id, { id, price: Number(price), name: decode(name) })
+          if (id && price && name) { map.set(id, { id, price: Number(price), name: decode(name) }); ids.add(id) }
         }
       }
       if (!res.hasNextPage) break
       page++
     }
-    return map
+    return { all: map, byFamily }
   })
 }
 
@@ -119,11 +128,11 @@ async function calculatorsLegacy() {
  * Cotizador: al entrar a una familia distinta se limpia la selección
  * (SessionService::cleanCalculate) y el resumen muestra lo elegido.
  */
-export async function applyCalculatorSession(req: Request, url: URL, content: string): Promise<{ content: string; session: Session } | null> {
+export async function applyCalculatorSession(req: Request, url: URL, content: string, existing?: Session): Promise<{ content: string; session: Session } | null> {
   const p = url.pathname.replace(/\/$/, '')
   const m = /^\/(?:autos|preaprobador)\/([^/]+)\/calcular\/([^/]+)(\/resumen)?$/.exec(p) || /^\/accesorios\/([^/]+)(?:\/(resumen|correo|asesor))?$/.exec(p)
   if (!m) return null
-  const session = await getSession(req)
+  const session = existing ?? (await getSession(req))
   const family = await findFamily({ slug: m[1] })
   if (family) {
     const current = session.get(FAMILY, null)
@@ -132,6 +141,12 @@ export async function applyCalculatorSession(req: Request, url: URL, content: st
       if (current) { session.remove(ACC); session.remove(MAINT); session.remove(INS) }
     }
   }
+  // SessionService::cleanAccesories: quita lo que no aplica a esta familia.
+  const allowed = (await catalogs()).byFamily.get(m[1])
+  const current: Record<string, Item> = session.get(ACC, {})
+  if (allowed && Object.keys(current).some((id) => !allowed.has(id))) {
+    session.set(ACC, Object.fromEntries(Object.entries(current).filter(([id]) => allowed.has(id))))
+  }
   let out = content
   const accessories: Record<string, Item> = session.get(ACC, {})
   const total = sessionTotal(session)
@@ -139,7 +154,24 @@ export async function applyCalculatorSession(req: Request, url: URL, content: st
   for (const id of Object.keys(accessories)) {
     out = out.replace(new RegExp(`(<input value="${id}" type="checkbox" class="checkbox control-resume")`, 'g'), '$1 checked')
   }
-  if (/\/resumen$/.test(p) && Object.keys(accessories).length) {
+  if (/^\/accesorios\//.test(p)) {
+    const items = Object.values(accessories)
+    if (/\/resumen$/.test(p)) {
+      const rows = items.map((a) => `
+                        <tr>
+                            <td class="padding-1">${escapeHtml(a.name)}</td><td>$${a.price}</td>
+                        </tr>    `).join('')
+      // Reemplazo con función: los montos llevan "$" y no deben leerse como $1, $2…
+      out = out.replace(/(<h3 class="title">Cotización de accesorios<\/h3>\s*<table>)\s*(<tr>\s*<td class="padding-1"><strong>Total<\/strong><\/td><td><strong>\$)[\d.,]*(<\/strong>)/, (_m, a, b, c) => `${a}${rows}
+                    ${b}${total}${c}`)
+    } else if (items.length) {
+      out = out.replace(/(<p class="form__title">ME INTERESAN LOS SIGUIENTES ACCESORIOS PARA:<\/p>[\s\S]*?<ul>)\s*(<\/ul>)/, (_m, a, b) => `${a}${items.map((x) => `
+                        <li>${escapeHtml(x.name)}</li>`).join('')}
+                    ${b}`)
+    }
+    return { content: out, session }
+  }
+  if (/\/resumen$/.test(p)) {
     const rows = Object.entries(accessories).map(([key, a]) => `
 									<tr>
 										<td>
@@ -152,21 +184,27 @@ export async function applyCalculatorSession(req: Request, url: URL, content: st
 											<a data-id="${key}" data-attr="accesory" class="js-delete-accessory"><span class="icon icon-close"></span></a>
 										</td>
 									</tr>`).join('')
-    out = out.replace(/(<strong id="pc-model-start-price">\$([\d.]+)<\/strong><\/td>\s*<td>&nbsp;<\/td>\s*<\/tr>)/, `$1${rows}`)
+    out = out.replace(/(<strong id="pc-model-start-price">\$([\d.]+)<\/strong><\/td>\s*<td>&nbsp;<\/td>\s*<\/tr>)/, (m0) => `${m0}${rows}`)
     const start = Number((/<strong id="pc-model-start-price">\$([\d.]+)</.exec(out)?.[1] ?? '0').replace(/\./g, ''))
     const grand = start + total
-    out = out.replace(/(<span id="pc-total-price">)[\d.]+(<\/span>)/, `$1${money(grand)}$2`)
+    out = out.replace(/(<span id="pc-total-price">)[\d.]+(<\/span>)/, (_m, a, b) => `${a}${money(grand)}${b}`)
     const ents = (await calculators()).map(calculatorEntity)
     out = out.replace(/<form data-calculator="([^"]+)"[\s\S]*?<\/form>/g, (form, name) => {
       const e = ents.find((x) => x.name === name)
       if (!e) return form
       const prima = phpNumber(e.calcPrima(grand))
-      const fee = (e.calculate(grand)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+      const fmt = (n: number) => n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+      const base = e.calculate(grand)
+      const fee = fmt(base)
+      // calculate-step-5: la cuota en rojo suma el "Purdy Seguro" del modelo.
+      const insurance = Number(/<p>Seguro:<\/p>\s*<p class="priceAndColor">\$([\d.]+)</.exec(form)?.[1] ?? 0)
+      const feeTotal = fmt(base + insurance)
       return form
-        .replace(/(class="validate rate_prima no-letters" value=")[^"]*(")/, `$1${prima}$2`)
-        .replace(/(La prima no puede ser menor a \$)[^<]*/, `$1${prima}`)
-        .replace(/(class="title text-center fee_wdg(?:_plain)? text--red text--bold">\$)[^<]*/, `$1${fee}`)
-        .replace(/(class="fee_wdg_plain priceAndColor">\$)[^<]*/, `$1${fee}`)
+        .replace(/(class="validate rate_prima no-letters" value=")[^"]*(")/, (_m: string, a: string, b: string) => `${a}${prima}${b}`)
+        .replace(/(La prima no puede ser menor a \$)[^<]*/, (_m: string, a: string) => `${a}${prima}`)
+        .replace(/(class="title text-center fee_wdg text--red text--bold">\$)[^<]*/, (_m: string, a: string) => `${a}${feeTotal}`)
+        .replace(/(class="title text-center fee_wdg_plain text--red text--bold">\$)[^<]*/, (_m: string, a: string) => `${a}${fee}`)
+        .replace(/(class="fee_wdg_plain priceAndColor">\$)[^<]*/, (_m: string, a: string) => `${a}${fee}`)
     })
   }
   return { content: out, session }

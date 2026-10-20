@@ -117,6 +117,7 @@ export type PageDoc = {
   scripts?: string
   tail?: string
   bodyStart?: string
+  priceRefs?: { value: number; ref: string }[] | null
   rawDocument?: string
 }
 
@@ -153,7 +154,7 @@ export function getPosts(limit = 200) {
   return cached(`posts:${limit}`, async () => {
     const payload = await payloadClient()
     const res = await payload.find({ collection: 'posts', where: { active: { equals: true } }, sort: '-publishedAt', limit, depth: 1 })
-    return res.docs.map((p: any) => ({ title: p.title, path: p.path, category: p.category || '', date: p.publishedAt || '', image: mediaUrl(p.image), summary: p.summary || '' }))
+    return res.docs.map((p: any) => ({ title: p.title, path: p.path, category: p.category || '', categoryId: p.categoryId ?? null, views: p.views ?? 0, featured: Boolean(p.featured), date: p.publishedAt || '', image: mediaUrl(p.image), summary: p.summary || '' }))
   })
 }
 

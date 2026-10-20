@@ -37,6 +37,7 @@
     "next": "16.2.11",
     "nodemailer": "^7.0.5",
     "payload": "3.88.0",
+    "playwright-core": "^1.56.1",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "sharp": "0.34.2",

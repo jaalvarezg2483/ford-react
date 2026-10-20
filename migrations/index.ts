@@ -1,6 +1,11 @@
 import * as migration_20261020_000035_initial from './20261020_000035_initial';
 import * as migration_20261020_000342_page_body_start from './20261020_000342_page_body_start';
 import * as migration_20261020_001420_settings_calculators_parameters from './20261020_001420_settings_calculators_parameters';
+import * as migration_20261020_002800_model_specs from './20261020_002800_model_specs';
+import * as migration_20261020_003022_posts_category_views from './20261020_003022_posts_category_views';
+import * as migration_20261020_003053_posts_featured from './20261020_003053_posts_featured';
+import * as migration_20261020_003356_videos from './20261020_003356_videos';
+import * as migration_20261020_003715_page_price_refs from './20261020_003715_page_price_refs';
 import * as migration_20261020_010000_site_sessions from './20261020_010000_site_sessions';
 
 export const migrations = [
@@ -18,6 +23,31 @@ export const migrations = [
     up: migration_20261020_001420_settings_calculators_parameters.up,
     down: migration_20261020_001420_settings_calculators_parameters.down,
     name: '20261020_001420_settings_calculators_parameters',
+  },
+  {
+    up: migration_20261020_002800_model_specs.up,
+    down: migration_20261020_002800_model_specs.down,
+    name: '20261020_002800_model_specs',
+  },
+  {
+    up: migration_20261020_003022_posts_category_views.up,
+    down: migration_20261020_003022_posts_category_views.down,
+    name: '20261020_003022_posts_category_views',
+  },
+  {
+    up: migration_20261020_003053_posts_featured.up,
+    down: migration_20261020_003053_posts_featured.down,
+    name: '20261020_003053_posts_featured',
+  },
+  {
+    up: migration_20261020_003356_videos.up,
+    down: migration_20261020_003356_videos.down,
+    name: '20261020_003356_videos',
+  },
+  {
+    up: migration_20261020_003715_page_price_refs.up,
+    down: migration_20261020_003715_page_price_refs.down,
+    name: '20261020_003715_page_price_refs',
   },
   {
     up: migration_20261020_010000_site_sessions.up,

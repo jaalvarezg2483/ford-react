@@ -30,7 +30,7 @@ export type FamilyRecord = {
   slug: string
   code?: string
   startPrice?: number
-  models: { code: string; name: string; year?: number; legacyId?: number; price?: number; familySalesForce?: string; categorySalesForce?: string }[]
+  models: { code: string; name: string; year?: number; legacyId?: number; price?: number; familySalesForce?: string; categorySalesForce?: string; specs?: Record<string, unknown> | null }[]
   dataSheets: { title: string; url: string; legacyId?: number }[]
 }
 
@@ -40,7 +40,7 @@ export function allFamilies(): Promise<FamilyRecord[]> {
     const res = await payload.find({ collection: 'families', limit: 200, depth: 1 })
     return res.docs.map((f: any) => ({
       id: f.id, legacyId: f.legacyId, name: f.name, slug: f.slug, code: f.code, startPrice: f.startPrice,
-      models: (f.models || []).map((m: any) => ({ code: m.code, name: m.name, year: m.year, legacyId: m.legacyId, price: m.price, familySalesForce: m.familySalesForce, categorySalesForce: m.categorySalesForce })),
+      models: (f.models || []).map((m: any) => ({ code: m.code, name: m.name, year: m.year, legacyId: m.legacyId, price: m.price, familySalesForce: m.familySalesForce, categorySalesForce: m.categorySalesForce, specs: m.specs ?? null })),
       dataSheets: (f.dataSheets || []).map((d: any) => ({ title: d.title, url: d.file?.legacyPath || d.file?.url || '', legacyId: d.legacyId })),
     }))
   })

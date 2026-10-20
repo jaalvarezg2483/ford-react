@@ -8,6 +8,8 @@ export interface ImportSource {
   rest(endpoint: string): Promise<string | null>
   file(legacyPath: string): Promise<{ data: Buffer; mimetype: string } | null>
   fragment(pathWithQuery: string): Promise<string | null>
+  /** Una página puntual (variantes con parámetros: ?models[0]=…). */
+  page(pathWithQuery: string): Promise<CrawledPage | null>
 }
 
 const MIME: Record<string, string> = {
@@ -35,6 +37,11 @@ export function dirSource(dir: string, live?: ImportSource): ImportSource {
     },
     async fragment(p) {
       return live ? live.fragment(p) : null
+    },
+    async page(p) {
+      const hit = index[p]
+      if (hit) return { path: p, status: hit.status, url: hit.url, html: readFileSync(path.join(dir, 'html', hit.file), 'utf8') }
+      return live ? live.page(p) : null
     },
   }
 }
@@ -98,6 +105,10 @@ export function liveSource(base: string): ImportSource {
     async fragment(p) {
       const res = await get(p).catch(() => null)
       return res?.ok ? res.text() : null
+    },
+    async page(p) {
+      const res = await get(p).catch(() => null)
+      return res ? { path: p, status: res.status, url: res.url, html: await res.text() } : null
     },
   }
 }

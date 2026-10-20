@@ -2,6 +2,9 @@ import { esc, money } from './html'
 import { absolute, getPosts, getSite, getSlider } from './data'
 
 /**
+ * (El CMS anterior pasaba estos bloques por un parser DOM: por eso las etiquetas
+ * de cierre extra como </source></source>; se conservan para que el HTML sea idéntico.)
+ *
  * Bloques dinámicos que el CMS anterior insertaba dentro del contenido con
  * <div data-controller="…" data-parameters="…">. Mismo marcado que las
  * plantillas Twig originales; los datos salen de Payload.
@@ -40,7 +43,7 @@ const renderSlider: Controller = async (params) => {
     const alt = esc(item.alt || `Banner ${i + 1}`)
     out += `    <div class="hero-slide">
 `
-    if (showBackLink) out += `            <a href="javascript:history.back()" class="hidden-md floating-back-link"><strong><i class="icon icon-arrow-left"></i>  Volver<strong></a>
+    if (showBackLink) out += `            <a href="javascript:history.back()" class="hidden-md floating-back-link"><strong><i class="icon icon-arrow-left"></i>  Volver<strong></strong></strong></a>
 `
     if (item.video) {
       out += `            <video class="hero-background" autoplay muted loop poster="${esc(item.md)}">
@@ -55,14 +58,14 @@ const renderSlider: Controller = async (params) => {
                     <source media="(min-width: 600px) and (max-width: 767px)" srcset="${esc(item.md)}">
                     <source media="(min-width: 768px)" srcset="${esc(item.lg)}">
                     <img src="${esc(item.xs)}" alt="${alt}" class="bannerimg">
-                            </picture>
+                            </source></source></source></picture>
 `
     } else {
       out += `            <picture class="hero-background">
                                                     <source media="(min-width: 600px) and (max-width: 1199px)" srcset="${esc(item.md)}">
                     <source media="(min-width: 768px)" srcset="${esc(item.lg)}">
                     <img src="${esc(item.lg)}" alt="${alt}" class="bannerimg">
-                            </picture>
+                            </source></source></picture>
 `
     }
     out += `        <div class="title_container">

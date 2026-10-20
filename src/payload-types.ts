@@ -70,6 +70,7 @@ export interface Config {
     pages: Page;
     sliders: Slider;
     posts: Post;
+    videos: Video;
     families: Family;
     'family-types': FamilyType;
     media: Media;
@@ -86,6 +87,7 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     sliders: SlidersSelect<false> | SlidersSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
+    videos: VideosSelect<false> | VideosSelect<true>;
     families: FamiliesSelect<false> | FamiliesSelect<true>;
     'family-types': FamilyTypesSelect<false> | FamilyTypesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -165,6 +167,15 @@ export interface Page {
   route?: string | null;
   tail?: string | null;
   scripts?: string | null;
+  priceRefs?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   rawDocument?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -234,8 +245,36 @@ export interface Post {
   category?: string | null;
   publishedAt?: string | null;
   active?: boolean | null;
+  /**
+   * Identificador del filtro del blog (checkbox-ID).
+   */
+  categoryId?: number | null;
+  views?: number | null;
+  /**
+   * Sale como "Destacado" en /blog. Si ninguna está marcada, se usa la más vista.
+   */
+  featured?: boolean | null;
   image?: (number | null) | Media;
   summary?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "videos".
+ */
+export interface Video {
+  id: number;
+  name: string;
+  category: string;
+  order?: number | null;
+  active?: boolean | null;
+  youtube: string;
+  /**
+   * Si se deja vacía se usa la miniatura de YouTube.
+   */
+  image?: string | null;
+  description?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -268,6 +307,18 @@ export interface Family {
         familySalesForce?: string | null;
         categorySalesForce?: string | null;
         features?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        /**
+         * cc, traction, gas, transmission, pasajeros, totalLength, totalHeight, totalWidth, distanceBetweenAxis
+         */
+        specs?:
           | {
               [k: string]: unknown;
             }
@@ -412,6 +463,10 @@ export interface PayloadLockedDocument {
         value: number | Post;
       } | null)
     | ({
+        relationTo: 'videos';
+        value: number | Video;
+      } | null)
+    | ({
         relationTo: 'families';
         value: number | Family;
       } | null)
@@ -498,6 +553,7 @@ export interface PagesSelect<T extends boolean = true> {
   route?: T;
   tail?: T;
   scripts?: T;
+  priceRefs?: T;
   rawDocument?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -535,8 +591,26 @@ export interface PostsSelect<T extends boolean = true> {
   category?: T;
   publishedAt?: T;
   active?: T;
+  categoryId?: T;
+  views?: T;
+  featured?: T;
   image?: T;
   summary?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "videos_select".
+ */
+export interface VideosSelect<T extends boolean = true> {
+  name?: T;
+  category?: T;
+  order?: T;
+  active?: T;
+  youtube?: T;
+  image?: T;
+  description?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -569,6 +643,7 @@ export interface FamiliesSelect<T extends boolean = true> {
         familySalesForce?: T;
         categorySalesForce?: T;
         features?: T;
+        specs?: T;
         id?: T;
       };
   dataSheets?:

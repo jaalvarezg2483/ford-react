@@ -17,7 +17,7 @@ const ROUTES: Record<string, string> = {
   available_schedules: '/citas/available-schedules', cancel_appointment: '/citas/cancel-appointment', create_appointment: '/citas/create-appointment',
   sucursals_list: '/citas/sucursals-list', save_details: '/citas/save/details', save_branch_date: '/citas/save/branch/date', delete_plate: '/citas/delete_plate',
   index: '/', home: '/', cms_home: '/', contacto: '/contacto', sucursales: '/sucursales', talleres: '/talleres', calculate: '/calcular', blog: '/blog',
-  model_list: '/autos/{slug}', thanks: '/contacto/gracias', solicitar_test_drive: '/solicitar-test-drive', comparador: '/comparador',
+  model_list: '/autos/{slug}', article_by_alias_and_category: '/{category_alias}/{article_alias}', 'calculate-all': '/autos/{slug}/calcular/{code}', thanks: '/contacto/gracias', solicitar_test_drive: '/solicitar-test-drive', comparador: '/comparador', videos: '/videos', 'videos-category': '/videos/{name}', results_search: '/resultados',
 }
 
 export function pathFor(name: string, params: Record<string, unknown> = {}): string {
@@ -25,7 +25,7 @@ export function pathFor(name: string, params: Record<string, unknown> = {}): str
   const extra: string[] = []
   for (const [k, v] of Object.entries(params || {})) {
     if (k === '_keys') continue
-    if (url.includes(`{${k}}`)) url = url.replace(`{${k}}`, encodeURIComponent(String(v)))
+    if (url.includes(`{${k}}`)) url = url.replace(`{${k}}`, encodeURIComponent(String(v)).replace(/[()!'*]/g, (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`))
     else extra.push(`${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`)
   }
   return extra.length ? `${url}?${extra.join('&')}` : url
@@ -91,6 +91,8 @@ function load() {
   Twig.extendFunction('url', (name: string, params?: Record<string, unknown>) => (process.env.NEXT_PUBLIC_SERVER_URL || '') + pathFor(name, params))
   Twig.extendFunction('asset', (p: string) => `/${String(p).replace(/^\//, '')}`)
   Twig.extendFunction('csrf_token', () => '')
+  Twig.extendFunction('search_path', (route: any) => route?.path ?? '/')
+  Twig.extendFunction('constant', (name: string) => ({ '\\Lumen\\CMSBundle\\Service\\SearchElasticaService::ELEMENTS': 'elements', '\\Lumen\\CMSBundle\\Service\\SearchElasticaService::PAGES': 'pages', '\\Lumen\\AppBundle\\Classes\\Constant::SESSION_INSURANCE': 'Se_insurance', '\\Lumen\\AppBundle\\Classes\\Constant::SESSION_MAINTENANCE': 'Se_maintenance' } as Record<string, string>)[String(name).replace(/^\\/, '\\')] ?? String(name).split('::').pop()!.toLowerCase())
   Twig.extendFunction('dump', () => '')
   Twig.extendFilter('localizeddate', (value: any, args: any) => {
     const [dateType = 'medium', timeType = 'medium', , tz = 'America/Costa_Rica'] = (args as string[] | undefined) ?? []
@@ -103,11 +105,23 @@ function load() {
   })
   Twig.extendFunction('getParameter', (name: string, fallback?: string) => params[name] ?? fallback ?? '')
   Twig.extendFunction('citasMaintenanceModalActive', (() => citasMaintenanceModalActive()) as any)
-  Twig.extendFilter('imagine_filter', (value: any, args: any) => `/media/cache/${(args as string[] | undefined)?.[0] ?? 'resolve'}${String(value).startsWith('/') ? '' : '/'}${value}`)
+  // LiipImagine devolvía la URL absoluta de la miniatura.
+  Twig.extendFilter('imagine_filter', (value: any, args: any) => `${process.env.NEXT_PUBLIC_SERVER_URL || ''}/media/cache/${(args as string[] | undefined)?.[0] ?? 'resolve'}${String(value).startsWith('/') ? '' : '/'}${value}`)
   register = (id: string, data: string) => {
-    const src = data.replace(/(\{%\s*(?:extends|include|embed|import|from)\s+)(["'])([^"']+)\2/g, (_m, pre, q, name) => `${pre}${q}${normalize(name)}${q}`)
+    // twig.js considera "definido" un índice fuera de rango; en PHP no lo es.
+    const fixed = data
+      .replace(/(\w+)\[(\w+)\] is not defined/g, '($2 >= $1|length)')
+      .replace(/(\w+)\[(\w+)\] is defined/g, '($2 < $1|length)')
+      .replace(/(\w+)\[(['"])(\w+)\2\] is not defined/g, "('$3' not in $1|keys)")
+      .replace(/(\w+)\[(['"])(\w+)\2\] is defined/g, "('$3' in $1|keys)")
+    const src = fixed.replace(/(\{%\s*(?:extends|include|embed|import|from)\s+)(["'])([^"']+)\2/g, (_m, pre, q, name) => `${pre}${q}${normalize(name)}${q}`)
       .replace(/(\{\{\s*include\(\s*)(["'])([^"']+)\2/g, (_m, pre, q, name) => `${pre}${q}${normalize(name)}${q}`)
-    Twig.twig({ id, data: src, allowInlineIncludes: true, rethrow: true } as any)
+    try {
+      Twig.twig({ id, data: src, allowInlineIncludes: true, rethrow: true } as any)
+    } catch (error) {
+      // En desarrollo el módulo se recarga pero el registro global de twig.js sigue vivo.
+      if (!String((error as Error)?.message ?? error).includes('already a template')) throw error
+    }
   }
   register('__base', readFileSync(STUB, 'utf8'))
   registered.add('__base')

@@ -18,6 +18,11 @@ export const Posts: CollectionConfig = {
       { name: 'publishedAt', type: 'date', label: 'Fecha' },
       { name: 'active', type: 'checkbox', defaultValue: true, label: 'Visible en listados' },
     ] },
+    { type: 'row', fields: [
+      { name: 'categoryId', type: 'number', label: 'ID de categoría (filtro)', admin: { description: 'Identificador del filtro del blog (checkbox-ID).' } },
+      { name: 'views', type: 'number', label: 'Visualizaciones', defaultValue: 0 },
+      { name: 'featured', type: 'checkbox', label: 'Destacada', admin: { description: 'Sale como "Destacado" en /blog. Si ninguna está marcada, se usa la más vista.' } },
+    ] },
     { name: 'image', type: 'upload', relationTo: 'media', label: 'Imagen' },
     { name: 'summary', type: 'textarea', label: 'Resumen' },
   ],

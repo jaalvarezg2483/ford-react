@@ -1,0 +1,423 @@
+@charset "UTF-8";
+// * -------------------------
+// * Menu
+// * -------------------------
+body.open-menu {
+    overflow: hidden;
+    .nav-toyota {
+        left: 0;
+    }
+    .wrapper-global,
+    header {
+        left: 385px;
+    }
+}
+
+.nav-toyota {
+    max-width: 385px;
+    width: 100%;
+    a{
+      font-size: 1.25em;
+      line-height: 55px;
+    }
+}
+
+// * ==============================================
+// * Banner
+// * ==============================================
+.content-slider {
+    padding-bottom: 180px;
+    padding-top: 81px;
+    h3 {
+        font-size: 45px;
+    }
+}
+// * -------------------------
+// * Progress Circle
+// * -------------------------
+.content-progress {
+    p {
+        font: normal normal 23px/27px $roboto;
+    }
+}
+.pie-progress {
+    height: 366px;
+    max-width: 366px;
+}
+// * -------------------------
+// * Scroll btn
+// * -------------------------
+.wrap-scroll-btn {
+    .text-scroll {
+        color: #fff;
+        font: normal normal 13px/16px $roboto;
+    }
+}
+.scroll-btn {
+    height: 140px;
+    padding-top: 35px;
+    width: 125px;
+    .icon-arrow-down {
+        margin-bottom: 10px;
+    }
+}
+// * -------------------------
+// * Axes
+// * -------------------------
+.wrap-axes-grid {
+    padding-left: 0;
+    padding-right: 0;
+    &:hover {
+        .info-axes {
+            padding-top: 10px;
+            margin-top: 20%;
+        }
+    }
+}
+.text-axes {
+    color: #fff;
+    font: 300 normal 22px/27px $roboto;
+}
+// * -------------------------
+// * Grig Logotype
+// * -------------------------
+.col-custom-5 {
+    max-width: 20%;
+    &:nth-child(1n+5) {
+        display: block;
+    }
+    &:nth-child(1n+7) {
+        display: block;
+    }
+}
+.flip-container,
+.front,
+.back {
+    height: 308px;
+}
+.contente-flip {
+    padding-top: 65px;
+}
+// * -------------------------
+// * Memory
+// * -------------------------
+.section-memory {
+    background: url(../img/structure/bg-memory-desktop.jpg) no-repeat 50% 50%;
+    @include create(background-size, cover);
+    background-attachment: fixed;
+    padding-top: 150px;
+    h2 {
+        max-width: 100%;
+    }
+    p {
+        max-width: 100%;
+        margin-bottom: 70px;
+    }
+    .yeard {
+        float: none;
+    }
+}
+.wrap-btns {
+    margin-bottom: 69px;
+    text-align: center;
+    a {
+        display: inline-block;
+        margin: 0 14px;
+    }
+}
+// * ==============================================
+// * Eje social interno
+// * ==============================================
+// * -------------------------
+// * background social
+// * -------------------------
+.wrap-bg-social-hub {
+    background: url(../img/structure/bg-social-hub.jpg) no-repeat 50% 50%;
+    @include create(background-size, cover);
+    height: 100%;
+    left: 0;
+    max-width: 427px;
+    position: fixed;
+    width: 100%;
+}
+.wrap-social-hub {
+    padding-left: 427px;
+}
+.wrap-download {
+    bottom: 25%;
+    position: absolute;
+}
+// * -------------------------
+// * Development-plans
+// * -------------------------
+.wrap-development-plans {
+    margin: -38px auto 30px;
+}
+// * -------------------------
+// * Breadcrumbs
+// * -------------------------
+.wrap-breadcrumbs {
+    margin-bottom: 50px;
+    padding-top: 45px;
+}
+// * -------------------------
+// * Title
+// * -------------------------
+.title-development {
+    font: 900 normal 61px/48px $roboto;
+    span {
+        font-size: 30px;
+    }
+}
+.content-info {
+    p {
+        font-size: 18px;
+        line-height: 36px;
+    }
+}
+// * -------------------------
+// * Title
+// * -------------------------
+.title-inside {
+    font-size: 40px;
+}
+// * -------------------------
+// * TItle infografia
+// * -------------------------
+.text-title {
+    font: 900 normal 38px/35px $roboto;
+    &.black {
+        margin-bottom: -64px;
+    }
+    &.black-long {
+        color: #333232;
+        font-size: 38px;
+        max-width: 334px;
+        margin: 0 auto 80px;
+        span {
+            font: 200 normal 28px/30px $roboto;
+        }
+    }
+    &.pink {
+        color: #F04F7E;
+        margin: 0 auto;
+        max-width: 245px;
+        margin-bottom: 24px;
+    }
+    &.green2 {
+        color: #61BFAF;
+        font: 900 normal 33px/32px $roboto;
+        margin: 0 auto 50px;
+        max-width: 390px;
+        span {
+            font: 200 normal 28px/31px $roboto;
+        }
+    }
+    &.grey{
+      color: #7F8C8D;
+      font: 900 normal 29px/30px $roboto;
+      margin: 0 auto 32px;
+      max-width: 452px;
+      span {
+          font: 200 normal 26px/30px $roboto;
+      }
+    }
+    &.white{
+      color: #fff;
+      font: 900 normal 29px/30px $roboto;
+      margin: 0 auto;
+      max-width: 457px;
+      span {
+          font: 200 normal 29px/34px $roboto;
+      }
+    }
+    &.title-grey-1 {
+        color: #000000;
+        font: 500 normal 23px/30px $roboto;
+        margin: 0 auto;
+        max-width: 452px;
+    }
+    &.title-grey-2 {
+        color: #fff;
+        font: 500 normal 22px/27px $roboto;
+        margin: 0 auto;
+        max-width: 452px;
+        span {
+          font: inherit;
+        }
+    }
+    span {
+        color: inherit;
+        display: block;
+        font: 200 normal 28px/33px $roboto;
+    }
+    strong {
+        color: inherit;
+        font: 900 normal 22px/25px $roboto;
+    }
+    .light {
+        font: 300 normal 20px/24px $roboto;
+    }
+    .number {
+        color: #333232;
+        font: 900 normal 118px/95px $roboto;
+    }
+}
+.wrap-faces {
+    [class*="icon-"] {
+        @include opacity(0);
+        margin: 0 3%;
+    }
+}
+// * -------------------------
+// * Contributors
+// * -------------------------
+.wrap-contributors {
+    img {
+        max-width: 362px;
+    }
+}
+.braket-left,
+.braket-right {
+    max-width: 50%;
+}
+.icons-anim {
+    @include opacity(0);
+}
+.wrap-icons {
+    .icons-anim {
+        @include opacity(0);
+    }
+}
+// * -------------------------
+// * Dots
+// * -------------------------
+.wrap-dot {
+    span {
+        @include opacity(0);
+    }
+}
+// * ==============================================
+// * Eje económico
+// * ==============================================
+// * -------------------------
+// * wrap green
+// * -------------------------
+.wrap-bg-green {
+    height: 60px;
+    img {
+        height: 100px;
+        margin-bottom: 7px;
+        width: 100px;
+    }
+}
+.icons-green {
+    p {
+        font: 900 normal 13px/15px $roboto;
+    }
+}
+// * -------------------------
+// * wrap-economic-value
+// * -------------------------
+.peoples{
+  margin-bottom: 30px;
+  margin-top: -135px;
+}
+
+.content-title {
+    background: #ECF0F1;
+    padding-bottom: 160px;
+    padding-top: 105px;
+}
+.icon-economic {
+    bottom: -75px;
+    left: 0;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+    width: 150px;
+}
+
+
+// * ==============================================
+// * Eje Social externo
+// * ==============================================
+
+.block-bg {
+    max-width: 570px;
+}
+
+.block-bg--impact {
+    background-image: url('../img/content/impacto.png');
+    height: 390px;
+    padding-top: 80px;
+}
+
+.block-bg--collaborate {
+    background-size: 450px auto;
+}
+
+.block-bg--satisfy {
+    background-image: url('../img/content/satisfacer.png');
+    height: 320px;
+}
+
+.block-bg--flag {
+    background-image: url('../img/content/bandera.png');
+    height: 505px;
+}
+
+// * ==============================================
+// * Animaciones
+// * ==============================================
+
+.wrap-dot {
+    span {
+        @include opacity(0);
+        @include transform(scale(2));
+    }
+}
+
+.wrap-dot--visible {
+    span {
+        @include opacity(1);
+        @include transform(scale(1));
+    }
+}
+
+#text-1 {
+    @include opacity(0);
+    @include transform(scale(2));
+}
+
+#icons {
+    div {
+        @include opacity(0);
+        @include transform(scale(2));
+    }
+}
+
+.block-bg--impact {
+    .text-anim {
+        @include opacity(0);
+        @include transform(scale(2));
+    }
+}
+
+.block-bg--flag {
+    .text-anim {
+        @include opacity(0);
+        @include transform(scale(2));
+    }
+}
+
+#text-2 {
+    @include opacity(0);
+    @include transform(translateY(-100%));
+}
+
+#text-3 {
+    @include opacity(0);
+    @include transform(translateY(100%));
+}
+

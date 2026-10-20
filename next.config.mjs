@@ -8,7 +8,7 @@ const nextConfig = {
   devIndicators: false,
   // El sitio público reproduce las URLs del sitio Symfony: sin barra final forzada.
   skipTrailingSlashRedirect: true,
-  serverExternalPackages: ['@azure/identity', 'sharp', 'twig'],
+  serverExternalPackages: ['@azure/identity', 'sharp', 'twig', 'playwright-core'],
   // Plantillas Twig del Symfony y datos de apoyo que se leen del disco en tiempo de ejecución.
   outputFileTracingIncludes: { '/**': ['./src/legacy/**/*', './src/data/**/*', './src/import/*.json'] },
   images: { unoptimized: true },

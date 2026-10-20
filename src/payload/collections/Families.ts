@@ -46,6 +46,12 @@ export const Families: CollectionConfig = {
           { name: 'categorySalesForce', type: 'text', label: 'Categoría Salesforce' },
         ] },
         { name: 'features', type: 'json', label: 'Equipamiento (lista)' },
+        {
+          name: 'specs',
+          type: 'json',
+          label: 'Especificaciones (comparador)',
+          admin: { description: 'cc, traction, gas, transmission, pasajeros, totalLength, totalHeight, totalWidth, distanceBetweenAxis' },
+        },
       ],
     },
     { name: 'dataSheets', type: 'array', label: 'Fichas técnicas', fields: [

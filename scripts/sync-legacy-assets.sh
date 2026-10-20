@@ -10,6 +10,9 @@ mkdir -p "$DEST"
 for d in css js img fonts icomoon icons chat documents preaprobador specs sucursales testDrive renting show_calculate galleries; do
   if [ -d "$SRC/$d" ]; then rm -rf "${DEST:?}/$d"; cp -R "$SRC/$d" "$DEST/$d"; fi
 done
+# Visor de fichas técnicas (/view-pdf) usa el flipbook de micrositios/purdyRsc.
+mkdir -p "$DEST/micrositios"
+if [ -d "$SRC/micrositios/purdyRsc" ]; then rm -rf "$DEST/micrositios/purdyRsc"; cp -R "$SRC/micrositios/purdyRsc" "$DEST/micrositios/purdyRsc"; fi
 for f in favicon.ico favicon-16x16.png favicon-32x32.png apple-touch-icon.png android-chrome-96x96.png android-chrome-192x192.png android-chrome-384x384.png mstile-150x150.png safari-pinned-tab.svg manifest.json site.webmanifest browserconfig.xml robots.txt sitemap.xml a6m9txx8az0708yq13yrhyolmqip38.html; do
   [ -f "$SRC/$f" ] && cp "$SRC/$f" "$DEST/$f"
 done

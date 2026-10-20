@@ -56,8 +56,18 @@ Es el mismo código y no hay que cambiarlo. Solo cambian las variables:
 - `npm run verify:pages -- <captura>/html`: comprueba que cada página capturada se descompone y se vuelve a armar igual.
 - `npm run compare -- <captura> http://localhost:3000`: compara el HTML que entrega el sitio nuevo contra la captura. Ignora espacios y dominio.
 
+## Llaves atadas al dominio
+
+La llave pública de reCAPTCHA y la de Google Maps del sitio actual solo funcionan en `ford.cr`. Mientras el sitio corra en el dominio de Railway, definí `RECAPTCHA_SITE_KEY` (y `RECAPTCHA_SECRET_KEY`) y `GOOGLE_MAPS_API_KEY` con llaves registradas para ese dominio: se reemplazan solas en todas las páginas. En `ford.cr` se pueden dejar vacías.
+
+## Microservicios desde Railway
+
+El gateway del Symfony (`http://microservice-gateway:3000`) solo se ve dentro del clúster. Para probar citas desde Railway, `MICROSERVICES_GATEWAY` puede apuntar a un gateway público con las mismas rutas (`/oauth/token`, `/<micro>/api/<acción>`), si Infraestructura lo habilita. Sin gateway, los pasos de citas muestran el mismo mensaje de error que el sitio actual cuando el servicio no responde.
+
+## Ya funcionan igual que el Symfony
+
+Formularios y correos (contacto, test drive, reserva, cotizaciones, asesor, snippet), citas, calculadora y cuotas, cotizador de accesorios, comparador, búsqueda `/resultados`, blog con filtros y paginación, videos, PDF de cotización, `/view-pdf`, fichas técnicas, sucursales ordenadas por ubicación. Los precios de las páginas se actualizan solos desde **Vehículos**.
+
 ## Pendiente
 
 - Llamada SOAP a Salesforce (`createApointment`) del test drive y la reserva: los WSDL viven en la tabla `parameter` del Symfony, que no está en el repositorio. Por ahora el lead queda en el CMS y los correos salen igual.
-- Búsqueda `/resultados` (Elasticsearch), filtros del blog y PDF de cotización: hoy se sirven las páginas capturadas.
-- Página de cada vehículo (`/autos/…`): el contenido se edita como HTML. El precio "desde" del menú y del inicio sí sale de **Vehículos**.

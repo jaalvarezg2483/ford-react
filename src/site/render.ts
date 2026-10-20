@@ -8,7 +8,28 @@ import { getSite, type PageDoc } from './data'
  * Arma el documento HTML de una página con la misma estructura de
  * app/Resources/views/base.html.twig del Symfony.
  */
+const LEGACY_RECAPTCHA = '6LeotmQUAAAAAEEmdheY_96QrWQBPnTdZY2DI8Qo'
+const LEGACY_MAPS = 'AIzaSyDQI6kxn1-YxaAk6jyd3VsPDNGj-AbQVh4'
+
+/**
+ * Las llaves de reCAPTCHA y Google Maps del sitio actual están restringidas al
+ * dominio ford.cr. En otros dominios (Railway, pruebas) se pueden reemplazar
+ * con RECAPTCHA_SITE_KEY y GOOGLE_MAPS_API_KEY.
+ */
+export function applyEnvKeys(html: string): string {
+  let out = html
+  const recaptcha = process.env.RECAPTCHA_SITE_KEY
+  const maps = process.env.GOOGLE_MAPS_API_KEY
+  if (recaptcha && recaptcha !== LEGACY_RECAPTCHA) out = out.replaceAll(LEGACY_RECAPTCHA, recaptcha)
+  if (maps && maps !== LEGACY_MAPS) out = out.replaceAll(LEGACY_MAPS, maps)
+  return out
+}
+
 export async function renderPage(page: PageDoc): Promise<string> {
+  return applyEnvKeys(await renderDocument(page))
+}
+
+async function renderDocument(page: PageDoc): Promise<string> {
   if (page.template === 'raw') return page.rawDocument || ''
   const site = await getSite()
   const v = site.assetsVersion

@@ -28,8 +28,10 @@ export async function runImport(payload: Payload, opts: ImportOptions = {}) {
   await importVehicles(payload, src, home, media)
   await importModelPrices(payload, ok)
   await importCalculators(payload, src)
+  await importModelVariants(payload, src)
   await importSliders(payload, ok, media)
   await importPosts(payload, src, ok, media)
+  await importVideos(payload, src, ok)
   await importPages(payload, pages)
   log('listo ✔')
 }
@@ -228,6 +230,60 @@ async function importModelPrices(payload: Payload, ok: CrawledPage[]) {
   log(`precios de modelos: ${updated} familias`)
 }
 
+// ---------- Variantes por modelo: especificaciones, fichas y comparador ----------
+const COMPARE_ROWS: Record<string, string> = {
+  Motor: 'cc', Tracción: 'traction', Combustible: 'gas', Transmisión: 'transmission', Pasajeros: 'pasajeros',
+  'Largo total': 'totalLength', 'Alto total': 'totalHeight', 'Ancho total': 'totalWidth', 'Distancia entre ejes': 'distanceBetweenAxis',
+}
+
+/** Lee la columna del primer vehículo en /comparador?models[]=ID. */
+export function parseCompareSpecs(html: string): Record<string, string | number> {
+  const $ = cheerio.load(html)
+  const specs: Record<string, string | number> = {}
+  $('table.table--compare tr').each((_, tr) => {
+    const cells = $(tr).children('td')
+    if (cells.length < 2) return
+    const label = $(cells[0]).text().trim()
+    const key = COMPARE_ROWS[label]
+    if (!key) return
+    const cell = $(cells[1])
+    if (cell.find('p.text-50').length) return
+    const text = cell.text().trim()
+    specs[key] = key === 'cc' ? Number(text.replace(/[^\d.]/g, '')) || text : text
+  })
+  return specs
+}
+
+async function importModelVariants(payload: Payload, src: ImportSource) {
+  const fams = await payload.find({ collection: 'families', limit: 200, depth: 0 })
+  let pages = 0, specs = 0
+  for (const fam of fams.docs as any[]) {
+    const models = [...(fam.models || [])]
+    let changed = false
+    for (const m of models) {
+      if (m.legacyId == null) continue
+      const variants = [
+        `/autos/${fam.slug}/especificaciones?models%5B0%5D=${m.legacyId}`,
+        `/fichas-tecnicas-precios/${fam.slug}?models%5B0%5D=${m.legacyId}`,
+        `/comparador?models%5B%5D=${m.legacyId}`,
+      ]
+      for (const v of variants) {
+        const page = await src.page(v)
+        if (!page || page.status !== 200 || !page.html.includes('<html')) continue
+        if (v.startsWith('/comparador')) {
+          const parsed = parseCompareSpecs(page.html)
+          if (Object.keys(parsed).length) { m.specs = parsed; changed = true; specs++ }
+          continue
+        }
+        await upsertPage(payload, page)
+        pages++
+      }
+    }
+    if (changed) await payload.update({ collection: 'families', id: fam.id, data: { models }, overrideAccess: true })
+  }
+  log(`variantes por modelo: ${pages} páginas, ${specs} fichas de comparador`)
+}
+
 // ---------- Entidades financieras ----------
 async function importCalculators(payload: Payload, src: ImportSource) {
   const body = await src.rest('/rest/v2/calculator')
@@ -282,11 +338,20 @@ async function importPosts(payload: Payload, src: ImportSource, ok: CrawledPage[
   const blog = ok.find((p) => p.path === '/blog')
   if (!blog) return
   let html = blog.html
-  for (let page = 2; page <= 5; page++) {
+  for (let page = 2; page <= 6; page++) {
     const more = await src.fragment(`/blog?page=${page}`)
     if (more) html += more
   }
   const $ = cheerio.load(html)
+  // Categorías del filtro (checkbox-ID) y a qué notas corresponden.
+  const categories = $('input.categories-select[name="categories[]"]').toArray().map((el) => ({ id: Number(($(el).attr('id') || '').replace('checkbox-', '')), name: $(el).attr('value') || '' }))
+  const categoryOf = new Map<string, { id: number; name: string }>()
+  for (const cat of categories) {
+    const page = await src.page(`/blog?categories%5B%5D=${encodeURIComponent(cat.name)}`)
+    if (!page || page.status !== 200) continue
+    const c$ = cheerio.load(page.html)
+    c$('#results a.blog-link').each((_, a) => { categoryOf.set(stripHost(c$(a).attr('href') || ''), cat) })
+  }
   const cards = $('a.blog-link-featured, a.blog-link').toArray()
   let order = 0
   const seen = new Set<string>()
@@ -297,6 +362,9 @@ async function importPosts(payload: Payload, src: ImportSource, ok: CrawledPage[
     seen.add(path)
     const img = ($(a).find('img').attr('src') || '').replace(/^https?:\/\/(www\.)?ford\.cr/, '').replace('/media/cache/blog_teaser', '')
     const featured = $(a).hasClass('blog-link-featured')
+    const postPage = ok.find((p) => p.path === path) ?? (await src.page(path))
+    const views = Number(/Visualizaciones:\s*([\d.,]+)/.exec(postPage?.html || '')?.[1]?.replace(/[.,]/g, '')) || 0
+    const cat = categoryOf.get(path)
     const data = {
       title: $(a).find('.title').text().trim(),
       path,
@@ -305,12 +373,56 @@ async function importPosts(payload: Payload, src: ImportSource, ok: CrawledPage[
       // El listado viene ordenado del más reciente al más antiguo.
       publishedAt: new Date(base - order++ * 86_400_000).toISOString(),
       active: true,
+      category: cat?.name,
+      categoryId: cat?.id,
+      views,
+      featured,
     }
     const found = await payload.find({ collection: 'posts', where: { path: { equals: path } }, limit: 1, depth: 0 })
     if (found.docs[0]) await payload.update({ collection: 'posts', id: found.docs[0].id, data, overrideAccess: true })
     else await payload.create({ collection: 'posts', data, overrideAccess: true })
   }
-  log(`blog: ${seen.size} notas`)
+  log(`blog: ${seen.size} notas, ${categories.length} categorías`)
+}
+
+// ---------- Videos ----------
+async function importVideos(payload: Payload, src: ImportSource, ok: CrawledPage[]) {
+  const index = ok.find((p) => p.path === '/videos')
+  if (!index) return
+  const $ = cheerio.load(index.html)
+  const cats = $('ul.tabs li a').toArray().map((a) => $(a).attr('href') || '').filter((h) => h.startsWith('/videos/'))
+  let order = 0, total = 0
+  for (const href of cats) {
+    const category = decodeURIComponent(href.replace('/videos/', ''))
+    let html = (ok.find((p) => p.path === href) ?? (await src.page(href)))?.html ?? ''
+    for (let page = 2; page <= 10; page++) {
+      const more = await src.fragment(`${href}?page=${page}`)
+      if (!more || !more.includes('gallery__item')) break
+      html += more
+    }
+    const c$ = cheerio.load(html)
+    const seen = new Set<string>()
+    for (const item of c$('#results .gallery__item--video').toArray()) {
+      const a = c$(item).find('a.js-popup-video')
+      const youtube = a.attr('href') || ''
+      if (!youtube || seen.has(youtube)) continue
+      seen.add(youtube)
+      const data = {
+        name: c$(item).find('p strong').first().text().trim() || a.attr('title') || '',
+        category,
+        order: order++,
+        active: true,
+        youtube,
+        image: c$(item).find('img').attr('src') || undefined,
+        description: c$(item).find('p').eq(1).text().trim() || undefined,
+      }
+      const found = await payload.find({ collection: 'videos', where: { and: [{ youtube: { equals: youtube } }, { category: { equals: category } }] }, limit: 1, depth: 0 })
+      if (found.docs[0]) await payload.update({ collection: 'videos', id: found.docs[0].id, data, overrideAccess: true })
+      else await payload.create({ collection: 'videos', data, overrideAccess: true })
+      total++
+    }
+  }
+  log(`videos: ${total} en ${cats.length} categorías`)
 }
 
 // ---------- Páginas ----------
@@ -329,6 +441,37 @@ async function importPages(payload: Payload, pages: CrawledPage[]) {
       if (!found.docs[0]) await payload.create({ collection: 'redirects', data: { from: p.path, to, permanent: false }, overrideAccess: true })
       continue
     }
+    const r = await upsertPage(payload, p, commonTail, commonBodyStart)
+    if (r === 'created') created++
+    else updated++
+  }
+  log(`páginas: ${created} nuevas, ${updated} actualizadas`)
+}
+
+const PRICE_PAGE = /^\/(?:autos|reserva|preaprobador|accesorios|fichas-tecnicas-precios|test-drive)\/([^/?]+)/
+let familyPrices: Map<string, { value: number; ref: string }[]> | null = null
+
+/** Precios de la familia y sus modelos que aparecen en una página (para mantenerlos al día desde el CMS). */
+async function priceRefsFor(payload: Payload, path: string, content: string) {
+  const slug = PRICE_PAGE.exec(path)?.[1]
+  if (!slug) return null
+  if (!familyPrices) {
+    familyPrices = new Map()
+    const fams = await payload.find({ collection: 'families', limit: 200, depth: 0 })
+    for (const f of fams.docs as any[]) {
+      const refs: { value: number; ref: string }[] = []
+      if (f.startPrice) refs.push({ value: f.startPrice, ref: 'family' })
+      for (const m of f.models || []) if (m.price) refs.push({ value: m.price, ref: `model:${m.code}` })
+      familyPrices.set(f.slug, refs)
+    }
+  }
+  const dotted = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+  const refs = (familyPrices.get(slug) ?? []).filter((r) => content.includes(dotted(r.value)) || content.includes(String(r.value)))
+  return refs.length ? refs : null
+}
+
+async function upsertPage(payload: Payload, p: CrawledPage, commonTail: string = (globalThis as any).__commonTail ?? '', commonBodyStart: string = (globalThis as any).__commonBodyStart ?? '') {
+  {
     const parsed = parsePage(p.html)
     const data: Record<string, unknown> = parsed.template === 'raw'
       ? { path: p.path, title: parsed.title, template: 'raw', rawDocument: parsed.rawDocument, status: 'published', httpStatus: p.status }
@@ -348,12 +491,13 @@ async function importPages(payload: Payload, pages: CrawledPage[]) {
           headCustom: parsed.headCustom,
           scripts: parsed.scripts,
           tail: parsed.tail === commonTail ? '' : parsed.tail,
+          priceRefs: await priceRefsFor(payload, p.path, parsed.content + parsed.scripts),
           bodyStart: parsed.bodyStart === commonBodyStart ? '' : parsed.bodyStart,
         }
     const found = await payload.find({ collection: 'pages', where: { path: { equals: p.path } }, limit: 1, depth: 0 })
-    if (found.docs[0]) { await payload.update({ collection: 'pages', id: found.docs[0].id, data, overrideAccess: true }); updated++ }
-    else { await payload.create({ collection: 'pages', data: data as any, overrideAccess: true }); created++ }
+    if (found.docs[0]) { await payload.update({ collection: 'pages', id: found.docs[0].id, data, overrideAccess: true }); return 'updated' }
+    await payload.create({ collection: 'pages', data: data as any, overrideAccess: true })
+    return 'created'
   }
-  log(`páginas: ${created} nuevas, ${updated} actualizadas`)
 }
 
