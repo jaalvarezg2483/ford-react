@@ -16,7 +16,7 @@
     "db:migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
-    "import:ford": "cross-env NODE_OPTIONS=--no-deprecation payload run scripts/import-ford.ts",
+    "import:ford": "cross-env NODE_OPTIONS=--no-deprecation NODE_EXTRA_CA_CERTS=./certs/godaddy-secure-ca-g2.pem payload run scripts/import-ford.ts",
     "typecheck": "tsc --noEmit",
     "verify:pages": "tsx scripts/verify-parse.ts",
     "compare": "node scripts/compare-live.mjs",
