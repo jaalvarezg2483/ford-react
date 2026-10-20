@@ -139,7 +139,8 @@ async function importVehicles(payload: Payload, src: ImportSource, home: Crawled
       cards.set(slug, {
         image: $(a).find('img').attr('src'),
         color: /background-color:([^;"]+)/.exec(wrap.find('.model-bg').attr('style') || '')?.[1],
-        gradient: /--linear-gradient-custom:(.+?);\s*$/.exec(wrap.attr('style') || '')?.[1],
+        // Los estilos de Ford Performance traen gradientes multilínea.
+        gradient: /--linear-gradient-custom:([\s\S]+?);\s*$/.exec(wrap.attr('style') || '')?.[1],
       })
     })
     homeCardsByType.set(name, cards)
