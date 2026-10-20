@@ -10,10 +10,10 @@ WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-# Valores solo para compilar; en ejecución vienen de las variables del entorno.
-ENV PAYLOAD_SECRET=build-time-only-secret-min-32-characters \
-    DATABASE_URL=postgresql://build:build@127.0.0.1:5432/build
-RUN npm run build
+# Valores solo para compilar; no quedan guardados en la configuración de la imagen.
+RUN PAYLOAD_SECRET=build-time-only-secret-min-32-characters \
+    DATABASE_URL=postgresql://build:build@127.0.0.1:5432/build \
+    npm run build
 
 FROM node:22-bookworm-slim AS run
 WORKDIR /app
