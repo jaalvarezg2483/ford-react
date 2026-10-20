@@ -1,4 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs'
+import http from 'node:http'
+import https from 'node:https'
 import path from 'node:path'
 
 export type CrawledPage = { path: string; status: number; url: string; html: string }
@@ -48,9 +50,60 @@ export function dirSource(dir: string, live?: ImportSource): ImportSource {
 
 /** Lee el sitio publicado (Railway/Azure sí tienen salida a internet). */
 export function liveSource(base: string): ImportSource {
-  const get = async (p: string) => {
-    const res = await fetch(base + p, { redirect: 'follow', signal: AbortSignal.timeout(60_000), headers: { 'User-Agent': 'FordCR-Importer/1.0' } })
-    return res
+  const get = async (p: string, redirects = 0): Promise<{
+    status: number
+    ok: boolean
+    url: string
+    headers: { get(name: string): string | null }
+    text(): Promise<string>
+    arrayBuffer(): Promise<ArrayBuffer>
+  }> => {
+    const url = p.startsWith('http://') || p.startsWith('https://') ? new URL(p) : new URL(base + p)
+    const fordOrigin = /(^|\.)ford\.cr$/i.test(url.hostname)
+    const result = await new Promise<{ status: number; url: string; headers: http.IncomingHttpHeaders; body: Buffer }>((resolve, reject) => {
+      const options = {
+        method: 'GET',
+        headers: { 'User-Agent': 'FordCR-Importer/1.0', 'Accept-Encoding': 'identity' },
+        // Ford's origin sends a malformed response header. TLS certificate and hostname checks stay enabled.
+        insecureHTTPParser: fordOrigin,
+        timeout: 60_000,
+      } as const
+      const onResponse = (res: http.IncomingMessage) => {
+        const chunks: Buffer[] = []
+        res.on('data', (chunk: Buffer | string) => chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)))
+        res.on('end', () => resolve({
+          status: res.statusCode ?? 0,
+          url: url.toString(),
+          headers: res.headers,
+          body: Buffer.concat(chunks),
+        }))
+        res.on('error', reject)
+      }
+      const req = url.protocol === 'https:'
+        ? https.request(url, options, onResponse)
+        : http.request(url, options, onResponse)
+      req.on('timeout', () => req.destroy(new Error(`Timeout al leer ${url}`)))
+      req.on('error', reject)
+      req.end()
+    })
+
+    const location = result.headers.location
+    if (result.status >= 300 && result.status < 400 && location) {
+      if (redirects >= 10) throw new Error(`Demasiadas redirecciones al leer ${url}`)
+      return get(new URL(location, url).toString(), redirects + 1)
+    }
+
+    return {
+      status: result.status,
+      ok: result.status >= 200 && result.status < 300,
+      url: result.url,
+      headers: { get: (name) => {
+        const value = result.headers[name.toLowerCase()]
+        return Array.isArray(value) ? value.join(', ') : value ?? null
+      } },
+      text: async () => result.body.toString('utf8'),
+      arrayBuffer: async () => result.body.buffer.slice(result.body.byteOffset, result.body.byteOffset + result.body.byteLength) as ArrayBuffer,
+    }
   }
   const SKIP = /^\/(admin|app_dev|uploads|media|js|css|img|fonts|icomoon|360|rest|ajax|logout|system|generate-pdf|download|datasheet|view-pdf|test-email)/
   const ASSET = /\.(pdf|jpe?g|png|gif|svg|webp|mp4|zip|docx?|xlsx?|css|js|ico|woff2?|ttf|eot)$/i
