@@ -127,7 +127,7 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
 
   INSERT INTO "site_settings_numbers" ("number", "order", "parent_id", "path")
   SELECT n.value::numeric, n.ord::integer, s.id,
-    'calculators.' || (c.ord - 1)::text || '.' || n.field
+    'calculators.' || (c.ord - 1)::text || '.' || f.field
   FROM "site_settings" s
   CROSS JOIN LATERAL jsonb_array_elements(
     CASE WHEN jsonb_typeof(s."calculators") = 'array' THEN s."calculators" ELSE '[]'::jsonb END
