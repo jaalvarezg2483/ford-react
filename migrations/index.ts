@@ -10,6 +10,7 @@ import * as migration_20261020_010000_site_sessions from './20261020_010000_site
 import * as migration_20261020_142916_family_type_card_styles from './20261020_142916_family_type_card_styles';
 import * as migration_20261020_170702 from './20261020_170702';
 import * as migration_20261020_174359_campos_amigables_sin_json from './20261020_174359_campos_amigables_sin_json';
+import * as migration_20261020_180916_editables_contenido_seo from './20261020_180916_editables_contenido_seo';
 
 export const migrations = [
   {
@@ -70,6 +71,11 @@ export const migrations = [
   {
     up: migration_20261020_174359_campos_amigables_sin_json.up,
     down: migration_20261020_174359_campos_amigables_sin_json.down,
-    name: '20261020_174359_campos_amigables_sin_json'
+    name: '20261020_174359_campos_amigables_sin_json',
+  },
+  {
+    up: migration_20261020_180916_editables_contenido_seo.up,
+    down: migration_20261020_180916_editables_contenido_seo.down,
+    name: '20261020_180916_editables_contenido_seo'
   },
 ];

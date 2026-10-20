@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { anyone, authenticated } from '../access'
 import { revalidateSite } from '../hooks/revalidate'
+import { editableArray, resolveImages, syncEditables, technical } from '../fields/editables'
 
 /** Categorías de vehículos (Pickups, SUVs & Crossovers, Automóviles, Ford Performance). */
 export const FamilyTypes: CollectionConfig = {
@@ -9,7 +10,23 @@ export const FamilyTypes: CollectionConfig = {
   admin: { group: 'Vehículos', useAsTitle: 'name', defaultColumns: ['name', 'order', 'active'] },
   access: { read: anyone, create: authenticated, update: authenticated, delete: authenticated },
   defaultSort: 'order',
-  hooks: { afterChange: [revalidateSite], afterDelete: [revalidateSite] },
+  hooks: {
+    beforeChange: [
+      async ({ data, originalDoc, req }) => {
+        const res = syncEditables({
+          sources: { html: data.menuHtml ?? originalDoc?.menuHtml },
+          previousSources: originalDoc ? { html: originalDoc.menuHtml } : undefined,
+          rows: data.menuEditables ?? originalDoc?.menuEditables,
+          splitSeo: false,
+        })
+        if (res) data.menuEditables = res.rows
+        data.menuEditables = await resolveImages(data.menuEditables, req)
+        return data
+      },
+    ],
+    afterChange: [revalidateSite],
+    afterDelete: [revalidateSite],
+  },
   fields: [
     { name: 'name', type: 'text', required: true, label: 'Nombre' },
     { type: 'row', fields: [
@@ -34,6 +51,7 @@ export const FamilyTypes: CollectionConfig = {
         { name: 'gradient', type: 'text', label: 'Degradado (opcional)' },
       ],
     },
-    { name: 'menuHtml', type: 'code', label: 'Texto adicional en el menú (HTML)', admin: { language: 'html', description: 'Ej. el bloque de Ford Performance bajo los vehículos.' } },
+    editableArray('menuEditables', 'Texto adicional en el menú', 'Ej. el bloque de Ford Performance bajo los vehículos.'),
+    technical({ name: 'menuHtml', type: 'code', label: 'Texto adicional en el menú (HTML) — desarrollo', admin: { language: 'html' } }),
   ],
 }

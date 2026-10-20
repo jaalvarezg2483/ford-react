@@ -149,8 +149,68 @@ export interface Page {
    * Ruta pública exacta, ej. /servicios o /autos/ranger-xlt/galeria
    */
   path: string;
-  title?: string | null;
   status?: ('published' | 'draft') | null;
+  /**
+   * Abrí cada pieza para cambiarla. "(editado)" marca lo que ya no es igual al original. No hace falta agregar ni borrar filas.
+   */
+  editables?:
+    | {
+        key?: string | null;
+        kind?: ('text' | 'image' | 'link' | 'video' | 'meta') | null;
+        source?: string | null;
+        section?: string | null;
+        label?: string | null;
+        start?: number | null;
+        end?: number | null;
+        raw?: string | null;
+        original?: string | null;
+        quote?: string | null;
+        /**
+         * Un Enter hace un salto de línea.
+         */
+        text?: string | null;
+        /**
+         * Subí o elegí una imagen. Si se deja vacío se usa la ruta de abajo.
+         */
+        image?: (number | null) | Media;
+        /**
+         * Ej. /autos/everest, https://www.youtube.com/embed/… o /uploads/…
+         */
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  title?: string | null;
+  /**
+   * Descripción, palabras clave, imagen y título al compartir, URL canónica.
+   */
+  seo?:
+    | {
+        key?: string | null;
+        kind?: ('text' | 'image' | 'link' | 'video' | 'meta') | null;
+        source?: string | null;
+        section?: string | null;
+        label?: string | null;
+        start?: number | null;
+        end?: number | null;
+        raw?: string | null;
+        original?: string | null;
+        quote?: string | null;
+        /**
+         * Un Enter hace un salto de línea.
+         */
+        text?: string | null;
+        /**
+         * Subí o elegí una imagen. Si se deja vacío se usa la ruta de abajo.
+         */
+        image?: (number | null) | Media;
+        /**
+         * Ej. /autos/everest, https://www.youtube.com/embed/… o /uploads/…
+         */
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   template?: ('default' | 'raw') | null;
   httpStatus?: number | null;
   bodyClass?: string | null;
@@ -182,6 +242,30 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  alt?: string | null;
+  /**
+   * URL donde se publica el archivo (ej. /uploads/family/foto.png). Si se deja vacío se usa /uploads/cms/<archivo>.
+   */
+  legacyPath?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {};
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "sliders".
  */
 export interface Slider {
@@ -206,30 +290,6 @@ export interface Slider {
     | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: number;
-  alt?: string | null;
-  /**
-   * URL donde se publica el archivo (ej. /uploads/family/foto.png). Si se deja vacío se usa /uploads/cms/<archivo>.
-   */
-  legacyPath?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-  sizes?: {};
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -370,6 +430,33 @@ export interface FamilyType {
   /**
    * Ej. el bloque de Ford Performance bajo los vehículos.
    */
+  menuEditables?:
+    | {
+        key?: string | null;
+        kind?: ('text' | 'image' | 'link' | 'video' | 'meta') | null;
+        source?: string | null;
+        section?: string | null;
+        label?: string | null;
+        start?: number | null;
+        end?: number | null;
+        raw?: string | null;
+        original?: string | null;
+        quote?: string | null;
+        /**
+         * Un Enter hace un salto de línea.
+         */
+        text?: string | null;
+        /**
+         * Subí o elegí una imagen. Si se deja vacío se usa la ruta de abajo.
+         */
+        image?: (number | null) | Media;
+        /**
+         * Ej. /autos/everest, https://www.youtube.com/embed/… o /uploads/…
+         */
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   menuHtml?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -553,8 +640,44 @@ export interface PayloadMigration {
  */
 export interface PagesSelect<T extends boolean = true> {
   path?: T;
-  title?: T;
   status?: T;
+  editables?:
+    | T
+    | {
+        key?: T;
+        kind?: T;
+        source?: T;
+        section?: T;
+        label?: T;
+        start?: T;
+        end?: T;
+        raw?: T;
+        original?: T;
+        quote?: T;
+        text?: T;
+        image?: T;
+        url?: T;
+        id?: T;
+      };
+  title?: T;
+  seo?:
+    | T
+    | {
+        key?: T;
+        kind?: T;
+        source?: T;
+        section?: T;
+        label?: T;
+        start?: T;
+        end?: T;
+        raw?: T;
+        original?: T;
+        quote?: T;
+        text?: T;
+        image?: T;
+        url?: T;
+        id?: T;
+      };
   template?: T;
   httpStatus?: T;
   bodyClass?: T;
@@ -709,6 +832,24 @@ export interface FamilyTypesSelect<T extends boolean = true> {
         gradient?: T;
         id?: T;
       };
+  menuEditables?:
+    | T
+    | {
+        key?: T;
+        kind?: T;
+        source?: T;
+        section?: T;
+        label?: T;
+        start?: T;
+        end?: T;
+        raw?: T;
+        original?: T;
+        quote?: T;
+        text?: T;
+        image?: T;
+        url?: T;
+        id?: T;
+      };
   menuHtml?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -843,6 +984,36 @@ export interface SiteSetting {
   rightMenuHtml?: string | null;
   socialMenuHtml?: string | null;
   searchHtml?: string | null;
+  /**
+   * Textos, enlaces e imágenes del pie de página.
+   */
+  footerEditables?:
+    | {
+        key?: string | null;
+        kind?: ('text' | 'image' | 'link' | 'video' | 'meta') | null;
+        source?: string | null;
+        section?: string | null;
+        label?: string | null;
+        start?: number | null;
+        end?: number | null;
+        raw?: string | null;
+        original?: string | null;
+        quote?: string | null;
+        /**
+         * Un Enter hace un salto de línea.
+         */
+        text?: string | null;
+        /**
+         * Subí o elegí una imagen. Si se deja vacío se usa la ruta de abajo.
+         */
+        image?: (number | null) | Media;
+        /**
+         * Ej. /autos/everest, https://www.youtube.com/embed/… o /uploads/…
+         */
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   footerHtml?: string | null;
   floatingHtml?: string | null;
   headScripts?: string | null;
@@ -913,6 +1084,24 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   rightMenuHtml?: T;
   socialMenuHtml?: T;
   searchHtml?: T;
+  footerEditables?:
+    | T
+    | {
+        key?: T;
+        kind?: T;
+        source?: T;
+        section?: T;
+        label?: T;
+        start?: T;
+        end?: T;
+        raw?: T;
+        original?: T;
+        quote?: T;
+        text?: T;
+        image?: T;
+        url?: T;
+        id?: T;
+      };
   footerHtml?: T;
   floatingHtml?: T;
   headScripts?: T;

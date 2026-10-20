@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { anyone, authenticated } from '../access'
 import { bumpSiteVersion } from '@/site/cache'
+import { editableArray, resolveImages, syncEditables, technical } from '../fields/editables'
 
 const link = [
   { name: 'label', type: 'text', required: true, label: 'Texto' },
@@ -13,7 +14,23 @@ export const SiteSettings: GlobalConfig = {
   label: 'Configuración del sitio',
   admin: { group: 'Sistema' },
   access: { read: anyone, update: authenticated },
-  hooks: { afterChange: [() => bumpSiteVersion()] },
+  hooks: {
+    beforeChange: [
+      async ({ data, originalDoc, req }) => {
+        const html = data.footerHtml ?? originalDoc?.footerHtml
+        const res = syncEditables({
+          sources: { html },
+          previousSources: originalDoc ? { html: originalDoc.footerHtml } : undefined,
+          rows: data.footerEditables ?? originalDoc?.footerEditables,
+          splitSeo: false,
+        })
+        if (res) data.footerEditables = res.rows
+        data.footerEditables = await resolveImages(data.footerEditables, req)
+        return data
+      },
+    ],
+    afterChange: [() => bumpSiteVersion()],
+  },
   fields: [
     {
       type: 'tabs',
@@ -22,24 +39,25 @@ export const SiteSettings: GlobalConfig = {
           label: 'Menú',
           fields: [
             { name: 'topMenu', type: 'array', label: 'Menú principal (después de "Vehículos nuevos")', fields: [...link] },
-            { name: 'rightMenuHtml', type: 'code', label: 'Menú derecho (HTML)', admin: { language: 'html' } },
-            { name: 'socialMenuHtml', type: 'code', label: 'Redes sociales del menú (HTML)', admin: { language: 'html' } },
-            { name: 'searchHtml', type: 'code', label: 'Buscador (HTML)', admin: { language: 'html' } },
+            technical({ name: 'rightMenuHtml', type: 'code', label: 'Menú derecho (HTML)', admin: { language: 'html' } }),
+            technical({ name: 'socialMenuHtml', type: 'code', label: 'Redes sociales del menú (HTML)', admin: { language: 'html' } }),
+            technical({ name: 'searchHtml', type: 'code', label: 'Buscador (HTML)', admin: { language: 'html' } }),
           ],
         },
         {
           label: 'Pie de página',
           fields: [
-            { name: 'footerHtml', type: 'code', label: 'Pie de página (HTML)', admin: { language: 'html' } },
-            { name: 'floatingHtml', type: 'code', label: 'Botones flotantes y chat (HTML)', admin: { language: 'html' } },
+            editableArray('footerEditables', 'Pie de página', 'Textos, enlaces e imágenes del pie de página.'),
+            technical({ name: 'footerHtml', type: 'code', label: 'Pie de página (HTML) — desarrollo', admin: { language: 'html' } }),
+            technical({ name: 'floatingHtml', type: 'code', label: 'Botones flotantes y chat (HTML)', admin: { language: 'html' } }),
           ],
         },
         {
           label: 'Scripts',
           fields: [
-            { name: 'headScripts', type: 'code', label: 'Scripts del <head> (GTM, Facebook, etc.)', admin: { language: 'html' } },
-            { name: 'bodyStartHtml', type: 'code', label: 'Inicio del <body> (noscript GTM)', admin: { language: 'html' } },
-            { name: 'bodyEndScripts', type: 'code', label: 'Scripts al final del <body>', admin: { language: 'html' } },
+            technical({ name: 'headScripts', type: 'code', label: 'Scripts del <head> (GTM, Facebook, etc.)', admin: { language: 'html' } }),
+            technical({ name: 'bodyStartHtml', type: 'code', label: 'Inicio del <body> (noscript GTM)', admin: { language: 'html' } }),
+            technical({ name: 'bodyEndScripts', type: 'code', label: 'Scripts al final del <body>', admin: { language: 'html' } }),
             { name: 'assetsVersion', type: 'text', label: 'Versión de CSS/JS (?v=)', defaultValue: '1775667654984' },
           ],
         },
@@ -86,7 +104,7 @@ export const SiteSettings: GlobalConfig = {
         {
           label: 'SEO',
           fields: [
-            { name: 'defaultMetaHtml', type: 'code', label: 'Meta por defecto', admin: { language: 'html' } },
+            technical({ name: 'defaultMetaHtml', type: 'code', label: 'Meta por defecto', admin: { language: 'html' } }),
             { name: 'titleSuffix', type: 'text', label: 'Sufijo del título', defaultValue: ' | Ford Costa Rica | Grupo Purdy' },
           ],
         },

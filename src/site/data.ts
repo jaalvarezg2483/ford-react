@@ -2,6 +2,7 @@ import { cached } from './cache'
 import { payloadClient } from './payload'
 import defaults from '../import/settings-defaults.json'
 import { env } from '../lib/env'
+import { applyRows } from '../payload/fields/editables'
 
 type MediaDoc = { url?: string | null; legacyPath?: string | null } | number | null | undefined
 
@@ -67,13 +68,13 @@ export function getSite(): Promise<SiteData> {
         name: t.name,
         textColor: t.textColor || '#000000',
         underlineColor: t.underlineColor || '#000000',
-        menuHtml: t.menuHtml || '',
+        menuHtml: applyRows(t.menuHtml || '', t.menuEditables, 'html'),
         families: (t.families || []).filter((f: any) => f && typeof f === 'object').map(familyView),
         cardStyles: Array.isArray(t.cardStyles) ? t.cardStyles : [],
       })),
       headScripts: s.headScripts ?? defaults.headScripts,
       bodyStartHtml: s.bodyStartHtml ?? defaults.bodyStartHtml,
-      footerHtml: s.footerHtml ?? defaults.footerHtml,
+      footerHtml: s.footerHtml ? applyRows(s.footerHtml, s.footerEditables, 'html') : defaults.footerHtml,
       bodyEndScripts: s.bodyEndScripts ?? defaults.bodyEndScripts,
       assetsVersion: s.assetsVersion || '1775667654984',
     }
@@ -128,7 +129,18 @@ export function getPage(path: string): Promise<PageDoc | null> {
   return cached(`page:${path}`, async () => {
     const payload = await payloadClient()
     const res = await payload.find({ collection: 'pages', where: { and: [{ path: { equals: path } }, { status: { equals: 'published' } }] }, limit: 1, depth: 0 })
-    return (res.docs[0] as unknown as PageDoc) ?? null
+    const doc = res.docs[0] as any
+    if (!doc) return null
+    // Las piezas que editó el equipo de contenido se ponen en su lugar dentro del HTML original.
+    const rows = [...(doc.editables ?? []), ...(doc.seo ?? [])]
+    const { editables: _e, seo: _s, ...rest } = doc
+    return {
+      ...rest,
+      content: applyRows(doc.content, rows, 'content'),
+      metaHtml: applyRows(doc.metaHtml, rows, 'metaHtml'),
+      seoH1: applyRows(doc.seoH1, rows, 'seoH1'),
+      rawDocument: applyRows(doc.rawDocument, rows, 'rawDocument'),
+    } as PageDoc
   })
 }
 
