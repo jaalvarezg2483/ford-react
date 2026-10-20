@@ -1,9 +1,16 @@
 /** Variables de entorno del servidor. Mismo código para Railway y Azure App Service. */
 const empty = (v: string | undefined) => (v && v.trim() !== '' ? v.trim() : undefined)
 
+/** Resolve the site's public origin at runtime so Docker builds remain portable. */
+function publicServerURL() {
+  const configured = empty(process.env.FORD_PUBLIC_URL)
+  const host = empty(process.env.RAILWAY_PUBLIC_DOMAIN) || empty(process.env.WEBSITE_HOSTNAME)
+  return (configured || (host ? `https://${host}` : undefined) || (process.env.NODE_ENV === 'production' ? 'https://www.ford.cr' : 'http://localhost:3000')).replace(/\/$/, '')
+}
+
 export const env = {
   get NODE_ENV() { return process.env.NODE_ENV || 'development' },
-  get SERVER_URL() { return (empty(process.env.NEXT_PUBLIC_SERVER_URL) || 'http://localhost:3000').replace(/\/$/, '') },
+  get SERVER_URL() { return publicServerURL() },
   get PAYLOAD_SECRET() { return empty(process.env.PAYLOAD_SECRET) },
   get DATABASE_URL() { return empty(process.env.DATABASE_URL) || empty(process.env.DATABASE_URI) },
   get DATABASE_AUTH_MODE() { return (empty(process.env.DATABASE_AUTH_MODE) || 'password').toLowerCase() },

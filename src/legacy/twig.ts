@@ -6,6 +6,7 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs'
 import path from 'node:path'
 import Twig from 'twig'
+import { env } from '../lib/env'
 
 const VIEWS = path.join(process.cwd(), 'src/legacy/views')
 const STUB = path.join(process.cwd(), 'src/legacy/base.stub.twig')
@@ -88,7 +89,7 @@ function load() {
     return (names[String(value)] ?? String(value)) as string
   })
   Twig.extendFunction('path', (name: string, params?: Record<string, unknown>) => pathFor(name, params))
-  Twig.extendFunction('url', (name: string, params?: Record<string, unknown>) => (process.env.NEXT_PUBLIC_SERVER_URL || '') + pathFor(name, params))
+  Twig.extendFunction('url', (name: string, params?: Record<string, unknown>) => env.SERVER_URL + pathFor(name, params))
   Twig.extendFunction('asset', (p: string) => `/${String(p).replace(/^\//, '')}`)
   Twig.extendFunction('csrf_token', () => '')
   Twig.extendFunction('search_path', (route: any) => route?.path ?? '/')
@@ -106,7 +107,7 @@ function load() {
   Twig.extendFunction('getParameter', (name: string, fallback?: string) => params[name] ?? fallback ?? '')
   Twig.extendFunction('citasMaintenanceModalActive', (() => citasMaintenanceModalActive()) as any)
   // LiipImagine devolvía la URL absoluta de la miniatura.
-  Twig.extendFilter('imagine_filter', (value: any, args: any) => `${process.env.NEXT_PUBLIC_SERVER_URL || ''}/media/cache/${(args as string[] | undefined)?.[0] ?? 'resolve'}${String(value).startsWith('/') ? '' : '/'}${value}`)
+  Twig.extendFilter('imagine_filter', (value: any, args: any) => `${env.SERVER_URL}/media/cache/${(args as string[] | undefined)?.[0] ?? 'resolve'}${String(value).startsWith('/') ? '' : '/'}${value}`)
   register = (id: string, data: string) => {
     // twig.js considera "definido" un índice fuera de rango; en PHP no lo es.
     const fixed = data
@@ -132,9 +133,9 @@ export function renderTwig(name: string, context: Record<string, unknown> = {}):
   const tpl = (Twig as any).twig({ ref: normalize(name) })
   if (!tpl) throw new Error(`Plantilla no encontrada: ${name}`)
   return tpl.render({
-    server_url: process.env.NEXT_PUBLIC_SERVER_URL || 'https://www.ford.cr',
+    server_url: env.SERVER_URL,
     assetsVersion: '1775667654984',
-    app: { request: { get: () => null, locale: 'es', host: (process.env.NEXT_PUBLIC_SERVER_URL || '').replace(/^https?:\/\//, '') }, environment: 'prod', session: { get: () => null } },
+    app: { request: { get: () => null, locale: 'es', host: env.SERVER_URL.replace(/^https?:\/\//, '') }, environment: 'prod', session: { get: () => null } },
     ...context,
   })
 }

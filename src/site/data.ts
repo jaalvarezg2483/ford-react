@@ -1,6 +1,7 @@
 import { cached } from './cache'
 import { payloadClient } from './payload'
 import defaults from '../import/settings-defaults.json'
+import { env } from '../lib/env'
 
 type MediaDoc = { url?: string | null; legacyPath?: string | null } | number | null | undefined
 
@@ -95,7 +96,7 @@ export function familyView(f: any): FamilyView {
 /** El Symfony imprime las imágenes de familias con el dominio (server_url ~ ruta). */
 export function absolute(path: string): string {
   if (!path || /^https?:\/\//.test(path)) return path
-  const base = (process.env.NEXT_PUBLIC_SERVER_URL || '').replace(/\/$/, '')
+  const base = env.SERVER_URL
   return base + path
 }
 

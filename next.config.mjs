@@ -2,6 +2,8 @@ import { withPayload } from '@payloadcms/next/withPayload'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Keep Turbopack scoped to this app, not the legacy Symfony workspace root.
+  turbopack: { root: process.cwd() },
   // Azure App Service usa el paquete standalone (BUILD_STANDALONE=1); Railway corre `next start`.
   ...(process.env.BUILD_STANDALONE === '1' ? { output: 'standalone' } : {}),
   poweredByHeader: false,

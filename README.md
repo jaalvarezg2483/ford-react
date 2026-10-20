@@ -25,7 +25,7 @@ Los destinatarios de cada formulario están en **Formularios y correos**. Arranc
 Requiere Node 22 y PostgreSQL.
 
 ```bash
-cp .env.example .env          # DATABASE_URL, PAYLOAD_SECRET, NEXT_PUBLIC_SERVER_URL
+cp .env.example .env          # DATABASE_URL, PAYLOAD_SECRET; FORD_PUBLIC_URL es opcional
 npm install
 npm run db:migrate
 npm run dev                   # http://localhost:3000  ·  admin: /admin
@@ -39,7 +39,7 @@ Para probar correos sin enviarlos: `SMTP_HOST=__file__` guarda cada correo como 
 1. Crear un servicio desde este repositorio de GitHub. Usa el `Dockerfile` y `railway.json`.
 2. Agregar un **PostgreSQL** y en el servicio poner `DATABASE_URL=${{Postgres.DATABASE_URL}}`.
 3. Montar un **volumen** en `/app/media`; ahí quedan los archivos subidos al CMS.
-4. Variables: `NEXT_PUBLIC_SERVER_URL` (URL pública del servicio), `PAYLOAD_SECRET` (32+ caracteres aleatorios), `SMTP_PASSWORD` (API key de SendGrid), `EMAIL_FROM`, y las demás de `.env.example` que apliquen.
+4. Variables: `FORD_PUBLIC_URL` (opcional; Railway y Azure detectan su dominio automáticamente), `PAYLOAD_SECRET` (32+ caracteres aleatorios), `SMTP_PASSWORD` (API key de SendGrid), `EMAIL_FROM`, y las demás de `.env.example` que apliquen.
 5. Al arrancar, las migraciones se aplican solas. Entrar a `/admin`, crear el primer usuario y usar **Importar ahora** en el escritorio. Eso trae todo el contenido de www.ford.cr.
 
 ## Azure (después)
