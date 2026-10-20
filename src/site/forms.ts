@@ -25,7 +25,7 @@ export async function handleForm(req: Request): Promise<Response | null> {
   const fields = await readFields(req)
   const session = await getSession(req)
   if (!(await captchaOk(fields))) {
-    return xhr ? json({ msn: 'error', errors: 'Por favor active el CAPTCHA' }, 400, session) : redirect(req.headers.get('referer') || p || '/')
+    return xhr ? json({ msn: 'error', errors: 'Por favor active el CAPTCHA' }, 400, session) : redirect(localReturnPath(req, req.headers.get('referer')))
   }
 
   let m: RegExpExecArray | null
@@ -75,8 +75,8 @@ async function snippetForm(req: Request, type: string, fields: Record<string, st
   } catch (error) {
     console.error(`Formulario ${type} falló`, error)
   }
-  const res = redirect(referer)
-  res.headers.append('Set-Cookie', `snippet_sended=${sended ? 1 : 0}; Path=/; Max-Age=60; SameSite=Lax`)
+  const res = redirect(localReturnPath(req, referer))
+  res.headers.append('Set-Cookie', `snippet_sended=${sended ? 1 : 0}; Path=/; Max-Age=60; HttpOnly; SameSite=Lax${env.NODE_ENV === 'production' ? '; Secure' : ''}`)
   return res
 }
 
@@ -108,13 +108,30 @@ export async function readFields(req: Request): Promise<Record<string, string>> 
 }
 
 async function captchaOk(fields: Record<string, string>): Promise<boolean> {
-  if (!env.RECAPTCHA_SECRET_KEY || !('g-recaptcha-response' in fields)) return true
+  const token = fields['g-recaptcha-response']
+  // Forms that submit a CAPTCHA token must never silently bypass verification
+  // when Railway/Azure has not been given the matching server secret.
+  if (!token) return true
+  if (!env.RECAPTCHA_SECRET_KEY || token.length > 4096) return false
   const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ secret: env.RECAPTCHA_SECRET_KEY, response: fields['g-recaptcha-response'] }),
-  }).then((r) => r.json()).catch(() => ({ success: false }))
-  return Boolean(res.success)
+    body: new URLSearchParams({ secret: env.RECAPTCHA_SECRET_KEY, response: token }),
+    signal: AbortSignal.timeout(8_000),
+  }).then(async (r) => r.ok ? r.json() : { success: false }).catch(() => ({ success: false }))
+  return res.success === true
+}
+
+/** Only allow form redirects back to this site; Referer is client controlled. */
+function localReturnPath(req: Request, candidate: string | null): string {
+  if (!candidate) return '/'
+  try {
+    const base = new URL(req.url)
+    const target = new URL(candidate, base)
+    return target.origin === base.origin ? `${target.pathname}${target.search}${target.hash}` : '/'
+  } catch {
+    return '/'
+  }
 }
 
 function redirect(to: string): Response {

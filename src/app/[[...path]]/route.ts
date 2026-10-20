@@ -37,6 +37,16 @@ export const HEAD = GET
 
 export async function POST(req: Request) {
   const url = new URL(req.url)
+  // Browser forms are same-origin. Reject cross-site submissions when the
+  // browser sends Origin, while retaining compatibility with non-browser clients.
+  const origin = req.headers.get('origin')
+  if (origin) {
+    try {
+      if (new URL(origin).origin !== url.origin) return new Response('Forbidden', { status: 403 })
+    } catch {
+      return new Response('Forbidden', { status: 403 })
+    }
+  }
   // El formulario de reserva hace su envío final a /contacto/gracias (los datos ya se guardaron por AJAX).
   if (url.pathname === '/contacto/gracias') return GET(req)
   return (await handleForm(req)) ?? notFound(req)
