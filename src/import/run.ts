@@ -168,7 +168,7 @@ async function importVehicles(payload: Payload, src: ImportSource, home: Crawled
       description: rest?.web_description || rest?.description || undefined,
       models: rest ? (rest.related_models || []).map((m: any) => ({
         code: m.code, name: m.name, year: m.anno ?? rest.principal_model?.year, legacyId: m.id,
-        familySalesForce: m.familySalesForce, categorySalesForce: m.categorySalesForce, features: m.feauture_list ?? [],
+        familySalesForce: m.familySalesForce, categorySalesForce: m.categorySalesForce, features: toFeatureRows(m.feauture_list),
       })) : undefined,
       dataSheets: rest ? (rest.data_sheets || []).map((d: any) => ({ title: d.description || d.code, file: mediaId(media, d.file), legacyId: d.id })) : undefined,
     }
@@ -258,7 +258,12 @@ export function parseCompareSpecs(html: string): Record<string, string | number>
     const cell = $(cells[1])
     if (cell.find('p.text-50').length) return
     const text = cell.text().trim()
-    specs[key] = key === 'cc' ? Number(text.replace(/[^\d.]/g, '')) || text : text
+    if (key === 'cc') {
+      const cc = Number(text.replace(/[^\d.]/g, ''))
+      if (Number.isFinite(cc) && cc > 0) specs[key] = cc
+      return
+    }
+    specs[key] = text
   })
   return specs
 }
@@ -294,11 +299,35 @@ async function importModelVariants(payload: Payload, src: ImportSource) {
 }
 
 // ---------- Entidades financieras ----------
+/** REST del Symfony → filas del CMS (campos con etiqueta, sin JSON). */
+export function toCalculatorRow(c: any) {
+  const nums = (v: unknown) => (Array.isArray(v) ? v.map(Number).filter((n) => Number.isFinite(n)) : [])
+  return {
+    legacyId: c?.id ?? null,
+    name: String(c?.name ?? ''),
+    rate: c?.rate != null ? Number(c.rate) : null,
+    commission: c?.commission != null ? Number(c.commission) : null,
+    prima: c?.prima != null ? Number(c.prima) : null,
+    termMonth: nums(c?.termMonth),
+    terms: nums(c?.terms),
+    image: c?.image ? String(c.image) : null,
+  }
+}
+
+/** Lista de equipamiento del Symfony (strings u objetos {name}) → filas del CMS. */
+export function toFeatureRows(list: unknown) {
+  if (!Array.isArray(list)) return []
+  return list
+    .map((f) => (typeof f === 'string' ? f : f && typeof f === 'object' ? (f as any).name ?? (f as any).item : null))
+    .filter((t): t is string => typeof t === 'string' && t.trim() !== '')
+    .map((item) => ({ item: item.trim() }))
+}
 async function importCalculators(payload: Payload, src: ImportSource) {
   const body = await src.rest('/rest/v2/calculator')
   if (!body) return
   const list = JSON.parse(body)
-  await payload.updateGlobal({ slug: 'site-settings', data: { calculators: list }, overrideAccess: true })
+  const calculators = (Array.isArray(list) ? list : []).map(toCalculatorRow)
+  await payload.updateGlobal({ slug: 'site-settings', data: { calculators }, overrideAccess: true })
   log(`calculadora: ${list.length} entidades`)
 }
 

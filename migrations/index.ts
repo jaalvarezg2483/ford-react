@@ -9,6 +9,7 @@ import * as migration_20261020_003715_page_price_refs from './20261020_003715_pa
 import * as migration_20261020_010000_site_sessions from './20261020_010000_site_sessions';
 import * as migration_20261020_142916_family_type_card_styles from './20261020_142916_family_type_card_styles';
 import * as migration_20261020_170702 from './20261020_170702';
+import * as migration_20261020_174359_campos_amigables_sin_json from './20261020_174359_campos_amigables_sin_json';
 
 export const migrations = [
   {
@@ -64,6 +65,11 @@ export const migrations = [
   {
     up: migration_20261020_170702.up,
     down: migration_20261020_170702.down,
-    name: '20261020_170702'
+    name: '20261020_170702',
+  },
+  {
+    up: migration_20261020_174359_campos_amigables_sin_json.up,
+    down: migration_20261020_174359_campos_amigables_sin_json.down,
+    name: '20261020_174359_campos_amigables_sin_json'
   },
 ];

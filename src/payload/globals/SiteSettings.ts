@@ -46,7 +46,29 @@ export const SiteSettings: GlobalConfig = {
         {
           label: 'Calculadora',
           fields: [
-            { name: 'calculators', type: 'json', label: 'Entidades financieras', admin: { description: 'Lista con name, rate (tasa %), commission (%), prima (%), termMonth [meses], terms [años], image (ruta).' } },
+            {
+              name: 'calculators',
+              type: 'array',
+              label: 'Entidades financieras',
+              labels: { singular: 'Entidad financiera', plural: 'Entidades financieras' },
+              fields: [
+                { type: 'row', fields: [
+                  { name: 'name', type: 'text', required: true, label: 'Nombre' },
+                  { name: 'rate', type: 'number', label: 'Tasa de interés (%)' },
+                  { name: 'commission', type: 'number', label: 'Comisión (%)' },
+                  { name: 'prima', type: 'number', label: 'Prima mínima (%)' },
+                ] },
+                { type: 'row', fields: [
+                  { name: 'termMonth', type: 'number', hasMany: true, label: 'Plazos (meses)', admin: { description: 'Escribí cada plazo y Enter. Ej.: 12, 24, 36.' } },
+                  { name: 'terms', type: 'number', hasMany: true, label: 'Plazos (años)' },
+                ] },
+                { type: 'row', fields: [
+                  { name: 'logo', type: 'upload', relationTo: 'media', label: 'Logo' },
+                  { name: 'image', type: 'text', label: 'Logo actual (ruta del sitio anterior)', admin: { description: 'Se usa mientras no se suba un logo nuevo.' } },
+                ] },
+                { name: 'legacyId', type: 'number', label: 'ID Symfony', admin: { readOnly: true } },
+              ],
+            },
           ],
         },
         {

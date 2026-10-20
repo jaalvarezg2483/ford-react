@@ -18,7 +18,9 @@ export const Leads: CollectionConfig = {
       { name: 'email', type: 'email', label: 'Correo' },
       { name: 'phone', type: 'text', label: 'Teléfono' },
     ] },
-    { name: 'data', type: 'json', label: 'Datos enviados' },
+    // Se guarda tal cual lo envió el formulario, pero en el CMS se ve como tabla de solo lectura.
+    { name: 'data', type: 'json', label: 'Datos enviados', admin: { hidden: true } },
+    { name: 'dataView', type: 'ui', label: 'Datos enviados', admin: { components: { Field: '/components/admin/LeadDataView#LeadDataView' } } },
     { type: 'row', fields: [
       { name: 'emailTo', type: 'text', label: 'Enviado a' },
       { name: 'emailStatus', type: 'select', options: ['pending', 'sent', 'failed', 'skipped'], defaultValue: 'pending', label: 'Correo' },

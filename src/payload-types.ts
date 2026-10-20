@@ -306,27 +306,29 @@ export interface Family {
         price?: number | null;
         familySalesForce?: string | null;
         categorySalesForce?: string | null;
+        /**
+         * Un ítem por renglón. Se pueden arrastrar para cambiar el orden.
+         */
         features?:
           | {
-              [k: string]: unknown;
-            }
-          | unknown[]
-          | string
-          | number
-          | boolean
+              item: string;
+              id?: string | null;
+            }[]
           | null;
         /**
-         * cc, traction, gas, transmission, pasajeros, totalLength, totalHeight, totalWidth, distanceBetweenAxis
+         * Lo que se muestra en el comparador de modelos. Dejá vacío lo que no aplique.
          */
-        specs?:
-          | {
-              [k: string]: unknown;
-            }
-          | unknown[]
-          | string
-          | number
-          | boolean
-          | null;
+        specs?: {
+          cc?: number | null;
+          gas?: string | null;
+          traction?: string | null;
+          transmission?: string | null;
+          pasajeros?: string | null;
+          totalLength?: string | null;
+          totalHeight?: string | null;
+          totalWidth?: string | null;
+          distanceBetweenAxis?: string | null;
+        };
         id?: string | null;
       }[]
     | null;
@@ -354,16 +356,16 @@ export interface FamilyType {
   underlineColor?: string | null;
   families?: (number | Family)[] | null;
   /**
-   * Lista importada por categoría con slug, imagen, color y gradiente para mantener las tarjetas iguales a Ford.
+   * Cómo se ve cada vehículo de esta categoría en el carrusel de inicio.
    */
   cardStyles?:
     | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
+        slug: string;
+        color?: string | null;
+        image?: string | null;
+        gradient?: string | null;
+        id?: string | null;
+      }[]
     | null;
   /**
    * Ej. el bloque de Ford Performance bajo los vehículos.
@@ -426,6 +428,7 @@ export interface User {
   resetPasswordExpiration?: string | null;
   salt?: string | null;
   hash?: string | null;
+  resetPasswordRequestedAt?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
   sessions?:
@@ -654,8 +657,25 @@ export interface FamiliesSelect<T extends boolean = true> {
         price?: T;
         familySalesForce?: T;
         categorySalesForce?: T;
-        features?: T;
-        specs?: T;
+        features?:
+          | T
+          | {
+              item?: T;
+              id?: T;
+            };
+        specs?:
+          | T
+          | {
+              cc?: T;
+              gas?: T;
+              traction?: T;
+              transmission?: T;
+              pasajeros?: T;
+              totalLength?: T;
+              totalHeight?: T;
+              totalWidth?: T;
+              distanceBetweenAxis?: T;
+            };
         id?: T;
       };
   dataSheets?:
@@ -680,7 +700,15 @@ export interface FamilyTypesSelect<T extends boolean = true> {
   textColor?: T;
   underlineColor?: T;
   families?: T;
-  cardStyles?: T;
+  cardStyles?:
+    | T
+    | {
+        slug?: T;
+        color?: T;
+        image?: T;
+        gradient?: T;
+        id?: T;
+      };
   menuHtml?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -748,6 +776,7 @@ export interface UsersSelect<T extends boolean = true> {
   resetPasswordExpiration?: T;
   salt?: T;
   hash?: T;
+  resetPasswordRequestedAt?: T;
   loginAttempts?: T;
   lockUntil?: T;
   sessions?:
@@ -820,17 +849,25 @@ export interface SiteSetting {
   bodyStartHtml?: string | null;
   bodyEndScripts?: string | null;
   assetsVersion?: string | null;
-  /**
-   * Lista con name, rate (tasa %), commission (%), prima (%), termMonth [meses], terms [años], image (ruta).
-   */
   calculators?:
     | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
+        name: string;
+        rate?: number | null;
+        commission?: number | null;
+        prima?: number | null;
+        /**
+         * Escribí cada plazo y Enter. Ej.: 12, 24, 36.
+         */
+        termMonth?: number[] | null;
+        terms?: number[] | null;
+        logo?: (number | null) | Media;
+        /**
+         * Se usa mientras no se suba un logo nuevo.
+         */
+        image?: string | null;
+        legacyId?: number | null;
+        id?: string | null;
+      }[]
     | null;
   parameters?:
     | {
@@ -882,7 +919,20 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   bodyStartHtml?: T;
   bodyEndScripts?: T;
   assetsVersion?: T;
-  calculators?: T;
+  calculators?:
+    | T
+    | {
+        name?: T;
+        rate?: T;
+        commission?: T;
+        prima?: T;
+        termMonth?: T;
+        terms?: T;
+        logo?: T;
+        image?: T;
+        legacyId?: T;
+        id?: T;
+      };
   parameters?:
     | T
     | {

@@ -19,7 +19,21 @@ export const FamilyTypes: CollectionConfig = {
       { name: 'underlineColor', type: 'text', label: 'Color del subrayado', defaultValue: '#000000' },
     ] },
     { name: 'families', type: 'relationship', relationTo: 'families', hasMany: true, label: 'Vehículos (en orden)' },
-    { name: 'cardStyles', type: 'json', label: 'Estilos por vehículo en portada', admin: { description: 'Lista importada por categoría con slug, imagen, color y gradiente para mantener las tarjetas iguales a Ford.' } },
+    {
+      name: 'cardStyles',
+      type: 'array',
+      label: 'Tarjetas de la portada',
+      labels: { singular: 'Tarjeta', plural: 'Tarjetas de la portada' },
+      admin: { initCollapsed: true, description: 'Cómo se ve cada vehículo de esta categoría en el carrusel de inicio.' },
+      fields: [
+        { type: 'row', fields: [
+          { name: 'slug', type: 'text', required: true, label: 'Vehículo (slug de la URL /autos/…)' },
+          { name: 'color', type: 'text', label: 'Color de fondo', admin: { placeholder: '#16a1cc' } },
+        ] },
+        { name: 'image', type: 'text', label: 'Imagen (ruta)', admin: { placeholder: '/uploads/…' } },
+        { name: 'gradient', type: 'text', label: 'Degradado (opcional)' },
+      ],
+    },
     { name: 'menuHtml', type: 'code', label: 'Texto adicional en el menú (HTML)', admin: { language: 'html', description: 'Ej. el bloque de Ford Performance bajo los vehículos.' } },
   ],
 }

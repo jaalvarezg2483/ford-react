@@ -40,10 +40,17 @@ export function allFamilies(): Promise<FamilyRecord[]> {
     const res = await payload.find({ collection: 'families', limit: 200, depth: 1 })
     return res.docs.map((f: any) => ({
       id: f.id, legacyId: f.legacyId, name: f.name, slug: f.slug, code: f.code, startPrice: f.startPrice,
-      models: (f.models || []).map((m: any) => ({ code: m.code, name: m.name, year: m.year, legacyId: m.legacyId, price: m.price, familySalesForce: m.familySalesForce, categorySalesForce: m.categorySalesForce, specs: m.specs ?? null })),
+      models: (f.models || []).map((m: any) => ({ code: m.code, name: m.name, year: m.year, legacyId: m.legacyId, price: m.price, familySalesForce: m.familySalesForce, categorySalesForce: m.categorySalesForce, specs: cleanSpecs(m.specs) })),
       dataSheets: (f.dataSheets || []).map((d: any) => ({ title: d.title, url: d.file?.legacyPath || d.file?.url || '', legacyId: d.legacyId })),
     }))
   })
+}
+
+/** El grupo de especificaciones trae todas las claves; el comparador solo debe ver las que tienen valor. */
+function cleanSpecs(specs: unknown): Record<string, unknown> | null {
+  if (!specs || typeof specs !== 'object') return null
+  const out = Object.fromEntries(Object.entries(specs as Record<string, unknown>).filter(([k, v]) => k !== 'id' && v !== null && v !== undefined && v !== ''))
+  return Object.keys(out).length ? out : null
 }
 
 export async function findFamily(by: { slug?: string; legacyId?: unknown }) {
@@ -68,8 +75,19 @@ export type Calculator = { id: number; name: string; rate: number; commission: n
 export function calculators(): Promise<Calculator[]> {
   return cached('calculators', async () => {
     const payload = await payloadClient()
-    const s = (await payload.findGlobal({ slug: 'site-settings', depth: 0 })) as any
-    return Array.isArray(s.calculators) ? s.calculators : []
+    const s = (await payload.findGlobal({ slug: 'site-settings', depth: 1 })) as any
+    const rows: any[] = Array.isArray(s.calculators) ? s.calculators : []
+    // Misma forma que devolvía el Symfony (/rest/v2/calculator).
+    return rows.map((c, i) => ({
+      id: c.legacyId ?? i + 1,
+      name: c.name ?? '',
+      rate: Number(c.rate ?? 0),
+      commission: Number(c.commission ?? 0),
+      prima: Number(c.prima ?? 0),
+      termMonth: Array.isArray(c.termMonth) ? c.termMonth.map(Number) : [],
+      terms: Array.isArray(c.terms) ? c.terms.map(Number) : [],
+      image: (c.logo && typeof c.logo === 'object' ? c.logo.legacyPath || c.logo.url : null) || c.image || '',
+    }))
   })
 }
 
