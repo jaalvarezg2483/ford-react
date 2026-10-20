@@ -5,12 +5,7 @@ import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
  * Equipamiento, especificaciones, tarjetas de portada y entidades financieras pasan de
  * JSON a campos con etiqueta. Los datos existentes se copian antes de borrar las columnas viejas.
  */
-export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
-  // Entidades financieras: se leen antes de cambiar el esquema y se reescriben con la API
-  // (los plazos son listas de números y Payload sabe guardarlas en su tabla).
-  const oldSettings = await db.execute(sql`SELECT calculators FROM site_settings ORDER BY id LIMIT 1`)
-  const oldCalculators: any[] = Array.isArray((oldSettings as any).rows?.[0]?.calculators) ? (oldSettings as any).rows[0].calculators : []
-
+export async function up({ db }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
    CREATE TABLE "families_models_features" (
   	"_order" integer NOT NULL,
@@ -111,35 +106,45 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   WHERE coalesce(x.e->>'slug', '') <> '';
   `)
 
+  // Entidades financieras: migrar directamente con SQL porque el schema que conoce Payload
+  // todavía no incluye las tablas de editables creadas por la siguiente migración.
+  await db.execute(sql`
+  INSERT INTO "site_settings_calculators" (
+    "_order", "_parent_id", "id", "name", "rate", "commission", "prima", "image", "legacy_id"
+  )
+  SELECT c.ord::integer, s.id,
+    substr(md5(s.id::text || c.ord::text || random()::text), 1, 24),
+    coalesce(nullif(c.item->>'name', ''), 'Entidad'),
+    CASE WHEN c.item->>'rate' ~ '^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)([eE][+-]?[0-9]+)?$' THEN (c.item->>'rate')::numeric END,
+    CASE WHEN c.item->>'commission' ~ '^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)([eE][+-]?[0-9]+)?$' THEN (c.item->>'commission')::numeric END,
+    CASE WHEN c.item->>'prima' ~ '^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)([eE][+-]?[0-9]+)?$' THEN (c.item->>'prima')::numeric END,
+    nullif(c.item->>'image', ''),
+    CASE WHEN c.item->>'id' ~ '^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)([eE][+-]?[0-9]+)?$' THEN (c.item->>'id')::numeric END
+  FROM "site_settings" s
+  CROSS JOIN LATERAL jsonb_array_elements(
+    CASE WHEN jsonb_typeof(s."calculators") = 'array' THEN s."calculators" ELSE '[]'::jsonb END
+  ) WITH ORDINALITY AS c(item, ord);
+
+  INSERT INTO "site_settings_numbers" ("number", "order", "parent_id", "path")
+  SELECT n.value::numeric, n.ord::integer, s.id,
+    'calculators.' || (c.ord - 1)::text || '.' || n.field
+  FROM "site_settings" s
+  CROSS JOIN LATERAL jsonb_array_elements(
+    CASE WHEN jsonb_typeof(s."calculators") = 'array' THEN s."calculators" ELSE '[]'::jsonb END
+  ) WITH ORDINALITY AS c(item, ord)
+  CROSS JOIN LATERAL (VALUES ('termMonth', c.item->'termMonth'), ('terms', c.item->'terms')) AS f(field, items)
+  CROSS JOIN LATERAL jsonb_array_elements_text(
+    CASE WHEN jsonb_typeof(f.items) = 'array' THEN f.items ELSE '[]'::jsonb END
+  ) WITH ORDINALITY AS n(value, ord)
+  WHERE n.value ~ '^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)([eE][+-]?[0-9]+)?$';
+  `)
+
   await db.execute(sql`
   ALTER TABLE "families_models" DROP COLUMN "features";
   ALTER TABLE "families_models" DROP COLUMN "specs";
   ALTER TABLE "family_types" DROP COLUMN "card_styles";
   ALTER TABLE "site_settings" DROP COLUMN "calculators";
   `)
-
-  if (oldCalculators.length) {
-    const nums = (v: unknown) => (Array.isArray(v) ? v.map(Number).filter((n) => Number.isFinite(n)) : [])
-    const num = (v: unknown) => (v === null || v === undefined || v === '' ? null : Number(v))
-    await payload.updateGlobal({
-      slug: 'site-settings',
-      req,
-      overrideAccess: true,
-      context: { migration: true },
-      data: {
-        calculators: oldCalculators.map((c) => ({
-          legacyId: num(c?.id),
-          name: String(c?.name ?? 'Entidad'),
-          rate: num(c?.rate),
-          commission: num(c?.commission),
-          prima: num(c?.prima),
-          termMonth: nums(c?.termMonth),
-          terms: nums(c?.terms),
-          image: c?.image ? String(c.image) : null,
-        })),
-      } as any,
-    })
-  }
 }
 
 export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
