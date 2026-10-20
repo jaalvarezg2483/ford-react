@@ -150,7 +150,9 @@ ${posts.map((p) => `                                            <div class="card
                             </div>
                         </div>
 `).join('')}                                    </div>
-                <a class="btn visible-xs text--bold" href="/blog">Ir a blog</a>
+            </div>
+             <div class="col-md-2 hidden-md text-center">
+                <a class="btn btn--wider margin--top text--bold" href="/blog">Ir a blog</a>
             </div>
         </div>
     </div>
