@@ -118,7 +118,8 @@ function load() {
     const src = fixed.replace(/(\{%\s*(?:extends|include|embed|import|from)\s+)(["'])([^"']+)\2/g, (_m, pre, q, name) => `${pre}${q}${normalize(name)}${q}`)
       .replace(/(\{\{\s*include\(\s*)(["'])([^"']+)\2/g, (_m, pre, q, name) => `${pre}${q}${normalize(name)}${q}`)
     try {
-      Twig.twig({ id, data: src, allowInlineIncludes: true, rethrow: true } as any)
+      // Symfony escapa el HTML por defecto en las plantillas .html.twig; twig.js no.
+      Twig.twig({ id, data: src, allowInlineIncludes: true, rethrow: true, autoescape: !id.endsWith('.txt.twig') } as any)
     } catch (error) {
       // En desarrollo el módulo se recarga pero el registro global de twig.js sigue vivo.
       if (!String((error as Error)?.message ?? error).includes('already a template')) throw error

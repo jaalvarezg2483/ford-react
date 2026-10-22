@@ -5,7 +5,7 @@ import { gateway, GatewayUnavailable } from './gateway'
 import { readFields } from './forms'
 import { siteParameters } from './legacy-data'
 import { getSession, json, withSession, type Session } from './session'
-import { html } from './respond'
+import { html, redirectTo } from './respond'
 import { renderPage } from './render'
 
 /**
@@ -42,7 +42,7 @@ export async function renderCitasStep(req: Request, step: string): Promise<Respo
       ctx = { vehicleInfo: session.get(K.VEHICLE, false), vehicles: session.get(K.LIST_VEHICLE, []), fullName: session.get(K.FULL_NAME), debug: url.searchParams.get('ACN_DEBUG') === 'true' }
       break
     case 'step2': {
-      if (session.get(K.CURRENT_APPOINTMENT, false)) return withSession(Response.redirect(new URL('/citas/step3', url), 302), session)
+      if (session.get(K.CURRENT_APPOINTMENT, false)) return withSession(redirectTo(req, '/citas/step3'), session)
       let tasks: any[] = session.get(K.TASKS, []) || []
       const modelo = String(vehicleSelected?.Modelo ?? '')
       if (ELECTRIC.some((w) => modelo.includes(w))) tasks = tasks.filter((t) => t.CTrabajo_Id !== 'LBExpress')

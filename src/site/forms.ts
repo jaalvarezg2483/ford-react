@@ -1,3 +1,4 @@
+import { publicOrigin } from './respond'
 import { env } from '@/lib/env'
 import { parseParams } from './controllers'
 import { contactusEntity, asesorMail, processContact, resolveFamilyModel } from './contactus'
@@ -8,6 +9,7 @@ import { handleCitas } from './citas'
 import { handleCalculatorPost } from './calculator'
 import { saveLocation } from './location'
 import { quotationPdf } from './pdf'
+import { handleFeedback } from './feedback'
 
 /** Formularios del sitio (POST). Mismas URLs que el Symfony. */
 export async function handleForm(req: Request): Promise<Response | null> {
@@ -17,6 +19,8 @@ export async function handleForm(req: Request): Promise<Response | null> {
 
   if (p.startsWith('/citas/')) return handleCitas(req, url)
   if (p === '/save/location') return saveLocation(req)
+  const feedback = await handleFeedback(req, p)
+  if (feedback) return feedback
   const pdf = /^\/generate-pdf-quotation\/([^/]+)\/([^/]+)$/.exec(p)
   if (pdf) return quotationPdf(req, pdf[1], pdf[2])
   const calc = await handleCalculatorPost(req, url)
@@ -126,7 +130,8 @@ async function captchaOk(fields: Record<string, string>): Promise<boolean> {
 function localReturnPath(req: Request, candidate: string | null): string {
   if (!candidate) return '/'
   try {
-    const base = new URL(req.url)
+    // Origen público: detrás del proxy `req.url` trae el host interno del contenedor.
+    const base = new URL(publicOrigin(req))
     const target = new URL(candidate, base)
     return target.origin === base.origin ? `${target.pathname}${target.search}${target.hash}` : '/'
   } catch {
@@ -139,7 +144,5 @@ function redirect(to: string): Response {
 }
 
 function absolute(req: Request, path: string) {
-  const host = req.headers.get('x-forwarded-host') || req.headers.get('host')
-  const proto = req.headers.get('x-forwarded-proto') || new URL(req.url).protocol.replace(':', '')
-  return host ? `${proto}://${host}${path}` : path
+  return /^https?:\/\//.test(path) ? path : publicOrigin(req) + path
 }

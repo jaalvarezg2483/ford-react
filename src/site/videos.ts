@@ -39,7 +39,7 @@ export async function renderVideos(req: Request, url: URL, categoryName: string 
     pages = Math.ceil(all.length / SIZE)
     list = all.slice((page - 1) * SIZE, page * SIZE)
     if (req.headers.get('x-requested-with') === 'XMLHttpRequest') {
-      return new Response(renderTwig('Default/partials/videos-results.html.twig', { videos: list }), { headers: { 'Content-Type': 'text/html; charset=UTF-8' } })
+      return html(renderTwig('Default/partials/videos-results.html.twig', { videos: list }))
     }
   }
   const query = new URLSearchParams([...url.searchParams].filter(([k]) => k !== 'page')).toString()

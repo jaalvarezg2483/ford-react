@@ -1,3 +1,4 @@
+import { toPublicHtml } from './public-url'
 import { randomBytes } from 'node:crypto'
 import { payloadClient } from './payload'
 
@@ -63,6 +64,10 @@ export async function getSession(req: Request): Promise<Session> {
         [sid, JSON.stringify(data)],
       )
       dirty = false
+      // Limpieza ocasional de sesiones vencidas para que la tabla no crezca sin límite.
+      if (Math.random() < 0.01) {
+        void (await pool()).query("DELETE FROM site_sessions WHERE updated_at < now() - interval '2 days'").catch(() => {})
+      }
     },
     cookie: () => (isNew ? `${COOKIE}=${sid}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${MAX_AGE_S}${process.env.NODE_ENV === 'production' ? '; Secure' : ''}` : null),
   }
@@ -76,6 +81,6 @@ export function withSession(res: Response, session: Session): Response {
 }
 
 export function json(body: unknown, status = 200, session?: Session): Response {
-  const res = new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } })
+  const res = new Response(toPublicHtml(JSON.stringify(body)), { status, headers: { 'Content-Type': 'application/json' } })
   return session ? withSession(res, session) : res
 }

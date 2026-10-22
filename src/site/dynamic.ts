@@ -8,7 +8,7 @@ import { getPage, getPosts, getMediaByPath } from './data'
 import { allFamilies } from './legacy-data'
 import { renderTwig } from '@/legacy/twig'
 import { serveMedia } from './media'
-import { html } from './respond'
+import { html, redirectTo } from './respond'
 import { renderPage } from './render'
 import { esc } from './html'
 import { teaser } from './controllers'
@@ -41,7 +41,7 @@ export async function renderDynamic(req: Request, url: URL): Promise<Response | 
       const meta = (await getPage(`/autos/${fam.slug}`))?.metaHtml || ''
       const pick = (n: string) => new RegExp(`<meta name="${n}" content="([^"]*)"`).exec(meta)?.[1] ?? ''
       const body = renderTwig('Default/seeFile.html.twig', { family: { name: fam.name, getSeoDescription: () => pick('description'), getSeoTags: () => pick('keywords') }, file: { path: sheet.url.split('/').pop() } })
-      return new Response(body, { headers: { 'Content-Type': 'text/html; charset=UTF-8' } })
+      return html(body)
     }
   }
 
@@ -49,7 +49,7 @@ export async function renderDynamic(req: Request, url: URL): Promise<Response | 
   if ((m = /^\/datasheet\/(\d+)\/(.+)$/.exec(p))) {
     for (const f of await allFamilies()) {
       const d = f.dataSheets.find((x) => String(x.legacyId) === m![1])
-      if (d?.url) return (await serveMedia(d.url, req)) ?? Response.redirect(new URL(d.url, url), 302)
+      if (d?.url) return (await serveMedia(d.url, req)) ?? redirectTo(req, d.url)
     }
     const direct = await getMediaByPath(`/uploads/data_sheet/${m[2]}`)
     if (direct) return serveMedia(direct.legacyPath, req)

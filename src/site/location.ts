@@ -1,3 +1,4 @@
+import { html as htmlResponse } from './respond'
 import * as cheerio from 'cheerio'
 import { getPage } from './data'
 import { getSession, json, withSession } from './session'
@@ -32,7 +33,7 @@ export async function saveLocation(req: Request): Promise<Response> {
     units.push({ html, distance: d })
   })
   units.sort((a, b) => a.distance - b.distance)
-  const res = new Response(`<div class="col-md-4">\n${units.map((u) => u.html).join('\n')}\n</div>`, { headers: { 'Content-Type': 'text/html; charset=UTF-8' } })
+  const res = htmlResponse(`<div class="col-md-4">\n${units.map((u) => u.html).join('\n')}\n</div>`)
   return withSession(res, session)
 }
 

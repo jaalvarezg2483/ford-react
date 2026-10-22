@@ -55,7 +55,7 @@ export async function renderBlog(req: Request, url: URL): Promise<Response> {
   const pageItems = listing.slice((page - 1) * SIZE, page * SIZE).map(article)
 
   if (req.headers.get('x-requested-with') === 'XMLHttpRequest') {
-    return new Response(renderTwig('Default/partials/blog-results.html.twig', { articles: pageItems }), { headers: { 'Content-Type': 'text/html; charset=UTF-8' } })
+    return html(renderTwig('Default/partials/blog-results.html.twig', { articles: pageItems }))
   }
   const all = await getPosts()
   const featured = all.find((p) => p.featured) ?? [...all].sort((a, b) => b.views - a.views)[0] ?? null

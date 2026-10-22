@@ -75,6 +75,7 @@ export interface Config {
     'family-types': FamilyType;
     media: Media;
     leads: Lead;
+    'blog-feedback': BlogFeedback;
     redirects: Redirect;
     users: User;
     'payload-kv': PayloadKv;
@@ -92,6 +93,7 @@ export interface Config {
     'family-types': FamilyTypesSelect<false> | FamilyTypesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     leads: LeadsSelect<false> | LeadsSelect<true>;
+    'blog-feedback': BlogFeedbackSelect<false> | BlogFeedbackSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -490,6 +492,21 @@ export interface Lead {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-feedback".
+ */
+export interface BlogFeedback {
+  id: number;
+  kind: 'up' | 'down' | 'opinion' | 'workshop';
+  articleId: number;
+  workshopId?: number | null;
+  name?: string | null;
+  email?: string | null;
+  opinion?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -583,6 +600,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'leads';
         value: number | Lead;
+      } | null)
+    | ({
+        relationTo: 'blog-feedback';
+        value: number | BlogFeedback;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -889,6 +910,20 @@ export interface LeadsSelect<T extends boolean = true> {
   emailStatus?: T;
   salesforceStatus?: T;
   error?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-feedback_select".
+ */
+export interface BlogFeedbackSelect<T extends boolean = true> {
+  kind?: T;
+  articleId?: T;
+  workshopId?: T;
+  name?: T;
+  email?: T;
+  opinion?: T;
   updatedAt?: T;
   createdAt?: T;
 }

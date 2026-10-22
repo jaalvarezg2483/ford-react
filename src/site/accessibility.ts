@@ -197,7 +197,11 @@ function iconLabel(node: HtmlNode): string | undefined {
 function filenameLabel(src: string | undefined): string {
   if (!src) return ''
   const filename = src.split(/[/?#]/).filter(Boolean).pop() ?? ''
-  const label = filename.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ')
+  const base = filename.replace(/\.[^.]+$/, '')
+  // Los archivos del CMS se guardan con un hash (sha1) como nombre: no describe nada,
+  // así que se marca como decorativa (alt="") en vez de leer el hash en voz alta.
+  if (/^[a-f0-9]{16,}$/i.test(base)) return ''
+  const label = base.replace(/[-_]+/g, ' ')
   try { return decodeURIComponent(label) } catch { return label }
 }
 

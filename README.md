@@ -56,6 +56,12 @@ Es el mismo código y no hay que cambiarlo. Solo cambian las variables:
 - `npm run verify:pages -- <captura>/html`: comprueba que cada página capturada se descompone y se vuelve a armar igual.
 - `npm run compare -- <captura> http://localhost:3000`: compara el HTML que entrega el sitio nuevo contra la captura. Ignora espacios y dominio.
 
+## Dominio público (NEXT_PUBLIC_SERVER_URL)
+
+- El contenido importado trae URLs absolutas a `https://www.ford.cr` (así las generaba el Symfony). Si `NEXT_PUBLIC_SERVER_URL` es otro dominio (Railway, Azure de pruebas), se reescriben a ese dominio al servir cada página, fragmento AJAX o JSON. Así el clon no depende del sitio viejo.
+- En ese mismo caso las páginas salen con `X-Robots-Tag: noindex, nofollow`, para que Google no indexe la copia. Cuando `NEXT_PUBLIC_SERVER_URL=https://www.ford.cr`, nada de esto aplica.
+- Las redirecciones usan el host público (`X-Forwarded-Host`), no el interno del contenedor.
+
 ## Llaves atadas al dominio
 
 La llave pública de reCAPTCHA y la de Google Maps del sitio actual solo funcionan en `ford.cr`. Mientras el sitio corra en el dominio de Railway, definí `RECAPTCHA_SITE_KEY` (y `RECAPTCHA_SECRET_KEY`) y `GOOGLE_MAPS_API_KEY` con llaves registradas para ese dominio: se reemplazan solas en todas las páginas. En `ford.cr` se pueden dejar vacías.
@@ -66,7 +72,12 @@ El gateway del Symfony (`http://microservice-gateway:3000`) solo se ve dentro de
 
 ## Ya funcionan igual que el Symfony
 
-Formularios y correos (contacto, test drive, reserva, cotizaciones, asesor, snippet), citas, calculadora y cuotas, cotizador de accesorios, comparador, búsqueda `/resultados`, blog con filtros y paginación, videos, PDF de cotización, `/view-pdf`, fichas técnicas, sucursales ordenadas por ubicación. Los precios de las páginas se actualizan solos desde **Vehículos**.
+Formularios y correos (contacto, test drive, reserva, cotizaciones, asesor, snippet), citas, calculadora y cuotas, cotizador de accesorios, comparador, búsqueda `/resultados`, blog con filtros y paginación, votos 👍/👎 de las notas (**Opiniones del blog** en el admin), videos, PDF de cotización, `/view-pdf`, fichas técnicas, sucursales ordenadas por ubicación, `/test-drive/{familia}` y las redirecciones viejas del `RedirectController`. Los precios de las páginas se actualizan solos desde **Vehículos**.
+
+Diferencias a propósito (mejoras sin cambio visible):
+- Las plantillas Twig escapan el HTML como en Symfony: lo que escribe el visitante en búsquedas o formularios no se inyecta en la página ni en los correos.
+- Las reservas que en ford.cr daban error 500 entregan la misma página de error con código 404.
+- El chat de Avaya (`/chat`) está inactivo también en ford.cr (ningún botón lo abre); se mantiene el HTML, pero sus archivos PHP no se publican.
 
 ## Pendiente
 

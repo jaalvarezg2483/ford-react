@@ -376,9 +376,11 @@ async function importPosts(payload: Payload, src: ImportSource, ok: CrawledPage[
   const blog = ok.find((p) => p.path === '/blog')
   if (!blog) return
   let html = blog.html
-  for (let page = 2; page <= 6; page++) {
+  // Páginas siguientes del listado (fragmentos AJAX de 9 notas) hasta que no haya más.
+  for (let page = 2; page <= 30; page++) {
     const more = await src.fragment(`/blog?page=${page}`)
-    if (more) html += more
+    if (!more || !more.includes('blog-link')) break
+    html += more
   }
   const $ = cheerio.load(html)
   // Categorías del filtro (checkbox-ID) y a qué notas corresponden.
@@ -390,7 +392,10 @@ async function importPosts(payload: Payload, src: ImportSource, ok: CrawledPage[
     const c$ = cheerio.load(page.html)
     c$('#results a.blog-link').each((_, a) => { categoryOf.set(stripHost(c$(a).attr('href') || ''), cat) })
   }
-  const cards = $('a.blog-link-featured, a.blog-link').toArray()
+  // La nota destacada va primero en el HTML pero no es la más reciente: el orden
+  // por fecha lo da el listado. La destacada se ubica donde aparezca en él.
+  const featuredPaths = new Set($('a.blog-link-featured').toArray().map((a) => stripHost($(a).attr('href') || '')))
+  const cards = [...$('a.blog-link').toArray(), ...$('a.blog-link-featured').toArray()]
   let order = 0
   const seen = new Set<string>()
   const base = Date.now()
@@ -399,7 +404,7 @@ async function importPosts(payload: Payload, src: ImportSource, ok: CrawledPage[
     if (!path || seen.has(path)) continue
     seen.add(path)
     const img = ($(a).find('img').attr('src') || '').replace(/^https?:\/\/(www\.)?ford\.cr/, '').replace('/media/cache/blog_teaser', '')
-    const featured = $(a).hasClass('blog-link-featured')
+    const featured = featuredPaths.has(path)
     const postPage = ok.find((p) => p.path === path) ?? (await src.page(path))
     const views = Number(/Visualizaciones:\s*([\d.,]+)/.exec(postPage?.html || '')?.[1]?.replace(/[.,]/g, '')) || 0
     const cat = categoryOf.get(path)
@@ -407,7 +412,7 @@ async function importPosts(payload: Payload, src: ImportSource, ok: CrawledPage[
       title: $(a).find('.title').text().trim(),
       path,
       image: mediaId(media, img),
-      summary: featured ? $(a).find('.card__content p').first().text().trim() : undefined,
+      summary: featured ? $('a.blog-link-featured').filter((_, el) => stripHost($(el).attr('href') || '') === path).find('.card__content p').first().text().trim() : undefined,
       // El listado viene ordenado del más reciente al más antiguo.
       publishedAt: new Date(base - order++ * 86_400_000).toISOString(),
       active: true,

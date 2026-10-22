@@ -16,4 +16,7 @@ if [ -d "$SRC/micrositios/purdyRsc" ]; then rm -rf "$DEST/micrositios/purdyRsc";
 for f in favicon.ico favicon-16x16.png favicon-32x32.png apple-touch-icon.png android-chrome-96x96.png android-chrome-192x192.png android-chrome-384x384.png mstile-150x150.png safari-pinned-tab.svg manifest.json site.webmanifest browserconfig.xml robots.txt sitemap.xml a6m9txx8az0708yq13yrhyolmqip38.html; do
   [ -f "$SRC/$f" ] && cp "$SRC/$f" "$DEST/$f"
 done
+# El chat trae su backend en PHP (Avaya). Aquí no se ejecuta, así que no se
+# publica: servirlo sería exponer su código fuente.
+find "$DEST" -name '*.php' -type f -delete
 echo "Archivos estáticos sincronizados en $DEST"
