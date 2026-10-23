@@ -7,6 +7,8 @@ const nextConfig = {
   // Azure App Service usa el paquete standalone (BUILD_STANDALONE=1); Railway corre `next start`.
   ...(process.env.BUILD_STANDALONE === '1' ? { output: 'standalone' } : {}),
   poweredByHeader: false,
+  // El SCSS original usa @import y funciones de color antiguas; compila igual con Sass moderno.
+  sassOptions: { silenceDeprecations: ['import', 'global-builtin', 'color-functions', 'slash-div', 'mixed-decls', 'legacy-js-api'] },
   devIndicators: false,
   // El sitio público reproduce las URLs del sitio Symfony: sin barra final forzada.
   skipTrailingSlashRedirect: true,

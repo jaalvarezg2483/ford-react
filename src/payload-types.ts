@@ -107,10 +107,12 @@ export interface Config {
   fallbackLocale: null;
   globals: {
     'site-settings': SiteSetting;
+    'home-page': HomePage;
     'form-settings': FormSetting;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    'home-page': HomePageSelect<false> | HomePageSelect<true>;
     'form-settings': FormSettingsSelect<false> | FormSettingsSelect<true>;
   };
   locale: null;
@@ -429,6 +431,19 @@ export interface FamilyType {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Ej. el texto de Ford Performance. Vacío = no se muestra.
+   */
+  promo?: {
+    logo?: string | null;
+    title?: string | null;
+    paragraphs?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
   /**
    * Ej. el bloque de Ford Performance bajo los vehículos.
    */
@@ -853,6 +868,18 @@ export interface FamilyTypesSelect<T extends boolean = true> {
         gradient?: T;
         id?: T;
       };
+  promo?:
+    | T
+    | {
+        logo?: T;
+        title?: T;
+        paragraphs?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
   menuEditables?:
     | T
     | {
@@ -1019,6 +1046,34 @@ export interface SiteSetting {
   rightMenuHtml?: string | null;
   socialMenuHtml?: string | null;
   searchHtml?: string | null;
+  footer?: {
+    /**
+     * Columnas de enlaces del pie. "Vehículos nuevos" (que abre el menú) se agrega solo al inicio.
+     */
+    links?:
+      | {
+          label: string;
+          href: string;
+          highlight?: boolean | null;
+          id?: string | null;
+        }[]
+      | null;
+    ethicsText?: string | null;
+    ethicsUrl?: string | null;
+    ethicsButton?: string | null;
+    bottomLinks?:
+      | {
+          label: string;
+          href: string;
+          newTab?: boolean | null;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * {year} se reemplaza por el año actual.
+     */
+    copyright?: string | null;
+  };
   /**
    * Textos, enlaces e imágenes del pie de página.
    */
@@ -1051,6 +1106,21 @@ export interface SiteSetting {
     | null;
   footerHtml?: string | null;
   floatingHtml?: string | null;
+  social?:
+    | {
+        network: 'facebook' | 'youtube' | 'instagram' | 'tiktok';
+        href: string;
+        inMenu?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  whatsapp?: {
+    phone?: string | null;
+    label?: string | null;
+    message?: string | null;
+  };
+  gtmId?: string | null;
+  site24x7Key?: string | null;
   headScripts?: string | null;
   bodyStartHtml?: string | null;
   bodyEndScripts?: string | null;
@@ -1089,6 +1159,88 @@ export interface SiteSetting {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page".
+ */
+export interface HomePage {
+  id: number;
+  title?: string | null;
+  description?: string | null;
+  heroSlider?: string | null;
+  vehiclesTitle?: string | null;
+  servicesTitle?: string | null;
+  servicesText?: string | null;
+  serviceRows?:
+    | {
+        cards?:
+          | {
+              title: string;
+              href: string;
+              image?: (number | null) | Media;
+              imagePath?: string | null;
+              alt?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  techKicker?: string | null;
+  techTitle?: string | null;
+  techText?: string | null;
+  techItems?:
+    | {
+        title: string;
+        text?: string | null;
+        image?: (number | null) | Media;
+        imagePath?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  financing?: {
+    kicker?: string | null;
+    title?: string | null;
+    titleMobile?: string | null;
+    text?: string | null;
+    linkLabel?: string | null;
+    href?: string | null;
+  };
+  compare?: {
+    kicker?: string | null;
+    title?: string | null;
+    titleMobile?: string | null;
+    text?: string | null;
+    linkLabel?: string | null;
+    href?: string | null;
+  };
+  contact?: {
+    kicker?: string | null;
+    title?: string | null;
+    titleMobile?: string | null;
+    text?: string | null;
+    linkLabel?: string | null;
+    href?: string | null;
+  };
+  newsSize?: number | null;
+  app?: {
+    title?: string | null;
+    text?: string | null;
+    buttonLabel?: string | null;
+    registerUrl?: string | null;
+    appStoreUrl?: string | null;
+    playStoreUrl?: string | null;
+    logo?: string | null;
+    phoneMobile?: string | null;
+    phoneDesktop?: string | null;
+  };
+  sizmek?: {
+    rb?: string | null;
+    ca?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "form-settings".
  */
 export interface FormSetting {
@@ -1119,6 +1271,30 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   rightMenuHtml?: T;
   socialMenuHtml?: T;
   searchHtml?: T;
+  footer?:
+    | T
+    | {
+        links?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              highlight?: T;
+              id?: T;
+            };
+        ethicsText?: T;
+        ethicsUrl?: T;
+        ethicsButton?: T;
+        bottomLinks?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              newTab?: T;
+              id?: T;
+            };
+        copyright?: T;
+      };
   footerEditables?:
     | T
     | {
@@ -1139,6 +1315,23 @@ export interface SiteSettingsSelect<T extends boolean = true> {
       };
   footerHtml?: T;
   floatingHtml?: T;
+  social?:
+    | T
+    | {
+        network?: T;
+        href?: T;
+        inMenu?: T;
+        id?: T;
+      };
+  whatsapp?:
+    | T
+    | {
+        phone?: T;
+        label?: T;
+        message?: T;
+      };
+  gtmId?: T;
+  site24x7Key?: T;
   headScripts?: T;
   bodyStartHtml?: T;
   bodyEndScripts?: T;
@@ -1166,6 +1359,98 @@ export interface SiteSettingsSelect<T extends boolean = true> {
       };
   defaultMetaHtml?: T;
   titleSuffix?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page_select".
+ */
+export interface HomePageSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  heroSlider?: T;
+  vehiclesTitle?: T;
+  servicesTitle?: T;
+  servicesText?: T;
+  serviceRows?:
+    | T
+    | {
+        cards?:
+          | T
+          | {
+              title?: T;
+              href?: T;
+              image?: T;
+              imagePath?: T;
+              alt?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  techKicker?: T;
+  techTitle?: T;
+  techText?: T;
+  techItems?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        image?: T;
+        imagePath?: T;
+        id?: T;
+      };
+  financing?:
+    | T
+    | {
+        kicker?: T;
+        title?: T;
+        titleMobile?: T;
+        text?: T;
+        linkLabel?: T;
+        href?: T;
+      };
+  compare?:
+    | T
+    | {
+        kicker?: T;
+        title?: T;
+        titleMobile?: T;
+        text?: T;
+        linkLabel?: T;
+        href?: T;
+      };
+  contact?:
+    | T
+    | {
+        kicker?: T;
+        title?: T;
+        titleMobile?: T;
+        text?: T;
+        linkLabel?: T;
+        href?: T;
+      };
+  newsSize?: T;
+  app?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        buttonLabel?: T;
+        registerUrl?: T;
+        appStoreUrl?: T;
+        playStoreUrl?: T;
+        logo?: T;
+        phoneMobile?: T;
+        phoneDesktop?: T;
+      };
+  sizmek?:
+    | T
+    | {
+        rb?: T;
+        ca?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

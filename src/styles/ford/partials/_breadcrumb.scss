@@ -1,0 +1,44 @@
+.breadcrumb {
+  @extend .list-unstyled;
+  li {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 5px;
+    border-left: 1px solid $secondary;
+    font-size: 12px;
+    &:first-child, &:nth-child(2) {
+      border-color: transparent;
+    }
+    &:last-child {
+      font-weight:bold;
+      padding-top: 2px;
+    }
+    .icon-arrow-left{
+      width:24px;
+      height:24px;
+      color:$primary;
+      display: inline-block;
+      &:before{
+        color:$primary;
+        font-size:18px;
+        line-height: 24px;
+        text-align: center;
+        display: block;
+      }
+    }
+  }
+
+  a {
+    color: $text-color;
+    text-decoration: underline;
+    font-size: 12px;
+    display: inline-block;
+  }
+}
+
+.container--breadcrumb {
+  padding: 20px 15px;
+  @include bp(sm) {
+    padding: 20px 0;
+  }
+}

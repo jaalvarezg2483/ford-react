@@ -1,0 +1,203 @@
+.section {
+    padding: 30px 0;
+    .title {
+        margin-bottom: 30px;
+    }
+    &.section-upper-only {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    &.section-no-padding {
+        padding-bottom: 0;
+        padding-top: 0;
+    }
+}
+
+.section--hero {
+    background-image: url('/img/banners/home-top-mobile.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #FFF;
+    text-align: center;
+    padding: 20% 0 50%;
+    position: relative;
+    &.home_background_img {
+        background-size: 100% auto;
+        padding: 40% 0 7%;
+        background-position: center 49px;
+    }
+    h2 {
+        font: normal 14px/16px $main-bold;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        position: relative;
+    }
+    img {
+        display: block;
+        margin: 10px auto;
+        width: 200px;
+    }
+    .container {
+        position: relative;
+        z-index: 1;
+        max-width: none;
+    }
+    &::before {
+        content: '';
+        background-color: rgba(0, 0, 0, 0.5);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
+    .btn {
+        max-width: 215px;
+        margin: 0 auto;
+    }
+    @include bp(sm) {
+        padding: 20% 0;
+        text-align: left;
+        background-image: url('/img/banners/home-top-desktop.png');
+        &.home_background_img {
+            background-size: cover;
+            padding: 20% 0;
+        }
+        h2 {
+            font: normal 28px/39px $main-bold;
+            &::before {
+                content: '';
+                position: absolute;
+                background-color: $red;
+                height: 100%;
+                width: 1px;
+                left: -10px;
+                @include transform(rotate(15deg));
+            }
+        }
+        img {
+            margin: 10px 0;
+        }
+    }
+}
+
+.section--slider {
+    padding-bottom: 0;
+    .tabs {
+        display: flex;
+        overflow-x: scroll;
+        width: 100%;
+        padding: 0;
+        .tab {
+            min-width:100px;
+        }
+    }
+    .fade {
+        opacity: 1;
+    }
+    @include bp(sm) {
+        .tabs {
+            overflow-x: hidden;
+        }
+        .collapsible__header,
+        .collapsible__header-show {
+            display: none;
+        }
+        .collapsible__body,
+        .collapse {
+            display: block;
+        }
+        .tab-content>.tab-pane {
+            display: none;
+        }
+        .tab-content>.active {
+            display: block;
+        }
+        .fade {
+            opacity: 0;
+        }
+        .fade.in {
+            opacity: 1;
+        }
+    }
+}
+
+.section--discover {
+    .card--btn {
+        text-transform: uppercase;
+        img {
+            margin: 0 auto;
+        }
+        h2 {
+            font-size: 50px;
+            margin: 20px 0;
+            span {
+                display: block;
+                font-size: 37px;
+                strong {
+                    font-family: $main-bold;
+                    color: $red;
+                }
+            }
+        }
+        p {
+            color: $red;
+            font-family: $main-bold;
+        }
+    }
+}
+
+.section--banner {
+    a {
+        display: block;
+    }
+    img {
+        width: 100%;
+    }
+}
+
+.section--banner-bottom {
+    @extend .section--banner;
+    margin-top: 30px;
+}
+
+.section--featured {
+    .card__image {
+        display: none;
+    }
+    .card__action {
+        a {
+            color: $gray;
+        }
+    }
+    @include bp(sm) {
+        .card__image {
+            display: block;
+        }
+    }
+}
+
+.section--hybrid {
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+    .test-drive-count {
+        margin: 20px 5em;
+        font-size: 16px;
+        span {
+            font-family: $main-bold;
+        }
+    }
+}
+
+/// FORD STYLES ///////
+
+
+.technology-section {   
+    width:100%;
+    color:$base;
+    background-color:$black;
+    margin: 50px 0 0;
+    padding: 50px 0;
+}
+

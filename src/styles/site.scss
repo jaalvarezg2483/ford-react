@@ -1,0 +1,12 @@
+// Estilos del sitio público: el SCSS original de ford.cr compilado con Sass moderno.
+// Compass se reemplazó por mixins estándar (ford/compass/_support.scss).
+// Los puntos de quiebre reproducen los <link media> del sitio anterior.
+@import "ford/icomoon";
+@import "ford/main";
+@import "ford/custom";
+@media screen and (min-width: 768px) { @import "ford/partials/sm"; }
+@media screen and (min-width: 992px) { @import "ford/partials/md"; }
+@media screen and (min-width: 1200px) { @import "ford/partials/lg"; }
+@import "ford/components/footer-ethics";
+@import "ford/components/accessibility";
+@import "ford/components/btn-like";

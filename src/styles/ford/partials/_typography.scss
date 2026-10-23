@@ -1,0 +1,400 @@
+.title,
+.title--big {
+  font: bold 32px/39px $title;
+  @include bp(sm) {
+    font: bold 48px/58px $title;
+  }
+  span {
+    font-weight: normal;
+  }
+}
+
+.title--mid,
+h2.title {
+  font-size: 24px;
+  line-height: 29px;
+  @include bp(sm) {
+    font-size: 36px;
+    line-height: 44px;
+  }
+}
+
+.title--small,
+h3.title {
+  font-size: 21px;
+  line-height: 24px;
+  @include bp(sm) {
+    line-height: 26px;
+  }
+}
+
+.titulo_agendar {
+  font-family: $main-bold;
+  font-size: 36px;
+  text-align: center;
+  margin-top: 5%;
+  @include bp(md) {
+    margin-top: 2%;
+    font-size: 48px;
+  }
+}
+.margin-custom_cita {
+  margin-top: 5%;
+  margin-bottom: 1rem;
+  font-family: $main;
+  @include bp(md) {
+    margin-top: 3.5rem;
+    margin-bottom: 2rem;
+    font-size: 20px;
+    font-family: $main-semibold;
+  }
+  @include bp(sm) {
+    margin-left: 1rem;
+  }
+}
+.custom_margin_citas {
+  margin-bottom: 2rem;
+  @include bp(md) {
+    margin-bottom: 4rem;
+  }
+}
+.custom_tab_margin {
+  margin-left: 1rem;
+}
+.input-wrap-container {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  @include bp(sm) {
+    width: 60%;
+  }
+  @include bp(md) {
+    width: 35%;
+  }
+}
+.custom_wrap {
+  @include bp(md) {
+    margin-bottom: 2rem;
+  }
+}
+.buttons-options {
+  display: flex;
+  flex-flow: column-reverse nowrap;
+  align-items: center;
+  margin: 20% 0 30% 0;
+  @include bp(md) {
+    flex-flow: row nowrap;
+    justify-content: center;
+    margin: 10% 0;
+    a {
+      margin: 0 1%;
+    }
+  }
+}
+
+.btn__shared {
+  display: flex;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 70%;
+  height: 48px;
+  font-size: 14px;
+  border: 1.5px solid;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  text-transform: uppercase;
+  @include bp(md) {
+    width: 30%;
+    margin: 0 1% !important;
+  }
+}
+
+.btn__cancelar_cita {
+  border-color: $ford-blue-figma;
+  color: $ford-blue;
+  margin-top: 5%;
+  @extend .btn__shared;
+  @include bp(md) {
+    margin-top: 0;
+  }
+}
+.btn__continuar_cita {
+  border-color: $ford-blue;
+  background-color: #00a0dc;
+  color: $white;
+  @extend .btn__shared;
+  @include bp(md) {
+  }
+}
+.separador_steps {
+  @include bp(md) {
+    margin-bottom: 2rem;
+  }
+}
+.citas_custom_resume {
+  display: block;
+  padding: 10px 10px 40px 10px;
+  width: 100%;
+  max-height: 330px;
+  background-color: $black;
+  @include bp(md) {
+    padding: 0;
+    background-color: $ford-light-blue;
+  }
+}
+.citas_custom_resume > p {
+  margin-top: 1.5rem;
+  color: white;
+}
+.title--smallest,
+h4.title {
+  font-size: 18px;
+  line-height: 24px;
+}
+
+h5.title {
+  font-size: 16px;
+  line-height: 2;
+  font-weight: normal;
+}
+
+.text--underline {
+  border-bottom: 2px solid $red;
+}
+
+.title-margin {
+  margin: 20px 0;
+}
+
+.title-margin-more {
+  margin: 40px 0;
+}
+
+.title--bold,
+.text--bold,
+strong {
+  font-weight: bold !important;
+}
+
+.title-semibold {
+  font-weight: normal !important;
+}
+
+.subtitle {
+  font: normal 21px/28px $title;
+}
+
+.subtitle--large {
+  font: normal 28px/35px $title;
+  text-transform: uppercase;
+  &.not-bold {
+    font-weight: normal;
+  }
+}
+
+p,
+.text {
+  color: $text-color;
+  font: 400 14px/28px $main;
+  @include bp(sm) {
+    font: 400 16px/24px $main;
+    &--padding-right {
+      padding-right: 25px;
+    }
+  }
+}
+
+.text--small {
+  font-size: 14px !important;
+}
+
+.text--medium,
+.text-medium {
+  font-weight: 500;
+}
+
+.text--large {
+  font: normal 21px/32px $main;
+}
+
+.text--larger {
+  font: normal 28px/44px $main;
+}
+
+// THEMING CAPABLE CLASSES --- USE THIS!!!!
+
+.text--primary {
+  color: $primary;
+}
+
+.text--secondary {
+  color: $secondary;
+}
+
+.text--light {
+  color: $base;
+}
+
+.text--muted {
+  color: $muted;
+}
+
+.text-50 {
+  color: rgba($text-color, 0.5);
+}
+
+.text--accent-light {
+  color: $accent-light;
+}
+
+.text--accent-dark {
+  color: $accent-dark;
+}
+
+.text--error {
+  color: $error !important;
+  font-size: 12px !important;
+  display: none;
+}
+
+a[href="javascript:history.back()"] {
+  font-weight: bold;
+}
+
+// OLD CLASSES - TRY TO AVOID THEM
+
+.text--red {
+  color: $red;
+}
+
+.text--blue {
+  color: $ford-blue;
+}
+
+.text--green {
+  color: $green;
+}
+
+.text--gray {
+  color: lighten($text-color, 50%);
+}
+
+// MISC
+
+.line {
+  text-transform: uppercase;
+  font-family: $main;
+  font-weight: bold;
+  display: block;
+  span {
+    display: inline-block;
+    position: relative;
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      height: 1px;
+      background-color: $secondary;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      width: 24px;
+    }
+    &::before {
+      right: 100%;
+      margin-right: 7px;
+    }
+    &::after {
+      left: 100%;
+      margin-left: 7px;
+    }
+  }
+}
+
+.subtitle--icon {
+  .mdi {
+    display: inline-block;
+    margin-bottom: 0;
+  }
+}
+
+.title-icon {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-bottom: 1em;
+  .icon-box {
+    height: 50px;
+    margin-right: 10px;
+    width: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 32px;
+    background-color: $primary;
+    color: $accent-light;
+    flex: 0 0 50px;
+    &--secondary {
+      background-color: $secondary;
+    }
+
+    .icon-purdygo {
+      background-image: url("/img/logopg.png");
+      background-position: center;
+      background-size: 100%;
+      height: 50px;
+      display: block;
+      filter: brightness(0) invert(1);
+      background-repeat: no-repeat;
+    }
+  }
+  p {
+    word-break: break-word;
+    @include bp(sm) {
+      font-size: 14px;
+    }
+  }
+  &--small {
+    p {
+      font-size: 14px;
+    }
+  }
+  &--responsive {
+    position: relative;
+    border-bottom: 1px solid #7a8699;
+    width: auto;
+    padding-bottom: 5px;
+    padding-right: 40px;
+    transition: all 0.3s ease;
+    &:after {
+      font-family: "icomoon";
+      content: "\e90e";
+      position: absolute;
+      right: 10px;
+      top: calc(50% - 12px);
+      font-size: 24px;
+      color: $primary;
+      transition: all 0.3s ease;
+    }
+    &:last-of-type {
+      border-bottom: none;
+    }
+    @include bp(sm) {
+      border-bottom: none;
+      max-width: 400px;
+    }
+    &:hover {
+      background-color: $accent-light;
+      &:after {
+        transform: translateX(10px);
+      }
+    }
+  }
+}
+
+.news-title {
+  margin: 25px 0 20px;
+}

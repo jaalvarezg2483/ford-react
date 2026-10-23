@@ -12,6 +12,7 @@ import * as migration_20261020_170702 from './20261020_170702';
 import * as migration_20261020_174359_campos_amigables_sin_json from './20261020_174359_campos_amigables_sin_json';
 import * as migration_20261020_180916_editables_contenido_seo from './20261020_180916_editables_contenido_seo';
 import * as migration_20261022_201150_blog_feedback from './20261022_201150_blog_feedback';
+import * as migration_20261023_140247_estructura_portada_pie from './20261023_140247_estructura_portada_pie';
 
 export const migrations = [
   {
@@ -82,6 +83,11 @@ export const migrations = [
   {
     up: migration_20261022_201150_blog_feedback.up,
     down: migration_20261022_201150_blog_feedback.down,
-    name: '20261022_201150_blog_feedback'
+    name: '20261022_201150_blog_feedback',
+  },
+  {
+    up: migration_20261023_140247_estructura_portada_pie.up,
+    down: migration_20261023_140247_estructura_portada_pie.down,
+    name: '20261023_140247_estructura_portada_pie'
   },
 ];

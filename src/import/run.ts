@@ -1,3 +1,4 @@
+import { seedStructured } from './structured'
 import type { Payload } from 'payload'
 import * as cheerio from 'cheerio'
 import { dirSource, liveSource, type CrawledPage, type ImportSource } from './source'
@@ -33,6 +34,7 @@ export async function runImport(payload: Payload, opts: ImportOptions = {}) {
   await importPosts(payload, src, ok, media)
   await importVideos(payload, src, ok)
   await importPages(payload, pages)
+  await seedStructured(payload, log)
   log('listo ✔')
 }
 

@@ -1,0 +1,151 @@
+.find-us {
+	.tabs {
+		max-width: 420px;
+	}
+	.container {
+		max-width: 695px;
+	}
+	.list--checks {
+		margin: 0;
+	}
+	p {
+		margin-bottom: 15px;
+	}
+}
+
+.find-us__numbers {
+	padding: 40px 0;
+	h2 {
+		font-size: 21px;
+		margin-bottom: 15px;
+		@include bp(md) {
+			font-size: 37px;
+			margin-bottom: 5px;
+		}
+	}
+	.btn {
+		margin-bottom: 25px;
+		@include bp(sm) {
+			display: none;
+		}
+	}
+	.title {
+		display: none;
+		@include bp(sm) {
+			display: block;
+			font-size: 37px;
+			line-height: inherit;
+		}
+	}
+}
+
+.map {
+    width: 100%;
+	height: 192px;
+}
+
+.find-us__btns {
+	.btn {
+		width: 50%;
+		float: left;
+		border: 1px solid $gray-light;
+		border-left: none;
+		border-radius: 0;
+		margin: 0;
+		padding: 9px;
+		i {
+			color: $red;
+			display: inline-block;
+			vertical-align: middle;
+			margin: 0;
+		}
+		&:last-child {
+			border-right: none;
+			i {
+				color: $blue-dark;
+			}
+		}
+	}
+}
+
+.find-us__office {
+	@include bp (sm){
+		position:relative;
+		min-height:800px;
+		.collapsible__body {
+			padding:10px;
+			position: absolute;
+			right: -200%;
+			width: 200%;
+			top: 0;
+			background-color:$muted;
+		}
+	}
+}
+
+.office__img {
+	display: block;
+	padding: 0;
+	img {
+		width: 100%;
+	}
+	@include bp(sm) {
+		padding: 0 15px;
+	}
+}
+
+.office__cta {
+	padding: 0;
+	li {
+		list-style: none;
+		border-bottom: 1px solid $gray-light;
+		a {
+			padding: 10px 0;
+			font: normal 14px/19px $main-bold;
+			text-transform: uppercase;
+			@include display-flex;
+			@include align-items(center);
+			.mdi {
+				margin: 0 12px 0 0; 
+			}
+		}
+	}
+}
+
+.checkbox--container {
+	margin-top:30px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: space-between;
+}
+
+.find-us__search {
+	.input-field {
+		position:relative;
+		&:after {
+			font-family:'icomoon'!important;
+			content: '\e91e';
+			color:$primary;
+			position:absolute;
+			top:10px;
+			left:5px;
+			font-size:24px;
+		}
+	}
+	input {
+		width: 100%;
+		font-size: 1em;
+		padding: 10px;
+		padding-left:45px;
+		margin-top: 10px;
+		border:none;
+		font-weight:500;
+		border-bottom: 1px solid $secondary;
+		color: $text-color;
+		background: rgba($muted, 0.5);
+		&::placeholder {
+			color: $gray;
+		}
+	}
+}

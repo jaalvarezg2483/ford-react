@@ -1,0 +1,220 @@
+.footer__collapse-toggle {
+	border-bottom: 1px solid $gray-lighter;
+	padding: 25px 25px 25px 60px;
+	position: relative;
+	color: $black;
+	font: normal 14px/14px $main;
+	width: 100%;
+	cursor: pointer;
+	.mdi {
+		position: absolute;
+		color: $red;
+		left: 20px;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+		height: 24px;
+		font-size: 24px;
+		@include transition(all 0.3s);
+		@include transform(rotate(0));
+	}
+	@include bp(sm) {
+		border: none;
+		padding: 10px 25px;
+		cursor: default;
+		height: 48px;
+		.mdi {
+			display: none;
+		}
+	}
+	&.is-open {
+		.mdi {
+			@include transition(all 0.3s);
+			@include transform(rotate(45deg));
+		}
+	}
+}
+.footer {
+	background-color: $accent-dark;
+	font: normal 14px/14px $main;
+	a, p {
+		color: $base;
+		padding: 12px 25px;
+		display: block;	
+	}
+	.container {
+		width: 100%;
+		max-width: 1170px;
+	}
+	.collapsible {
+		& > li {
+			padding: 0;
+		}
+	}
+	@include bp(sm) {
+		.container {
+			width: 90%;
+		}
+		.collapsible-header {
+			
+		}
+	}
+	.list-uncategotized{
+		> li > a{
+			@extend .footer__collapse-toggle;
+			cursor: pointer;
+			opacity: 1;
+			@include transition(all, 0.3);
+			&:hover {
+				opacity: 0.55;
+			}
+			@include bp(sm) {
+				padding-bottom:0;
+				height: 40px;
+			}
+			.external{
+				display: contents;
+				font-size: 18px;
+			}
+		}
+	}
+}
+
+
+.footer__collapse-body {
+	display: none;
+	a {
+		font-family: $main;
+		text-transform: none;
+		opacity: 1;
+		@include transition(all, 0.3);
+		&:hover {
+			opacity: 0.55;
+		}
+	}
+	ul {
+		list-style-type: none;
+		padding: 0;
+	}
+	@include bp(sm) {
+		display: block;
+	}
+}
+
+.list--social {
+	@extend .list-unstyled;
+	display:flex;
+	justify-content:flex-start;
+	padding-left:15px;
+	&.list--social-footer{
+		display: block;
+		margin: auto;
+		max-width: 240px;
+	}
+	&.mobile-only {
+		justify-content: center;
+		padding: 20px 15px;
+	}
+	li {
+		width: auto;
+		text-align: center;
+		margin:5px;
+	}
+	a {
+		display: inline-block;
+		padding: 5px;
+		span {
+			font-size:24px;
+		}
+		.icon-tiktok {
+			display: inline-block;
+			width: 24px;
+			height: 24px;
+			vertical-align: middle;
+			background: url('/img/icons/tiktok.svg') no-repeat center / contain;
+			font-size: 0;
+			line-height: 0;
+			font-family: none !important;
+		}
+	}
+	@include bp(sm) {
+
+		padding-left:0;
+		&.mobile-only {
+			display:none;
+		}
+	}
+}
+
+
+.footer__col {
+	.row & {
+		padding: 0;
+	}
+	&:last-child {
+		a {
+			padding: 10px 25px;
+		}
+	}
+}
+
+.footer__top {
+	@include bp(sm) {
+		padding: 30px 0;
+	}
+}
+
+.footer__bottom {
+	background-color: $accent-dark;
+	padding: 20px;
+	text-align: center;
+	@extend .clearfix;
+	ul {
+		padding:0;
+		position:relative;
+	}
+	.row {
+		margin-bottom: 0;
+	}
+	li {
+		display: block;
+		text-align:left;
+		margin-bottom:20px;
+	}
+	a, p {
+		font-family: $main;
+		padding: 0;
+		font-size: 12px;
+		text-transform: none;
+		line-height:1;
+		@include bp(sm) {
+			font-size: 16px;
+		}
+	}
+	.logos {
+		position:absolute;
+		right:0;
+		bottom:0;
+	}
+	@include bp(sm) {
+		border-top:1px solid $base;
+
+		ul {
+			margin: 15px 0;
+			display:flex;
+			justify-content:flex-start;
+			li {
+				margin-right:50px;
+			}
+			li:last-child{
+				margin-left: auto;
+			}
+			.logos {
+				display:none;
+			}
+		}
+	}
+}
+
+
+

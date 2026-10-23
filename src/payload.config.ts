@@ -24,6 +24,7 @@ import { Redirects } from './payload/collections/Redirects'
 import { Videos } from './payload/collections/Videos'
 import { SiteSettings } from './payload/globals/SiteSettings'
 import { FormSettings } from './payload/globals/FormSettings'
+import { HomePage } from './payload/globals/HomePage'
 import { seedFormSettings } from './payload/seed/formSettings'
 import { importFordEndpoints } from './payload/endpoints/importFord'
 
@@ -51,7 +52,7 @@ export default buildConfig({
   },
   i18n: { fallbackLanguage: 'es', supportedLanguages: { es } },
   collections: [Pages, Sliders, Posts, Videos, Families, FamilyTypes, Media, Leads, BlogFeedback, Redirects, Users],
-  globals: [SiteSettings, FormSettings],
+  globals: [SiteSettings, HomePage, FormSettings],
   editor: lexicalEditor(),
   secret: env.PAYLOAD_SECRET || 'ford-cr-local-development-secret-change-me',
   typescript: { outputFile: path.resolve(dirname, 'payload-types.ts') },

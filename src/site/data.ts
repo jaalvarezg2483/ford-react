@@ -30,12 +30,27 @@ export type FamilyTypeView = {
   textColor: string
   underlineColor: string
   menuHtml: string
+  promo: { logo: string; title: string; paragraphs: string[] } | null
   families: FamilyView[]
   cardStyles: { slug: string; image?: string; color?: string; gradient?: string }[]
+}
+export type FooterData = {
+  links: { label: string; href: string; highlight: boolean }[]
+  bottomLinks: { label: string; href: string; newTab: boolean }[]
+  ethicsText: string
+  ethicsUrl: string
+  ethicsButton: string
+  copyright: string
 }
 export type SiteData = {
   topMenu: { label: string; href: string }[]
   social: { href: string; icon: string }[]
+  /** Redes del pie (incluye las que no van en el menú, como TikTok). */
+  footerSocial: { href: string; icon: string }[]
+  footer: FooterData
+  gtmId: string
+  site24x7Key: string
+  whatsapp: { phone: string; message: string; label: string } | null
   familyTypes: FamilyTypeView[]
   headScripts: string
   bodyStartHtml: string
@@ -50,6 +65,8 @@ const SOCIAL = [
   { href: 'https://www.instagram.com/fordcostarica/', icon: 'icon-instagram' },
 ]
 
+const socialView = (x: any) => ({ href: x.href, icon: `icon-${x.network}` })
+
 export function getSite(): Promise<SiteData> {
   return cached('site', async () => {
     const payload = await payloadClient()
@@ -62,13 +79,26 @@ export function getSite(): Promise<SiteData> {
         { label: 'Blog', href: '/blog' },
         { label: 'Contactanos', href: '/contacto' },
       ]).map((i: any) => ({ label: i.label, href: i.href })),
-      social: SOCIAL,
+      social: s.social?.length ? s.social.filter((x: any) => x.inMenu !== false).map(socialView) : SOCIAL,
+      footerSocial: s.social?.length ? s.social.map(socialView) : SOCIAL,
+      footer: {
+        links: (s.footer?.links ?? []).map((l: any) => ({ label: l.label, href: l.href, highlight: Boolean(l.highlight) })),
+        bottomLinks: (s.footer?.bottomLinks ?? []).map((l: any) => ({ label: l.label, href: l.href, newTab: Boolean(l.newTab) })),
+        ethicsText: s.footer?.ethicsText ?? '',
+        ethicsUrl: s.footer?.ethicsUrl ?? '',
+        ethicsButton: s.footer?.ethicsButton || 'Info Aquí',
+        copyright: (s.footer?.copyright || '©{year} All rights reserved').replace('{year}', String(new Date().getFullYear())),
+      },
+      gtmId: s.gtmId ?? '',
+      whatsapp: s.whatsapp?.phone ? { phone: s.whatsapp.phone, message: s.whatsapp.message || '', label: s.whatsapp.label || 'WhatsApp' } : null,
+      site24x7Key: s.site24x7Key ?? '',
       familyTypes: types.docs.map((t: any) => ({
         id: t.id,
         name: t.name,
         textColor: t.textColor || '#000000',
         underlineColor: t.underlineColor || '#000000',
         menuHtml: applyRows(t.menuHtml || '', t.menuEditables, 'html'),
+        promo: t.promo?.title ? { logo: t.promo.logo || '', title: t.promo.title, paragraphs: (t.promo.paragraphs ?? []).map((p: any) => p.text) } : null,
         families: (t.families || []).filter((f: any) => f && typeof f === 'object').map(familyView),
         cardStyles: Array.isArray(t.cardStyles) ? t.cardStyles : [],
       })),

@@ -1,0 +1,243 @@
+.collapsible {
+    @extend .list-unstyled;
+    margin: 20px 0;
+    &.rentals--faq {
+        width: 100%;
+        margin: 20px auto;
+        @include bp (sm) {
+            width: 80%;
+        }
+    }
+}
+
+.collapsible__header {
+    background-color: $muted;
+    border:1px solid $base;
+    border-bottom: 1px solid $primary;
+    padding: 10px;
+    padding-right:25px;
+    position: relative;
+    width: 100%;
+    color: rgba($text-color,0.45);
+    @include transition(all 0.3s);
+    margin: 10px 0;
+    strong {
+        font-weight:900;
+    }
+    .icon, &:after {
+        position: absolute;
+        color: $text-color;
+        right: 5px;
+        top: -5px;
+        bottom: 0;
+        margin: auto;
+        height: 24px;
+        font-size: 24px;
+        @include transition(all 0.3s);
+        @include transform(rotate(0));
+        font-family:'icomoon' !important;
+    }
+    &:after {
+       content:'\e917';
+       display:none; 
+    }
+    &.is-open {
+        border:1px solid $primary;
+        color: rgba($text-color, 1);
+        background-color: $accent-light;
+        .icon {
+            @include transform(rotate(180deg));
+            @include transition(all 0.3s);
+        }
+    }
+    @include bp (md) {
+        &:after {
+            display:block; 
+        }
+        .icon {
+            display:none;
+        }
+        &.is-open {
+            &:after {
+                content:'\e919'; 
+            }
+        }
+    }
+    &:focus, &:hover {
+        border:1px solid $primary;
+        background-color: $gray-lighter;
+        outline: none;
+    }
+}
+
+.collapsible__header-show {
+    background-color: $gray-lighter;
+    border-bottom: 1px solid $white;
+    padding: 25px 25px 25px 65px;
+    position: relative;
+    width: 100%;
+    font-family: $main-semibold;
+    text-transform: uppercase;
+    .mdi {
+        position: absolute;
+        color: $red;
+        left: 20px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        height: 24px;
+        font-size: 24px;
+        @include transition(all 0.3s);
+        @include transform(rotate(45deg));
+    }
+    &.collapsed {
+        .mdi {
+            @include transform(rotate(0));
+            @include transition(all 0.3s);
+        }
+    }
+    &:focus {
+        background-color: $gray-lighter;
+        outline: none;
+    }
+}
+
+.collapsible__header--image {
+    padding-right: 125px;
+    img {
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        width: 75px;
+        @include transform(translateY(-50%));
+    }
+}
+
+.collapsible__body {
+    //border-bottom: 1px solid $white;
+    margin: 0;
+    display: none;
+    ul {
+        margin: 20px 0;
+    }
+    li {
+        list-style-type: disc;
+    }
+}
+
+.collapsible__body-show {
+    border-bottom: 1px solid $white;
+    margin: 0;
+    ul {
+        margin: 20px 0;
+    }
+    li {
+        list-style-type: disc;
+    }
+}
+
+.collapsible__padding {
+    padding: 15px;
+    @include bp(sm) {
+        padding: 20px 30px;
+    }
+}
+
+.collapse__mantenimiento {
+    padding: 30px 20px;
+    margin: 0 auto 30px;
+    h2 {
+        text-align: center;
+        margin: 20px 0 30px;
+    }
+    p,
+    li {
+        margin: 10px;
+    }
+    .collapse-list {
+        margin: 20px 10px 10px 40px;
+        li {
+            padding-left: 10px;
+        }
+    }
+    button {
+        width: 100%;
+        margin: 20px 0 0;
+        display: block;
+        text-align: center;
+        color: $red;
+        font-family: $main-bold;
+        text-transform: uppercase;
+    }
+}
+
+.collapse-specs {
+    border-bottom: 1px solid $primary;
+    margin-top: 30px;
+    padding: 10px;
+    .mdi {
+        left: auto;
+        right: 0px;
+        top:5px;
+        color: $gray;
+        &:before {
+            transition: all 0.3s ease;
+        }
+    }
+    &.is-open {
+        .icon:before {
+            transform: rotate(135deg);
+        }
+    }
+    @include bp (md) {
+        border-bottom: none;
+        &.is-open {
+            .icon:before {
+                transform: rotate(180deg);
+            }
+        }
+        .mdi {
+            position: relative;
+            color: $red;
+        }
+    }
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        &.is-open {
+            .icon:before {
+                transform: rotate(0);
+            }
+        }
+    } 
+    .collapse--content {
+        display: block;
+        padding: 5px 10px;
+        p {
+            font-family:$main;
+            text-transform:none;
+        }
+        h4 {
+            font-size:1.8em;
+        }
+    }
+}
+
+.collapsible--calculate {
+    padding:20px 10px;
+    margin-bottom: 50px;
+    background-color:$muted;
+}
+
+.collapse-resumen {
+    .collapse-specs, .collapsible--calculate {
+        background-color:$muted;
+    }
+    .collapse-specs:after  {
+        content:'\e915';
+        right:20px;
+        color:$primary;
+    }
+    .collapse-specs.is-open::after  {
+       
+        content:'\e918';
+    }
+}

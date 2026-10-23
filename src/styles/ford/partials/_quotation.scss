@@ -1,0 +1,21 @@
+.quotation__model {
+    &>span:first-child {
+        display: block;
+    }
+    @include bp(sm) {
+        .select {
+            width: 50%;
+            display: inline-block
+        }
+        &>span:first-child {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 30px;
+        }
+    }
+}
+
+.quotation__form {
+    margin-left: 0;
+    margin-right: 0;
+}

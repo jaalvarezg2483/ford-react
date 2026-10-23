@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+@import "compass/support";
+@import "compass/utilities";
+@import "compass/utilities/general/clearfix";
+@import "compass/css3/transform";
+@import "compass/css3";
+
+@import
+  "partials/materialize",
+  "partials/bootstrap",
+  "partials/variables",
+  "partials/mixins",
+  "partials/datepicker",
+  "partials/citas",
+  "partials/materialize";

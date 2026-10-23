@@ -1,0 +1,107 @@
+/* Text Inputs + Textarea
+   ========================================================================== */
+
+/* Style Placeholders */
+
+::-webkit-input-placeholder {
+  color: $gray;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  color: $gray;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+  color: $gray;
+}
+
+:-ms-input-placeholder {
+  color: $gray;
+}
+
+/* Text inputs */
+
+.input {
+  // General Styles
+  background-color: $ford-white;
+  border: 1px solid $ford-white;
+  border-bottom: 1px solid $ford-blue-figma;
+  border-radius: 0;
+  outline: none;
+  width: 100%;
+  font-size: 16px;
+  margin: 0;
+  padding: 5px 5px 10px;
+  box-shadow: none;
+  height: 50px;
+  @include transition(all 0.3s);
+  &:hover {
+    border:1px solid $ford-blue-figma;
+  }
+  &:focus {
+    background-color: $accent-light;
+    border-bottom: 1px solid $ford-blue-figma;
+  }
+  &.error {
+    background-color: $accent-light;
+    border-bottom: 1px solid $red;
+  }
+  &::-ms-clear {
+    display: none;
+  }
+  &.disabled, &:disabled {
+    background-color:$base;
+    color:$muted;
+  }
+}
+
+
+
+.input-field {
+  padding-bottom: 25px;
+  position: relative;
+  span.error {
+    font-weight: bold;
+    font-style:italic;
+    color: $error;
+    position: absolute;
+    left: 0;
+    bottom: 6px;
+    display:block;
+    &:before {
+      content:"*";
+    }
+  }
+  span.error-captcha {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    font-style:italic;
+    color: $error;
+    position: absolute;
+    left: 0;
+    bottom: 6px;
+    display:block;
+    &:before {
+      content:"*";
+    }
+  }
+  .select {
+    margin-bottom: 0;
+  }
+  .label--black {
+    margin:10px 0 5px;
+    font-size:1.2em;
+    font-family: $main;
+    font-weight:normal;
+    color:$text-color;
+  }
+}
+
+.textarea {
+  @extend .input;
+  width: 100%;
+  height: 50px;
+  resize: none;
+}
+

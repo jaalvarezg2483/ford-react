@@ -1,0 +1,105 @@
+.custom-card{
+	background: #FFFFFF;
+	@include border-radius(3px);
+	@include box-shadow(-1px 1px 2px rgba(0,0,0,0.2));
+	@include transition(0.4s);
+	&:hover{
+		cursor:ponter;
+		@include box-shadow(-1px 1px 6px rgba(0,0,0,0.4));	
+	}
+	.collapsible__header{
+		width:100%;
+		border: none;
+		background: $gray-lighter;
+		font-size: 16px;
+		@include border-radius(none);
+		color:$black;
+		display: block;
+		margin:1px 0;
+		padding-top:0 ;
+		padding-bottom:0;
+		text-align: left;
+		line-height: 64px;
+		font-family: $main;
+		&:focus, &:active{
+			background:$gray-lighter;
+		}
+	}
+}
+
+.loader {
+	text-align: center;
+	margin: 40px auto 20px;
+	width: 50px;
+	display: none;
+}
+
+.loader span {
+	display: inline-block;
+	font-size: 10px;
+	text-indent: -9999em;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background: $red;
+	background: -moz-linear-gradient(left, $red 10%, rgba(255, 255, 255, 0) 42%);
+	background: -webkit-linear-gradient(left, $red 10%, rgba(255, 255, 255, 0) 42%);
+	background: -o-linear-gradient(left, $red 10%, rgba(255, 255, 255, 0) 42%);
+	background: -ms-linear-gradient(left, $red 10%, rgba(255, 255, 255, 0) 42%);
+	background: linear-gradient(to right, $red 10%, rgba(255, 255, 255, 0) 42%);
+	position: relative;
+	-webkit-animation: load3 1.4s infinite linear;
+	animation: load3 1.4s infinite linear;
+	-webkit-transform: translateZ(0);
+	-ms-transform: translateZ(0);
+	transform: translateZ(0);
+}
+.loader span::before {
+	width: 50%;
+	height: 50%;
+	background: $red;
+	border-radius: 100% 0 0 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	content: '';
+}
+.loader span::after {
+	background: #ffffff;
+	width: 75%;
+	height: 75%;
+	border-radius: 50%;
+	content: '';
+	margin: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+
+@-webkit-keyframes load3 {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+@keyframes load3 {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+
+#consultarOtro{
+	margin-top: 40px;
+}

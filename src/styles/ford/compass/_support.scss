@@ -1,0 +1,58 @@
+// Reemplazo de Compass (descontinuado): mismos mixins, CSS estándar.
+// Los prefijos de navegador los agrega autoprefixer en el build.
+@mixin transform($v...) { transform: $v; }
+@mixin transform-origin($v...) { transform-origin: $v; }
+@mixin rotate($deg) { transform: rotate($deg); }
+@mixin scale($v...) { transform: scale($v); }
+@mixin translate($x, $y: 0) { transform: translate($x, $y); }
+@mixin translateY($y) { transform: translateY($y); }
+@mixin translateX($x) { transform: translateX($x); }
+@mixin transition($v...) { transition: $v; }
+@mixin transition-property($v...) { transition-property: $v; }
+@mixin transition-duration($v...) { transition-duration: $v; }
+@mixin transition-delay($v...) { transition-delay: $v; }
+@mixin single-transition($p: all, $d: 1s, $f: false, $delay: false) { transition: $p $d if($f, $f, ()) if($delay, $delay, ()); }
+@mixin box-shadow($v...) { box-shadow: $v; }
+@mixin single-box-shadow($v...) { box-shadow: $v; }
+@mixin text-shadow($v...) { text-shadow: $v; }
+@mixin border-radius($r: 5px, $v: null) { border-radius: $r; }
+@mixin border-top-left-radius($r) { border-top-left-radius: $r; }
+@mixin border-top-right-radius($r) { border-top-right-radius: $r; }
+@mixin border-bottom-left-radius($r) { border-bottom-left-radius: $r; }
+@mixin border-bottom-right-radius($r) { border-bottom-right-radius: $r; }
+@mixin opacity($o) { opacity: $o; }
+@mixin box-sizing($v) { box-sizing: $v; }
+@mixin user-select($v) { user-select: $v; }
+@mixin appearance($v) { appearance: $v; }
+@mixin background-size($v...) { background-size: $v; }
+@mixin background-clip($v) { background-clip: $v; }
+@mixin animation($v...) { animation: $v; }
+@mixin animation-name($v...) { animation-name: $v; }
+@mixin animation-duration($v...) { animation-duration: $v; }
+@mixin animation-delay($v...) { animation-delay: $v; }
+@mixin animation-fill-mode($v...) { animation-fill-mode: $v; }
+@mixin keyframes($name) { @keyframes #{$name} { @content; } }
+@mixin filter($v...) { filter: $v; }
+@mixin backface-visibility($v) { backface-visibility: $v; }
+@mixin perspective($v) { perspective: $v; }
+@mixin display-flex { display: flex; }
+@mixin display-box { display: flex; }
+@mixin flex($v...) { flex: $v; }
+@mixin flex-wrap($v) { flex-wrap: $v; }
+@mixin flex-direction($v) { flex-direction: $v; }
+@mixin flex-grow($v) { flex-grow: $v; }
+@mixin align-items($v) { align-items: $v; }
+@mixin align-self($v) { align-self: $v; }
+@mixin justify-content($v) { justify-content: $v; }
+@mixin clearfix { &::after { content: ""; display: table; clear: both; } }
+@mixin pie-clearfix { @include clearfix; }
+@mixin legacy-pie-clearfix { @include clearfix; }
+@mixin inline-block { display: inline-block; }
+@mixin hide-text { text-indent: 110%; white-space: nowrap; overflow: hidden; }
+@mixin ellipsis { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@mixin input-placeholder { &::placeholder { @content; } }
+@mixin columns($v...) { columns: $v; }
+@mixin column-count($v) { column-count: $v; }
+@mixin column-gap($v) { column-gap: $v; }
+@mixin hyphens($v) { hyphens: $v; }
+@mixin order($v) { order: $v; }

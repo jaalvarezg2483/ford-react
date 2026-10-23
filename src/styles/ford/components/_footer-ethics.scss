@@ -1,0 +1,17 @@
+// Línea Ética del pie (antes un <style> en línea dentro del HTML del pie).
+.btn-linea-etica-wrap { background-color: #f4f4f4; }
+.btn-linea-etica-container {
+  max-width: 1120px;
+  display: block;
+  margin: 0 auto;
+  padding-top: 0;
+  text-align: center;
+  > span { font-size: 11px; text-transform: none !important; font-weight: normal; margin: 0 12px; }
+}
+// Antes eran estilos en línea (style=""), que ganan a cualquier regla: de ahí el !important.
+// Un <button> con display:inline se comporta como inline-block; el enlace lo imita.
+.btn-linea-etica { margin-left: 32px; font-size: 10px !important; padding: 9px 39px !important; display: inline-flex !important; align-items: center; text-transform: none !important; width: auto !important; }
+@media (max-width: 768px) {
+  .btn-linea-etica-container { padding-top: 8px !important; margin: 0 70px !important; }
+  .btn-linea-etica { max-width: 340px; margin-left: auto; margin-right: auto; margin-top: 10px !important; display: block !important; }
+}

@@ -51,6 +51,19 @@ export const FamilyTypes: CollectionConfig = {
         { name: 'gradient', type: 'text', label: 'Degradado (opcional)' },
       ],
     },
+    {
+      name: 'promo',
+      type: 'group',
+      label: 'Bloque bajo los vehículos del menú',
+      admin: { description: 'Ej. el texto de Ford Performance. Vacío = no se muestra.' },
+      fields: [
+        { type: 'row', fields: [
+          { name: 'logo', type: 'text', label: 'Logo (ruta)', admin: { placeholder: '/img/logos/…' } },
+          { name: 'title', type: 'text', label: 'Título' },
+        ] },
+        { name: 'paragraphs', type: 'array', label: 'Párrafos', fields: [{ name: 'text', type: 'textarea', required: true, label: 'Texto' }] },
+      ],
+    },
     editableArray('menuEditables', 'Texto adicional en el menú', 'Ej. el bloque de Ford Performance bajo los vehículos.'),
     technical({ name: 'menuHtml', type: 'code', label: 'Texto adicional en el menú (HTML) — desarrollo', admin: { language: 'html' } }),
   ],

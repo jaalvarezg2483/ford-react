@@ -1,0 +1,116 @@
+@charset "UTF-8";
+@import "compass/support";
+@import "compass/utilities";
+@import "compass/utilities/general/clearfix";
+@import "compass/css3/transform";
+@import "compass/css3";
+#bulder-cms [id*="contentarea_"] {
+    @import "partials/materialize",
+    "partials/bootstrap",
+    "partials/variables",
+    "partials/mixins",
+    "partials/magnific-popup",
+    "partials/section",
+    "partials/select2",
+    "partials/slick",
+    "partials/slider",
+    "partials/tabs",
+    "partials/cards",
+    "partials/collapsible",
+    "partials/fonts",
+    "partials/typography",
+    "partials/buttons",
+    "partials/header",
+    "partials/footer",
+    "partials/search",
+    "partials/car",
+    "partials/lists",
+    "partials/error",
+    "partials/modal",
+    "partials/forms",
+    "partials/find-us",
+    "partials/breadcrumb",
+    "partials/gallery",
+    "partials/banner",
+    "partials/xs";
+    * {
+        max-width: 100%;
+        font-family: $main;
+    }
+}
+
+a {
+    cursor: pointer;
+}
+
+#bulder-cms {
+    .block-placeholder,
+    .wrapper-builder-app {
+        min-height: 50px;
+    }
+    .ui-dragbox-outlined {
+        background-color: #EEE;
+    }
+    [id*="contentarea_"] {
+        border: 1px dotted #3A3A3A;
+        width: 100%;
+        max-width: none;
+        .collapsible__body {
+            display: block;
+        }
+        .text,
+        .title {
+            min-height: 50px;
+            border: 1px dashed green;
+        }
+    }
+    &.escuderia {
+        background-color: black;
+        .height-hack-2 {
+            height: 322px;
+        }
+    }
+    &.show-resolution {
+        .visible-xs,
+        .hidden-xs,
+        .resolution {
+            display: none;
+        }
+        &.md {
+            width: 100%;
+            .resolution.md,
+            .hidden-xs {
+                display: block !important;
+            }
+        }
+        &.sm {
+            width: 768px;
+            .resolution.sm {
+                display: block !important;
+            }
+        }
+        &.xs {
+            width: 425px;
+            .resolution.xs,
+            .visible-xs {
+                display: block !important;
+            }
+        }
+    }
+}
+
+.resolution-editor {
+    margin-bottom: 10px;
+    input.resolution-change {
+        border: 1px solid #acacac;
+        &:first-child {
+            border-radius: 2px 0 0 2px;
+        }
+        &:last-child {
+            border-radius: 0 2px 2px 0;
+        }
+    }
+    .selected {
+        background-color: rgb(74, 160, 245);
+    }
+}

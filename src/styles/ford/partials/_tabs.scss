@@ -1,0 +1,310 @@
+.tabs {
+    text-align: center;
+    margin: 10px 0 20px;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    background-color: transparent;
+    &--opacity {
+        .tab {
+            opacity: 0.5;
+            &.active, &:active {
+                opacity: 1;
+            }
+        }
+    }
+    .tab {
+        display: inline-block;
+        border-bottom: 3px solid transparent;
+        @include transition(all 0.3s);
+        position: relative;
+        a,
+        button {
+            display: block;
+            color: $tab-button-not-active;
+            font-size: 14px;
+            padding: 5px 10px;
+            @include transition(all 0.3s);
+            font-family: $main;
+            &:hover,
+            &:focus {
+                text-decoration: none;
+            }
+        }
+        &:after {
+            content:'';
+            position:absolute;
+            height:2px;
+            width:0;
+            bottom:0;
+            left:50%;
+            @include transition(all 0.3s);
+            background-color: $ford-blue-figma;
+        }
+        &:hover {
+            color: $text-color;
+            &:after {
+                width:80px;
+                transform:translateX(-40px);
+            }
+        }
+        &.active, &:active {
+            a, button {
+                color: $tab-button-active;
+                font-family: $main-semibold;
+            }
+            &:after {
+                width:75px;
+                transform:translateX(-37.5px);
+            }
+        }
+    }
+
+    .custom-color {
+        &:hover {
+            a{
+                color: var(--category-text-color);
+            }
+            &:after {
+                background-color:(var(--underlined-text-color));
+            }
+        }
+        &.active, &:active {
+            a{
+                color: var(--category-text-color);
+            }
+            &:after {
+                width:75px;
+                transform:translateX(-37.5px);
+                background-color:(var(--underlined-text-color));
+            }
+        }
+    }
+    
+    .tab-small-line {
+        border-bottom: none;
+        a {
+            border-bottom: none;
+            text-transform: none;
+            position: relative;
+            &.active {
+                font-weight:bold;
+                border-bottom: none;
+                &:after {
+                    position: absolute;
+                    content: '';
+                    height: 3px;
+                    width: 20px;
+                    bottom: 0;
+                    left: calc(50% - 10px);
+                    background-color: $red;
+                }
+            }
+        }
+        &.active {
+            border-bottom: none;
+            &:after {
+                position: absolute;
+                content: '';
+                height: 3px;
+                width: 20px;
+                bottom: 0;
+                left: calc(50% - 10px);
+                background-color: $red;
+            }
+        }
+    }
+    @include bp(md) {
+        .tab {
+            a, button {
+                font-size: 16px;
+            }
+        }
+    }
+    @include bp(sm) {
+        margin: 20px 0;
+        .tab {
+            a,
+            button {
+                padding: 5px 15px;
+                opacity: 1;
+                @include transition(all 0.3s);
+            }
+        }
+    }
+}
+
+.tabs--drop-mobile {
+    display: flex;
+    overflow: scroll;
+    background-color: $base;
+    @extend .list-unstyled;
+     transition: all .3s ease;
+     .tab {
+         padding-bottom:10px;
+     }
+    a,
+    button {
+        display: block;
+        color: $text-color;
+        padding: 10px 10px;
+        opacity: 1;
+        transition: all .3s ease;
+    }
+    .active,
+    .current {
+        font-weight: bold;
+        position:relative;
+        &:after {
+            position: absolute;
+            content: '';
+            height: 4px;
+            width: 30px;
+            bottom: 0;
+            left: calc(50% - 15px);
+            background-color: $secondary;
+        }
+        a,
+        button {
+            font-weight: bold;
+        }
+    }
+    @include bp(md) {
+        overflow: hidden;
+        display: block;
+        text-align: center;
+        .tab {
+            display: inline-block;
+            padding:0;
+            width:100%;
+        }
+        a,
+        button {
+            text-align:left;
+            width:100%;
+            color:$base;
+            background-color: $secondary;
+            font-size: 10px;
+            height:40px;
+            display:flex;
+            justify-content:flex-start;
+            padding-left:10px;
+            align-items:center;
+            .icon {
+                font-size:24px;
+                margin-right:10px;
+            }
+        }
+        .active,
+        .current{
+            font-weight: normal;
+            position:relative;
+            background-color:$primary;
+            a,
+            button {
+                background-color:$primary;
+                font-weight: normal;
+            }
+            &:after {
+                position: absolute;
+                content: '';
+                height: 100%;
+                width: 9px;
+                bottom: 0;
+                left: auto;
+                right:0;
+                background-color: $ford-blue-mid;
+            }
+        }
+        li:hover {
+            a, button {
+                background-color:$primary;
+            }
+        }
+    }
+    @include bp(lg) {
+        a,
+        button {
+            font-size: 14px;
+        }
+    }
+}
+
+// .tab--find-car {
+//     @include bp(sm) {
+//         min-height: 365px;
+//     }
+//     @include bp(md) {
+//         min-height: 483px;
+//     }
+// }
+
+.tabs--alt {
+    .tab {
+        border: none;
+    }
+    .active {
+        position: relative;
+        &::after {
+            content: '';
+            height: 20px;
+            width: 20px;
+            @include transform(rotate(45deg));
+            position: absolute;
+            left: 50%;
+            margin-left: -10px;
+            bottom: -10px;
+            background: $white;
+        }
+    }
+}
+
+.tabs__mantenimiento {
+    .tabs {
+        margin-bottom: 0 !important;
+        .tab.active {
+            color: $red;
+            border-bottom: none;
+            position: relative;
+            &:after {
+                content: '';
+                position: absolute;
+                bottom: -10px;
+                left: 50%;
+                height: 20px;
+                width: 20px;
+                background-color: #FFFFFF;
+                transform-origin: center center;
+                transform: translateX(-50%) rotate(45deg);
+            }
+            a {
+                color: $red;
+            }
+        }
+    }
+    .tab-pane {
+        padding: 20px;
+        background-color: $gray-lighter;
+        .tab-flex {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: flex-start;
+            .tab-flex-item {
+                margin: 25px 0;
+                width: 80%;
+                text-align: center;
+                i.mdi {
+                    color: $red;
+                    font-size: 42px;
+                    margin-bottom: 20px;
+                }
+                @include bp (md) {
+                    width: 40%;
+                }
+            }
+        }
+    }
+}

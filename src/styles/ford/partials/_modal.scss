@@ -1,0 +1,160 @@
+.modal {}
+
+.modal__close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 25px;
+    z-index:2;
+}
+
+.modal-dialog {
+    @include bp(sm) {
+        width: 90%;
+        max-width: 690px;
+    }
+}
+
+.modal-content {
+    border-radius: 0;
+    border: none;
+}
+
+.modal__inner {
+    padding: 30px 15px;
+}
+
+.modal--compare {
+    .modal-dialog {
+        max-width:600px;
+    }
+    .modal__close {
+        position: absolute;
+        color: $text-color;
+        top: 20px;
+        right: 24px;
+        font-size: 24px;
+    }
+    .select {
+        padding: 0;
+    }
+    @include bp(sm) {
+        .select {
+            padding: 0 15px;
+        }
+    }
+}
+
+.modal-hotspots {
+    padding: 0;
+    .modal-dialog {
+        max-width: 320px;
+        width: 96%;
+        margin: 20% auto;
+        @include bp(md) {
+            margin: calc(50% - 514px) auto 0;
+        }
+    }
+    .modal-content {
+        padding: 0;
+        width: 100%;
+        img {
+            width: 100%;
+        }
+        span {
+            font: 20px/24px $main-bold;
+            display: block;
+            margin: 20px auto;
+            color: $black;
+            text-align: center;
+        }
+        p {
+            font: 14px/21px $main;
+            max-width: 266px;
+            margin: 0 auto;
+            padding-bottom: 36px;
+            text-align: center;
+        }
+    }
+    .modal__inner {
+        padding: 0;
+    }
+    .modal__close {
+        color: $white;
+        right: 9px;
+        font-size: 28px;
+    }
+}
+
+.modal--benefit {
+    .modal-dialog {
+        max-width: 500px;
+        margin: 100px auto;
+    }
+    .subtitle {
+        margin-bottom: 20px;
+    }
+}
+
+.modal-video {
+    .modal-dialog {
+        max-width: 500px;
+        margin: 100px auto;
+        .modal-content {
+            padding: 20px;
+            border-radius: 10px;
+        }
+    }
+}
+
+.modal-rating {
+    .modal__close {
+        color: $red;
+    }
+    .modal-content {
+        padding: 40px 10px;
+        text-align: center;
+        .modal-title {
+            font-weight: bold;
+            margin: 10px auto 30px;
+        }
+        .modal-text {
+            margin: 10px auto 30px;
+            width: 80%;
+            max-width: 600px;
+        }
+    }
+    .mdi-big {
+        font-size: 10rem;
+        display: block;
+        margin: 20px auto;
+        color: $red;
+    }
+}
+
+.modal--full {
+    .modal-dialog {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin:0 !important;
+        @include bp (md){
+            margin:80px 0 !important;
+        }
+    }
+    
+}
+
+.cars-slider-modal {
+    background-color: transparent;
+    box-shadow: none;
+    .car-calculate-slide {
+        position:relative;
+        .modal__close {
+            top:10px;
+            right:10px;
+            font-size:28px;
+            color:$text-color;
+            z-index:10;  
+        }
+    }
+}

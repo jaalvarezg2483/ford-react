@@ -1,0 +1,29 @@
+.error__wrap {
+    &.no_icon {
+        padding: 117px 0 150px;
+    }
+}
+
+a.card.blog {
+    position: relative;
+    .card__footer_img {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+    }
+}
+
+.iframe_colors {
+    height: 800px;
+    margin-top: 0;
+    overflow: auto;
+}
+
+.bgwhite_colors {
+    background: #FFFFFF;
+    padding-top: 20px;
+}
+
+.text-md-center {
+    text-align: center;
+}

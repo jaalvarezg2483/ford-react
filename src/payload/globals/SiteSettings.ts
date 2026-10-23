@@ -47,9 +47,96 @@ export const SiteSettings: GlobalConfig = {
         {
           label: 'Pie de página',
           fields: [
+            {
+              name: 'footer',
+              type: 'group',
+              label: 'Pie de página',
+              fields: [
+                {
+                  name: 'links',
+                  type: 'array',
+                  label: 'Enlaces',
+                  labels: { singular: 'Enlace', plural: 'Enlaces' },
+                  admin: { description: 'Columnas de enlaces del pie. "Vehículos nuevos" (que abre el menú) se agrega solo al inicio.' },
+                  fields: [
+                    { type: 'row', fields: [
+                      ...link,
+                      { name: 'highlight', type: 'checkbox', label: 'Destacado (negrita con flecha)' },
+                    ] },
+                  ],
+                },
+                { name: 'ethicsText', type: 'textarea', label: 'Texto de la Línea Ética' },
+                { type: 'row', fields: [
+                  { name: 'ethicsUrl', type: 'text', label: 'Enlace de la Línea Ética' },
+                  { name: 'ethicsButton', type: 'text', label: 'Texto del botón', defaultValue: 'Info Aquí' },
+                ] },
+                {
+                  name: 'bottomLinks',
+                  type: 'array',
+                  label: 'Enlaces inferiores',
+                  labels: { singular: 'Enlace', plural: 'Enlaces inferiores' },
+                  fields: [
+                    { type: 'row', fields: [
+                      ...link,
+                      { name: 'newTab', type: 'checkbox', label: 'Abrir en otra pestaña' },
+                    ] },
+                  ],
+                },
+                { name: 'copyright', type: 'text', label: 'Texto de derechos', defaultValue: '©{year} All rights reserved', admin: { description: '{year} se reemplaza por el año actual.' } },
+              ],
+            },
             editableArray('footerEditables', 'Pie de página', 'Textos, enlaces e imágenes del pie de página.'),
             technical({ name: 'footerHtml', type: 'code', label: 'Pie de página (HTML) — desarrollo', admin: { language: 'html' } }),
             technical({ name: 'floatingHtml', type: 'code', label: 'Botones flotantes y chat (HTML)', admin: { language: 'html' } }),
+          ],
+        },
+        {
+          label: 'Redes sociales',
+          fields: [
+            {
+              name: 'social',
+              type: 'array',
+              label: 'Redes sociales (menú y pie)',
+              labels: { singular: 'Red social', plural: 'Redes sociales' },
+              fields: [
+                { type: 'row', fields: [
+                  { name: 'network', type: 'select', required: true, label: 'Red', options: [
+                    { label: 'Facebook', value: 'facebook' },
+                    { label: 'YouTube', value: 'youtube' },
+                    { label: 'Instagram', value: 'instagram' },
+                    { label: 'TikTok', value: 'tiktok' },
+                  ] },
+                  { name: 'href', type: 'text', required: true, label: 'Enlace' },
+                  { name: 'inMenu', type: 'checkbox', label: 'También en el menú', defaultValue: true },
+                ] },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'WhatsApp',
+          fields: [
+            {
+              name: 'whatsapp',
+              type: 'group',
+              label: 'Botón flotante de WhatsApp',
+              fields: [
+                { type: 'row', fields: [
+                  { name: 'phone', type: 'text', label: 'Número (con código de país)', admin: { placeholder: '50685891000' } },
+                  { name: 'label', type: 'text', label: 'Texto', defaultValue: 'WhatsApp' },
+                ] },
+                { name: 'message', type: 'text', label: 'Mensaje inicial', defaultValue: 'Quiero información de Ford' },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'Medición',
+          fields: [
+            { type: 'row', fields: [
+              { name: 'gtmId', type: 'text', label: 'Google Tag Manager (ID)', admin: { placeholder: 'GTM-XXXXXXX' } },
+              { name: 'site24x7Key', type: 'text', label: 'Site24x7 RUM (appKey)' },
+            ] },
           ],
         },
         {

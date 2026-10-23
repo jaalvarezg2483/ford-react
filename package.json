@@ -51,6 +51,7 @@
     "@types/react": "19.1.4",
     "@types/react-dom": "19.1.5",
     "@types/twig": "^1.12.17",
+    "sass": "^1.80.6",
     "tsx": "4.19.4",
     "typescript": "5.8.3"
   }

@@ -1,0 +1,443 @@
+.select {
+    //margin: 15px 0;
+    .select2-container {
+        width: 100%!important;
+    }
+    .select2-selection {
+        background-color: $muted;
+        border: none;
+        border-radius: 0;
+        border-bottom: 1px solid $ford-blue-figma;
+        height: 33px;
+        font-size: 16px;
+        position:relative !important;
+
+        .select2-selection__rendered {
+            padding-left: 5px;
+        }
+    }
+    .select2-selection__arrow {
+            display:block !important;
+            height:30px !important;
+            width:30px !important;
+            top:50% !important;
+            transform:translateY(-50%) !important;
+            &:after {
+                content:'\e915';
+                font-family: 'icomoon' !important;
+                line-height:1;
+                font-size:24px;
+                color:$primary;
+                position:absolute;
+                top:3px;
+                left:0;
+                display:block;
+                height:30px;
+                width:30px;
+            }
+        }
+        .select2-selection__arrow b {
+            border:none !important;
+        }
+    &.select-cars {
+        .select2-container {
+            width: 90% !important;
+        }
+        .select2-selection {
+            border: none;
+            border-bottom:1px solid $ford-blue-figma;
+            background-color:$muted;
+            padding: 5px;
+            border-radius: 0;
+            font-weight: bold;
+            height: auto;
+        }
+        
+    }
+    &.select--compare {
+        margin-bottom:20px;
+        .select2-selection__arrow {
+            display:block;
+            right:5px;
+            &:after {
+                content:'\e915';
+                font-family:'icomoon' !important;
+                color:$primary;
+                font-size:24px;
+            }
+            b{opacity:0;}
+        }
+    }
+}
+
+//////////
+.radio--large {
+    display: none;
+    &+label {
+        border: 2px solid transparent;
+        border-radius: 2px;
+        color: $black;
+        @include transition(all 0.3s);
+        .family__img {
+            min-height: 0;
+            height: 80px;
+            overflow: hidden;
+        }
+        .check {
+            position: absolute;
+            bottom: 0;
+            padding: 5px 0 5px 25px;
+            margin: 15px 0 0;
+        }
+    }
+    &:not(:checked)+label,
+    &:checked+label {
+        display: block;
+        height: 100%;
+        line-height: 1;
+        padding: 5px 5px 30px;
+        &::before,
+        &::after {
+            top: auto;
+            bottom: 2px;
+            left: -2px;
+        }
+    }
+    &:checked+label {
+        border: 2px solid $blue;
+        @include transition(all 0.3s);
+        &::before {
+            border-color: $blue;
+        }
+        &::after {
+            background-color: $blue;
+            border-color: $blue;
+        }
+    }
+}
+
+//////////
+.form--borders {
+    label {
+        color: $black;
+        font-family: $main;
+        &:first-child {
+            font: normal 21px/25px $main-semibold;
+            margin-bottom: 20px;
+            color: $black;
+            text-transform: uppercase;
+            display: block;
+        }
+    }
+    .fieldset {
+        border-bottom: 1px solid $gray-light;
+        position: relative;
+        @include bp(sm) {
+            width: 50%;
+            float: left;
+            &:nth-child(odd) {
+                border-right: 1px solid $gray-light;
+            }
+        }
+    }
+    .fieldset__inner {
+        padding: 30px;
+    }
+    .fieldset__inner-bottom {
+        padding: 15px 30px;
+        border-top: 1px solid $gray-light;
+    }
+}
+
+.form--borders__inner {
+    @extend .clearfix;
+    border: 1px solid $gray-light;
+    border-bottom: none;
+}
+
+//////////
+.input--number {
+    max-width: 170px;
+    display: block;
+    margin: 22px auto;
+    position: relative;
+    top: 0;
+    left: 0;
+    button {
+        width: 24px;
+        height: 24px;
+        display: inline-block;
+        color: #FFFFFF;
+        text-align: center;
+        font-style: normal;
+        line-height: 24px;
+        margin-top: 10px;
+        float: left;
+        cursor: pointer;
+        @include border-radius(50%);
+    }
+    .less {
+        background: $gray;
+    }
+    .more {
+        background: $blue;
+    }
+    input {
+        float: left;
+        display: inline-block;
+        font-size: 48px;
+        border: none;
+        width: 56%;
+        margin: 0 6%;
+        text-align: center;
+        border-bottom: 1px solid $gray;
+        line-height: 1;
+        -moz-appearance: textfield;
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 0;
+        }
+        &:hover {
+            &::-webkit-inner-spin-button,
+            &::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                margin: 0;
+            }
+        }
+    }
+}
+
+.form--contact {
+    button[type="submit"] {
+        margin-top: 20px;
+    }
+}
+
+.form__terms {
+    margin: 20px 0;
+    font-size: 18px;
+    a {
+        text-decoration: underline;
+        color: $blue;
+    }
+}
+
+.form__title {
+    font: normal 16px/19px $main-bold;
+    margin-bottom: 15px;
+}
+
+.form-rating {
+    width: 90%;
+    margin: 10px auto;
+    text-align: left;
+    max-width: 600px;
+}
+
+.input-search {
+    width: 100%;
+    border: none;
+    background-color: #fff;
+    padding-left: 20px;
+    position: relative;
+    border-radius: 10px;
+    &:after {
+        content: '\f349';
+        color: #000;
+        top: 10px;
+        left: 10px;
+        position: absolute;
+        font-family: 'Material Design Icons';
+    }
+    input {
+        border-radius: 10px;
+        padding: 10px;
+        border: none;
+        height: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        &:focus {
+            outline: none;
+        }
+        &::-ms-clear {
+            display: none;
+        }
+    }
+}
+
+// DECUBRIR MI TOYOTA
+
+
+.select-discover {
+  width:100%;
+}
+.select-discover .select2-selection {
+  background-color:$gray-lighter;
+  border-bottom:none;
+  padding:10px 10px;
+  border-radius:5px;
+  height:auto;
+  position:relative;
+  .select2-selection__arrow {
+      display:block;
+      height:30px;
+      width:30px;
+      top:50%;
+      transform:translateY(-50%);
+      &:after {
+        color:$gray;
+        content:'\f140';
+        font-family: 'Material Design Icons' !important;
+        line-height:1;
+        font-size:24px;
+        position:absolute;
+        top:3px;
+        left:0;
+        display:block;
+        height:30px;
+        width:30px;
+      }
+  }
+  .select2-selection__arrow b {
+      border:none;
+  }
+}
+
+// CARD INPUT RADIOS
+
+
+label.card-label {
+    width: 100%;
+}
+
+label.card-icon {
+    width: 45%;
+}
+
+.card-input-element {
+    display: none;
+}
+
+.card-input {
+    margin: 20px 0 0;
+    padding: 10px;
+    background-color:$gray-lighter;
+    position:relative;
+    border-radius:5px;
+}
+
+.card-input:hover {
+    cursor: pointer;
+}
+
+.card-input-element:checked + .card-input {
+     box-shadow: 0 0 1px 1px $red;
+ }
+
+.card-icon-container {
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-around;
+    width:100%;
+}
+
+.card-icon .card-input {
+    text-align:center;
+    i {
+        color:$red;
+        font-size:2em;
+        margin:20px auto 10px;
+    }
+}
+
+// SELECT CAR COLOR IN FORM
+
+.color-radio-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin: 1em 0;
+    &>div {
+        margin-right: 15px;
+    }
+}
+
+.color-radio-input {
+    position: absolute; // take it out of document flow
+    opacity: 0; // hide it
+  
+    & + .color-radio-label {
+      position: relative;
+      cursor: pointer;
+      padding: 0;
+    }
+    
+    & + .color-radio-label span {
+        width: 38px;
+        height: 38px;
+        display: block;
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        opacity: 0.8;
+    }
+
+  
+    // Box.
+    & + .color-radio-label:before {
+      content: '';
+      display: inline-block;
+      vertical-align: text-top;
+      width: 40px;
+      height: 40px;
+      background: white;
+      border: 1px solid $accent-light;
+    }
+  
+    // Box hover
+    &:hover + .color-radio-label:before {
+      outline: $red;
+    }
+    
+    // Box focus
+    &:focus + .color-radio-label:before {
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+    }
+
+    // Box checked
+    &:checked + .color-radio-label span {
+        opacity: 1;
+    }
+    
+    // Disabled state label.
+    &:disabled + .color-radio-label {
+      color: #b8b8b8;
+      cursor: auto;
+    }
+  
+    // Disabled box.
+    &:disabled + .color-radio-label:before {
+      box-shadow: none;
+      background: #ddd;
+    }
+  
+    // Checkmark. Could be replaced with an image
+    &:checked + label:after {
+      content: '';
+      position: absolute;
+      left: -4px;
+      top: -4px;
+      background: none;
+      border: 2px solid $primary;
+      width: 48px;
+      height: 48px;
+    }
+  }

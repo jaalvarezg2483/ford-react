@@ -1,0 +1,184 @@
+.list--bullets {
+	li {
+		margin-bottom: 10px;
+	}
+}
+
+.list--checks {
+	@extend .list-unstyled;
+	li {
+		list-style-type: none;
+		position: relative;
+		margin-bottom: 10px;
+		padding: 5px 5px 5px 25px;
+		&::before {
+			color: $gray;
+			content: "\F134";
+			font-family: "Material Design Icons";
+			position: absolute;
+			left: 0;
+		}
+	}
+}
+
+.list--2-cols {
+	@extend .clearfix;
+	@include bp(sm) {
+		li {
+			float: left;
+			width: 50%;
+		}
+	}
+}
+
+.list--steps {
+	.subtitle {
+		margin-bottom: 15px;
+	}
+	p {
+		margin-bottom: 10px;
+	}
+}
+
+.list--subtitle {
+	.subtitle {
+		margin: 15px 0;
+	}
+}
+
+.list--download {
+	@extend .list-unstyled;
+	li{
+		margin-top:16px;
+		list-style: none;
+	}
+	a{
+		display: block;
+		color:$gray;
+		padding: 8px 5%;
+	}
+	.mdi-download{
+		color:$gray;
+		width:32px;
+		height: 32px;
+		margin-right: 7px;
+		margin-bottom: 0;
+		display: inline-block;
+		@include border-radius(50%);
+		border:1px solid $gray-lighter;
+		text-align: center;
+		line-height:32px;
+	}
+}
+
+.list--icons {
+	@include display-flex;
+	@include flex-wrap(wrap);
+	list-style-type: none;
+	padding: 0;
+	li {
+		width: calc(100% / 2);
+		padding: 5px;
+		a {
+			display: block;
+			padding: 10px 20px;
+			text-align: left;
+			text-transform: uppercase;
+			height: 100%;
+			width: 100%;
+			@include box-shadow(0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2));
+		}
+		p {
+			font: normal 13px/17px $main;
+		}
+		.mdi {
+			color: $red;
+			display: block;
+			font-size: 30px;
+			margin-bottom: 15px;
+		}
+	}
+	@include bp(sm) {
+		li {
+			border: 1px solid $grey-light;
+			text-align: left;
+			padding: 15px;
+			@include display-flex;
+			.mdi {
+				margin-bottom: 0;
+				margin-right: 20px;
+			}
+		}
+		&.list--benefits {
+			justify-content: center;
+			li {
+				border: none;
+				width: calc(100% / 3);
+				text-align: center;
+				.mdi {
+					margin-bottom: 10px;
+					margin-right: 0;
+				}
+			}
+		}
+	}
+	@include bp(md) {
+		li {
+			p {
+				font: 700 21px/24px $main;
+			}
+		}
+	}
+}
+
+.list--image {
+	list-style-type: none;
+	padding: 0;
+	li {
+		position: relative;
+		padding-left: 35px;
+		font-size: 13px;
+		min-height: 30px;
+		margin-bottom: 15px;
+	}
+	img {
+		width: 30px;
+		height: 30px;
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+}
+
+.card-services-list {
+	list-style:none;
+}
+
+.social-icons-contact {
+	display:flex;
+	justify-content:space-around;
+	align-items:flex-start;
+	margin:40px 0;
+	list-style:none;
+	padding:0;
+	width:90%;
+	li {
+		flex: 0 0 30%;
+	}
+	a {
+		text-align:center;
+		font-size:12px;
+		display:block;
+		.icon {
+			display:block;
+			color:$primary;
+			margin:0 auto;
+			height:30px;
+			width:30px;
+			border:1px solid $primary;
+			font-size:18px;
+			line-height:28px;
+			border-radius:15px;
+		}
+	}
+}

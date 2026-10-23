@@ -1,0 +1,7 @@
+// El sitio anterior anidaba <button> dentro de <a> (HTML inválido). Ahora es un
+// <span>; .btn-like reproduce el centrado vertical que el navegador da a un
+// botón, solo donde el tema lo muestra como bloque.
+.slider__link .btn.btn-like.btn-like { display: flex; align-items: center; }
+@media screen and (min-width: 768px) {
+  .card--link-responsive .card__content .btn.btn-like.btn-like { display: flex; align-items: center; }
+}
