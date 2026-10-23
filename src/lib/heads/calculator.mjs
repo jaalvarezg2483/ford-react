@@ -39,6 +39,13 @@ export default [
     },
   },
   {
+    test: /^\/preaprobador$/,
+    head: () => ({
+      title: 'Pre aprobación de crédito | Ford Costa Rica | Grupo Purdy',
+      description: 'Solicita la preaprobación rápida para crédito de vehículos Ford en línea. Asegura el financiamiento y acelera tu compra. ¡Solicítalo en nuestra web hoy!',
+    }),
+  },
+  {
     test: /^\/preaprobador\/familias$/,
     head: () => ({
       title: 'Pre aprobación de crédito | Ford Costa Rica | Grupo Purdy | Elegir familia',
