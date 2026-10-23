@@ -110,6 +110,15 @@ const server = http.createServer(async (req, res) => {
     const url = new URL(req.url, 'http://localhost')
     const method = req.method || 'GET'
 
+    // Liveness check for App Service and deployment pipelines; it proves that
+    // the integrated Node/Next process has completed startup without requiring
+    // a CMS login or a database-backed Payload request.
+    if (url.pathname === '/healthz') {
+      if (!['GET', 'HEAD'].includes(method)) { res.writeHead(405, { Allow: 'GET, HEAD' }).end(); return }
+      sendBody(req, res, 200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }, JSON.stringify({ status: 'ok' }))
+      return
+    }
+
     if (url.pathname === '/site-content.json') {
       if (!['GET', 'HEAD'].includes(method)) { res.writeHead(405).end(); return }
       const site = await loadSiteContent()
