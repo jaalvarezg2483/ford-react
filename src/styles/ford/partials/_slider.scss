@@ -119,6 +119,11 @@
       align-items: flex-start;
     }
 
+    // Keep the car artwork and CTA aligned when model names wrap to two lines.
+    .slider__details {
+      min-height: 130px;
+    }
+
     h2,
     h3,
     p {

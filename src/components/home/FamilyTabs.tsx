@@ -54,14 +54,16 @@ export function FamilyTabs({ types }: { types: FamilyType[] }) {
                       <div key={f.slug} style={{ ['--linear-gradient-custom' as string]: style?.gradient || f.homeGradient }}>
                         <div className="model-bg" style={{ backgroundColor: style?.color || f.homeColor }} />
                         <A href={`/autos/${f.slug}`} className="slider__link js-equal-height">
-                          <p>Ford</p>
-                          <h2>{f.name}</h2>
-                          {f.hidePrice ? null : (
-                            <>
-                              <p>desde</p>
-                              <h3>${money(f.startPrice)}</h3>
-                            </>
-                          )}
+                          <div className="slider__details">
+                            <p>Ford</p>
+                            <h2>{f.name}</h2>
+                            {f.hidePrice ? null : (
+                              <>
+                                <p>desde</p>
+                                <h3>${money(f.startPrice)}</h3>
+                              </>
+                            )}
+                          </div>
                           {f.homeImage || style?.image ? <img src={f.homeImage || style?.image} alt={f.name} loading="lazy" /> : null}
                           <span className="btn btn--clear btn-like">
                       <span>
