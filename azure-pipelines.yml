@@ -55,6 +55,7 @@ stages:
               cp -R public "$app/public"
               mkdir -p "$app/src/lib"
               cp src/lib/seo.mjs "$app/src/lib/seo.mjs"
+              cp -R src/lib/heads "$app/src/lib/heads"
               cd "$app"
               zip -qr "$(Build.ArtifactStagingDirectory)/fordcr.zip" .
             workingDirectory: $(Build.SourcesDirectory)
