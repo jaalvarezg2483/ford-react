@@ -1,5 +1,11 @@
 name: FordCR-$(Date:yyyyMMdd).$(Rev:r)
 
+parameters:
+  - name: restoreCmsContent
+    displayName: Importar contenido inicial de ford.cr en Azure
+    type: boolean
+    default: false
+
 trigger:
   branches:
     include:
@@ -70,6 +76,7 @@ stages:
     dependsOn: Build
     jobs:
       - job: DeployStaging
+        timeoutInMinutes: 90
         steps:
           - download: current
             artifact: $(artifactName)
@@ -127,6 +134,60 @@ stages:
                     exit 1
             displayName: Verify staging health endpoint
 
+          - ${{ if eq(parameters.restoreCmsContent, true) }}:
+            - task: AzureCLI@2
+              displayName: Restore Ford content to staging
+              inputs:
+                azureSubscription: $(serviceConnection)
+                scriptType: bash
+                scriptLocation: inlineScript
+                inlineScript: |
+                  set -euo pipefail
+                  token="$(($(date +%s) + 5400)).$(openssl rand -hex 32)"
+                  response="$(Agent.TempDirectory)/ford-import-start.json"
+                  status_file="$(Agent.TempDirectory)/ford-import-status.json"
+                  catalog="$(Agent.TempDirectory)/ford-import-catalog.json"
+                  cookie_jar="$(Agent.TempDirectory)/ford-import-cookies.txt"
+                  endpoint="https://gp-fordcr-app-v1-staging.azurewebsites.net/api/import-ford/bootstrap"
+                  touch "$cookie_jar"
+                  cleanup() {
+                    az webapp config appsettings delete \
+                      --resource-group "$(resourceGroup)" --name "$(appServiceName)" --slot staging \
+                      --setting-names FORD_IMPORT_BOOTSTRAP_TOKEN --output none || true
+                  }
+                  trap cleanup EXIT
+                  az webapp config appsettings set \
+                    --resource-group "$(resourceGroup)" --name "$(appServiceName)" --slot staging \
+                    --slot-settings "FORD_IMPORT_BOOTSTRAP_TOKEN=$token" --output none
+                  start_code=$(curl --silent --show-error --max-time 20 -o "$response" -w '%{http_code}' \
+                    -c "$cookie_jar" -b "$cookie_jar" -X POST -H "Authorization: Bearer $token" "$endpoint")
+                  if [ "$start_code" != "202" ]; then
+                    echo "Ford staging import could not start (HTTP $start_code)."
+                    cat "$response"
+                    exit 1
+                  fi
+                  node -e 'const x=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")); if(!x.started) process.exit(1)' "$response"
+                  echo 'Ford staging content import started.'
+                  completed=false
+                  for attempt in $(seq 1 240); do
+                    code=$(curl --silent --show-error --max-time 20 -o "$status_file" -w '%{http_code}' \
+                      -c "$cookie_jar" -b "$cookie_jar" -H "Authorization: Bearer $token" "$endpoint" || true)
+                    if [ "$code" != "200" ]; then
+                      echo "Ford staging import status returned HTTP $code (attempt $attempt/240)."
+                      sleep 15
+                      continue
+                    fi
+                    state=$(node -e 'const x=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")); if(x.error)process.exit(2); console.log(x.running?"running":(x.finishedAt?"finished":"idle"))' "$status_file") || { echo 'Ford staging import failed; review App Service logs.'; exit 1; }
+                    if [ "$state" = "finished" ]; then completed=true; break; fi
+                    if [ "$state" = "idle" ]; then echo 'Ford staging import ended without a completion time.'; exit 1; fi
+                    if [ "$((attempt % 4))" = 0 ]; then echo "Ford staging import still running (check $attempt/240)."; fi
+                    sleep 15
+                  done
+                  if [ "$completed" != true ]; then echo 'Ford staging import exceeded the 60-minute limit.'; exit 1; fi
+                  curl --silent --show-error --fail --max-time 60 \
+                    https://gp-fordcr-app-v1-staging.azurewebsites.net/api/site-content -o "$catalog"
+                  node -e 'const x=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")); const c={families:x.families?.length||0,posts:x.posts?.length||0,videos:x.videos?.length||0,slides:x.home?.slides?.length||0,pages:x.pages?.length||0,familyTypes:x.site?.familyTypes?.length||0}; console.log("Ford staging content counts: "+JSON.stringify(c)); if(c.families<10||c.posts<20||c.videos<5||c.slides<5||c.pages<10||c.familyTypes<3) process.exit(1)' "$catalog"
+
           - task: AzureCLI@2
             displayName: Summarize staging startup diagnostics on failure
             condition: failed()
@@ -174,6 +235,7 @@ stages:
     condition: succeeded()
     jobs:
       - job: DeployProduction
+        timeoutInMinutes: 90
         steps:
           - download: current
             artifact: $(artifactName)
@@ -217,3 +279,57 @@ stages:
                     echo 'Ford production did not become healthy.'
                     exit 1
             displayName: Verify production health endpoint
+
+          - ${{ if eq(parameters.restoreCmsContent, true) }}:
+            - task: AzureCLI@2
+              displayName: Restore Ford content to production
+              inputs:
+                azureSubscription: $(serviceConnection)
+                scriptType: bash
+                scriptLocation: inlineScript
+                inlineScript: |
+                  set -euo pipefail
+                  token="$(($(date +%s) + 5400)).$(openssl rand -hex 32)"
+                  response="$(Agent.TempDirectory)/ford-import-start.json"
+                  status_file="$(Agent.TempDirectory)/ford-import-status.json"
+                  catalog="$(Agent.TempDirectory)/ford-import-catalog.json"
+                  cookie_jar="$(Agent.TempDirectory)/ford-import-cookies.txt"
+                  endpoint="https://gp-fordcr-app-v1.azurewebsites.net/api/import-ford/bootstrap"
+                  touch "$cookie_jar"
+                  cleanup() {
+                    az webapp config appsettings delete \
+                      --resource-group "$(resourceGroup)" --name "$(appServiceName)" \
+                      --setting-names FORD_IMPORT_BOOTSTRAP_TOKEN --output none || true
+                  }
+                  trap cleanup EXIT
+                  az webapp config appsettings set \
+                    --resource-group "$(resourceGroup)" --name "$(appServiceName)" \
+                    --settings "FORD_IMPORT_BOOTSTRAP_TOKEN=$token" --output none
+                  start_code=$(curl --silent --show-error --max-time 20 -o "$response" -w '%{http_code}' \
+                    -c "$cookie_jar" -b "$cookie_jar" -X POST -H "Authorization: Bearer $token" "$endpoint")
+                  if [ "$start_code" != "202" ]; then
+                    echo "Ford production import could not start (HTTP $start_code)."
+                    cat "$response"
+                    exit 1
+                  fi
+                  node -e 'const x=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")); if(!x.started) process.exit(1)' "$response"
+                  echo 'Ford production content import started.'
+                  completed=false
+                  for attempt in $(seq 1 240); do
+                    code=$(curl --silent --show-error --max-time 20 -o "$status_file" -w '%{http_code}' \
+                      -c "$cookie_jar" -b "$cookie_jar" -H "Authorization: Bearer $token" "$endpoint" || true)
+                    if [ "$code" != "200" ]; then
+                      echo "Ford production import status returned HTTP $code (attempt $attempt/240)."
+                      sleep 15
+                      continue
+                    fi
+                    state=$(node -e 'const x=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")); if(x.error)process.exit(2); console.log(x.running?"running":(x.finishedAt?"finished":"idle"))' "$status_file") || { echo 'Ford production import failed; review App Service logs.'; exit 1; }
+                    if [ "$state" = "finished" ]; then completed=true; break; fi
+                    if [ "$state" = "idle" ]; then echo 'Ford production import ended without a completion time.'; exit 1; fi
+                    if [ "$((attempt % 4))" = 0 ]; then echo "Ford production import still running (check $attempt/240)."; fi
+                    sleep 15
+                  done
+                  if [ "$completed" != true ]; then echo 'Ford production import exceeded the 60-minute limit.'; exit 1; fi
+                  curl --silent --show-error --fail --max-time 60 \
+                    https://gp-fordcr-app-v1.azurewebsites.net/api/site-content -o "$catalog"
+                  node -e 'const x=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")); const c={families:x.families?.length||0,posts:x.posts?.length||0,videos:x.videos?.length||0,slides:x.home?.slides?.length||0,pages:x.pages?.length||0,familyTypes:x.site?.familyTypes?.length||0}; console.log("Ford production content counts: "+JSON.stringify(c)); if(c.families<10||c.posts<20||c.videos<5||c.slides<5||c.pages<10||c.familyTypes<3) process.exit(1)' "$catalog"
