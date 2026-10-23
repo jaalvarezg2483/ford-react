@@ -1,16 +1,16 @@
 # Fase 2: guía para portar los módulos que faltan
 
-Contexto: ford.cr se rehízo con la misma arquitectura de Toyota CR / Purdy Center (`docs/ESTANDAR_SITIOS_WEB.md` del repo `Toyotacr`): SPA React 19 + Vite + React Router, CMS Payload 3 + Next 15, PostgreSQL, **un solo proceso Node** (`cms/server.mjs`). La fase 1 (portada, ficha de vehículo, galería, blog, comparador, encabezado, pie) está terminada. Lea `README.md`, `AGENTS.md` y `docs/MIGRACION.md`.
+Contexto: ford.cr se rehízo con una arquitectura React 19 + Vite + React Router, CMS Payload 3 + Next 16, PostgreSQL, **un solo proceso Node** (`cms/server.mjs`). La fase 1 (portada, ficha de vehículo, galería, blog, comparador, encabezado, pie) está terminada. Lea `README.md`, `AGENTS.md` y `docs/MIGRACION.md`.
 
-El sitio anterior (Symfony 3 + Twig + jQuery) está en la raíz del repositorio (`/Users/jaalvarezg/Projects/Ford-React/src/Lumen/AppBundle`, `app/Resources/views`, `assets/`, `sass/`). **Es solo referencia de comportamiento; no se copia tecnología vieja** (nada de Twig, HTML crudo importado, jQuery, `dangerouslySetInnerHTML` de páginas completas). El sitio nuevo debe verse y comportarse igual que https://www.ford.cr.
+El sitio anterior (Symfony 3 + Twig + jQuery) ya no está en el repositorio; quedó en el historial de git. **No se copia esa tecnología** (nada de Twig, HTML crudo importado, jQuery, `dangerouslySetInnerHTML` de páginas completas). El sitio debe verse y comportarse igual que https://www.ford.cr.
 
 ## Dónde mirar para portar un módulo
 
 1. **Comportamiento real**: abra la página en https://www.ford.cr (Chrome headless, ver "Verificación").
 2. **HTML renderizado de cada página de ford.cr**: tabla `pages` del PostgreSQL local (columna `content`, `path`, `title`; 317 páginas rastreadas del sitio real). Ej.: `psql -h /tmp -p 5544 -U ford ford -At -c "select content from pages where path='/contacto'"`. Úselo para ver el marcado y las clases CSS exactas.
 3. **Código Node ya portado antes (commit `72a0fac`)**: `git show 72a0fac:modern/src/site/<modulo>.ts` (calculator, citas, gateway, contactus, forms, location, search, videos, pdf, dynamic, prices, session, mailer…). Esa lógica de negocio (cálculos, validaciones, llamadas a microservicios, correos) se reutiliza adaptándola a endpoints del CMS.
-4. **Plantillas Twig originales**: `git show 72a0fac:modern/src/legacy/views/<carpeta>/<archivo>.html.twig` (también en `app/Resources/views` y `src/Lumen/AppBundle/Resources/views`). Correos: `.../views/Email/*.twig` (se convierten a funciones TS que devuelven HTML).
-5. **Controladores Symfony**: `src/Lumen/AppBundle/Controller/*.php` y JS original en `assets/js` (validaciones, flujos).
+4. **Plantillas Twig originales** (historial): `git show 72a0fac:modern/src/legacy/views/<carpeta>/<archivo>.html.twig`. Correos: `.../views/Email/*.twig` (ya convertidos a funciones TS que devuelven HTML).
+5. **Controladores Symfony** (historial): `git show 72a0fac:src/Lumen/AppBundle/Controller`.
 
 ## Reglas del proyecto
 

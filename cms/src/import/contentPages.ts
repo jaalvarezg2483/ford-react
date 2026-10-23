@@ -2,6 +2,7 @@ import type { Payload } from 'payload'
 import * as cheerio from 'cheerio'
 import type { AnyNode, Element } from 'domhandler'
 import { parsePage, parseParams } from './parse'
+import { liveSource } from './source'
 import { sanitizeArticleHtml } from '../lib/sanitize'
 
 /** Rutas de ford.cr que se publican como páginas de contenido (bloques React). El resto lo cubren otros módulos. */
@@ -217,27 +218,43 @@ export function htmlToBlocks(html: string, sliders: Map<string, number>): Record
 
 const SITE_SUFFIX = ' | Ford Costa Rica | Grupo Purdy'
 
-/** Crea o actualiza las páginas de contenido a partir del HTML archivado en `pages`. */
-export async function importContentPages(payload: Payload, log: (...a: unknown[]) => void = console.log) {
-  const sliderRes = await payload.find({ collection: 'sliders', limit: 50, depth: 0, pagination: false })
+async function htmlForPath(payload: Payload, path: string) {
+  const found = await payload.find({ collection: 'pages', where: { path: { equals: path } }, limit: 1, depth: 0, overrideAccess: true })
+  const src = found.docs[0] as { content?: string; title?: string; rawDocument?: string } | undefined
+  const archived = src?.content || (src?.rawDocument ? parsePage(src.rawDocument).content : '')
+  if (archived) return { html: archived, title: src?.title || '' }
+  const origin = (process.env.LEGACY_SITE_URL || 'https://www.ford.cr').replace(/\/$/, '')
+  const live = await liveSource(origin).page(path).catch(() => null)
+  if (!live || live.status >= 400 || !live.html) return { html: '', title: '' }
+  const parsed = parsePage(live.html)
+  return { html: parsed.content || live.html, title: src?.title || parsed.title || '' }
+}
+
+/** Crea o actualiza las páginas de contenido a partir del HTML archivado en `pages` (o de ford.cr si falta). */
+export async function importContentPages(
+  payload: Payload,
+  log: (...a: unknown[]) => void = console.log,
+  opts: { only?: string[]; createOnly?: boolean } = {},
+) {
+  const sliderRes = await payload.find({ collection: 'sliders', limit: 50, depth: 0, pagination: false, overrideAccess: true })
   const sliders = new Map((sliderRes.docs as { id: number; name: string }[]).map((s) => [s.name, s.id]))
 
   let created = 0
   let updated = 0
-  for (const path of CONTENT_PATHS) {
-    const found = await payload.find({ collection: 'pages', where: { path: { equals: path } }, limit: 1, depth: 0 })
-    const src = found.docs[0] as { content?: string; title?: string; rawDocument?: string } | undefined
-    const html = src?.content || (src?.rawDocument ? parsePage(src.rawDocument).content : '')
+  for (const path of opts.only ?? CONTENT_PATHS) {
+    const src = await htmlForPath(payload, path)
+    const html = src.html
     if (!html) {
       log(`contenido: sin HTML para ${path}`)
       continue
     }
     const layout = htmlToBlocks(html, sliders)
-    const rawTitle = (src?.title || path).replace(new RegExp(`${SITE_SUFFIX.replace(/[|]/g, '\\|')}$`), '').trim() || path
+    const rawTitle = (src.title || path).replace(new RegExp(`${SITE_SUFFIX.replace(/[|]/g, '\\|')}$`), '').trim() || path
     const description = text(cheerio.load(html, null, false)('p').first())
     const data = { title: rawTitle, path, active: true, description: description.slice(0, 300), layout } as any
-    const existing = await payload.find({ collection: 'content-pages', where: { path: { equals: path } }, limit: 1, depth: 0 })
+    const existing = await payload.find({ collection: 'content-pages', where: { path: { equals: path } }, limit: 1, depth: 0, overrideAccess: true })
     if (existing.docs[0]) {
+      if (opts.createOnly) continue
       await payload.update({ collection: 'content-pages', id: existing.docs[0].id, data, overrideAccess: true })
       updated++
     } else {

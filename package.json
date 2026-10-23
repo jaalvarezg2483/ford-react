@@ -19,8 +19,7 @@
     "typecheck": "tsc -b && npm run typecheck --prefix cms",
     "db:migrate": "npm run payload --prefix cms -- migrate",
     "db:migrate:create": "npm run payload --prefix cms -- migrate:create",
-    "import:ford": "npm run import:ford --prefix cms",
-    "assets:sync": "bash scripts/sync-legacy-assets.sh ../web"
+    "import:ford": "npm run import:ford --prefix cms"
   },
   "dependencies": {
     "react": "19.2.8",

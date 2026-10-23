@@ -15,8 +15,10 @@ RUN PAYLOAD_SECRET=build-time-only-secret-min-32-characters \
 
 FROM node:22-bookworm-slim AS run
 WORKDIR /app
-ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 TZ=America/Costa_Rica PORT=3000
+ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 TZ=America/Costa_Rica PORT=3000 \
+    NODE_EXTRA_CA_CERTS=/app/cms/certs/godaddy-secure-ca-g2.pem
 COPY --from=build /app ./
+# Volumen persistente en /app/cms/media. Si el archivo no está, se descarga de ford.cr y se guarda aquí.
 RUN mkdir -p /app/cms/media && chown -R node:node /app/cms/media
 USER node
 EXPOSE 3000

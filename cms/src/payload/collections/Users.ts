@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { authenticated, isAdmin } from '../access'
+import { isAdmin } from '../access'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -7,9 +7,17 @@ export const Users: CollectionConfig = {
   admin: { useAsTitle: 'email', group: 'Sistema', defaultColumns: ['email', 'name', 'role'] },
   auth: { tokenExpiration: 60 * 60 * 8 },
   access: {
-    read: authenticated,
+    read: ({ req: { user } }) => {
+      if (!user) return false
+      if ((user as { role?: string }).role === 'admin') return true
+      return { id: { equals: user.id } }
+    },
     create: isAdmin,
-    update: ({ req: { user } }) => Boolean(user && ((user as { role?: string }).role === 'admin' || { id: { equals: user.id } })),
+    update: ({ req: { user } }) => {
+      if (!user) return false
+      if ((user as { role?: string }).role === 'admin') return true
+      return { id: { equals: user.id } }
+    },
     delete: isAdmin,
   },
   fields: [

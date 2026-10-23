@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { authenticated } from '../access'
+import { canManageContent } from '../access'
 import { revalidateSite } from '../hooks/revalidate'
 import { editableArray, resolveImages, syncEditables, technical } from '../fields/editables'
 
@@ -8,7 +8,7 @@ export const FamilyTypes: CollectionConfig = {
   slug: 'family-types',
   labels: { singular: 'Categoría', plural: 'Categorías de vehículos' },
   admin: { group: 'Vehículos', useAsTitle: 'name', defaultColumns: ['name', 'order', 'active'] },
-  access: { read: authenticated, create: authenticated, update: authenticated, delete: authenticated },
+  access: { read: canManageContent, create: canManageContent, update: canManageContent, delete: canManageContent },
   defaultSort: 'order',
   hooks: {
     beforeChange: [

@@ -1,5 +1,5 @@
 import type { Field, GlobalConfig } from 'payload'
-import { anyone, authenticated } from '../access'
+import { anyone, canManageContent } from '../access'
 import { bumpSiteVersion } from '@/lib/siteVersion'
 
 const cta = (name: string, label: string): Field => ({
@@ -25,7 +25,7 @@ export const HomePage: GlobalConfig = {
   slug: 'home-page',
   label: 'Portada',
   admin: { group: 'Contenido' },
-  access: { read: anyone, update: authenticated },
+  access: { read: anyone, update: canManageContent },
   hooks: { afterChange: [() => bumpSiteVersion()] },
   fields: [
     {

@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { authenticated } from '../access'
+import { canManageContent } from '../access'
 import { revalidateSite } from '../hooks/revalidate'
 import { editableArray, resolveImages, syncEditables, technical } from '../fields/editables'
 
@@ -18,7 +18,7 @@ export const Pages: CollectionConfig = {
     defaultColumns: ['path', 'title', 'template', 'status', 'updatedAt'],
     listSearchableFields: ['path', 'title'],
   },
-  access: { read: authenticated, create: authenticated, update: authenticated, delete: authenticated },
+  access: { read: canManageContent, create: canManageContent, update: canManageContent, delete: canManageContent },
   hooks: {
     beforeChange: [
       async ({ data, originalDoc, req }) => {

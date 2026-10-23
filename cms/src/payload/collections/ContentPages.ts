@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { authenticated } from '../access'
+import { canManageContent } from '../access'
 import { revalidateSite } from '../hooks/revalidate'
 import { contentBlocks } from '../blocks/content'
 import { imageFields } from '../fields/image'
@@ -12,7 +12,7 @@ export const ContentPages: CollectionConfig = {
   slug: 'content-pages',
   labels: { singular: 'Página de contenido', plural: 'Páginas de contenido' },
   admin: { group: 'Contenido', useAsTitle: 'title', defaultColumns: ['title', 'path', 'active', 'updatedAt'] },
-  access: { read: authenticated, create: authenticated, update: authenticated, delete: authenticated },
+  access: { read: canManageContent, create: canManageContent, update: canManageContent, delete: canManageContent },
   defaultSort: 'path',
   hooks: { afterChange: [revalidateSite], afterDelete: [revalidateSite] },
   fields: [

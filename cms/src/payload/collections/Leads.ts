@@ -1,12 +1,12 @@
 import type { CollectionConfig } from 'payload'
-import { authenticated } from '../access'
+import { canManageLeads, isAdmin } from '../access'
 
 /** Toda solicitud enviada desde los formularios del sitio, con el resultado de los envíos. */
 export const Leads: CollectionConfig = {
   slug: 'leads',
   labels: { singular: 'Solicitud', plural: 'Solicitudes (leads)' },
   admin: { group: 'Formularios', useAsTitle: 'name', defaultColumns: ['form', 'name', 'email', 'phone', 'createdAt', 'emailStatus'] },
-  access: { read: authenticated, create: () => false, update: authenticated, delete: authenticated },
+  access: { read: canManageLeads, create: () => false, update: canManageLeads, delete: isAdmin },
   defaultSort: '-createdAt',
   fields: [
     { type: 'row', fields: [
