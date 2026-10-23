@@ -1,0 +1,1430 @@
+{
+  "mustang-gt-1": {
+    "tagline": "La emoción de una herencia llena de velocidad y poder absolutos.",
+    "heroDesktop": "https://www.ford.cr/uploads/special_banners/528ccb5a6b3cb20eeec4e3b88fb41baab50d1ec3.jpeg",
+    "heroMobile": "https://www.ford.cr/uploads/special_banners/1b1e70fa2c6f345a57cf9a9b43d083f403041686.jpeg",
+    "leadTitle": "",
+    "leadText": "",
+    "purdyGoUrl": "https://purdygo.com/reserva-en-linea?brand=FORD&model=MUSTANG+FORD",
+    "showCalculate": true,
+    "colors": [
+      {
+        "name": "AMARILLO SOLAR",
+        "hex": "#d6bc13",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/3c7b46f71f8fd9b19a08c58d812cfb8f143ae0ed.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "AZUL ATLAS",
+        "hex": "#266ab3",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/6ac7d8e2c5a6ea5195562e46d54828a66a8f418b.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "AZUL ICÓNICO",
+        "hex": "#32a5fc",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/ed8f9ffda2b8202667622d7b4aa00105f5ae9ca3.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "AZUL NEBULA",
+        "hex": "#a0a5ba",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/415d397fc231bc68f3ad38faa0067a1fb78d129a.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "BLANCO OXFORD",
+        "hex": "#ffffff",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/a4b4625486f87f79ce3542c2587eb217681bca54.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "GRIS CARBONO",
+        "hex": "#969396",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/8b727e1a577567a9a6e5404ea093273b57c0b73c.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "GRIS MAGENTO",
+        "hex": "#3d3d3d",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/f0186c62cdf38e211059ba325a3a2ad867da829f.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "NEGRO OCASO",
+        "hex": "#0a0a0a",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/82628387ce8fbfca1130ee7f8d3f3acd34897aa8.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "ROJO CARRERA",
+        "hex": "#b80909",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/43e7255782a99a955281984f4e2776da35e34ba3.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "ROJO CEREZA",
+        "hex": "#700707",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/84e02d8d3ff5646daf016173a528016494fc38ad.png",
+        "disclaimer": ""
+      }
+    ],
+    "highlights": [
+      {
+        "title": "CADA VEZ MÁS IMPACTANTE",
+        "text": "<p>El nuevo Mustang® GT llega para continuar el legado que le pertenece desde 1964: seguir siendo uno de los pioneros más relevantes de la historia de la velocidad, por eso, vuelve revolucionado, no solo con un diseño vanguardista y un mejor desempeño deportivo, sino también con una renovada experiencia de conducción que te hará llevar tus emociones al límite.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/cbc8d311f8d16b14f3779cf443ab0f3759e52418.png"
+      },
+      {
+        "title": "DESEMPEÑO RETADOR",
+        "text": "<p>Diseño expresivo, tecnología inmersiva y un motor V8 de 5.0L harán que todos tus trayectos con el nuevo Mustang® GT se conviertan en una experiencia extraordinaria. Atrévete a convertirte en el dueño de tus viajes diarios y aumentá la adrenalina en cada una de las curvas de tu camino.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/1adede5273c7c1cf64dda0f16394e940a37d5cb3.png"
+      },
+      {
+        "title": "TECNOLOGÍA Y VELOCIDAD",
+        "text": "<p>La nueva cabina digital, personalizable y centrada en el conductor de la línea Mustang®&nbsp; te da el control total. Los gráficos 3D basados en la plataforma de Unreal Engine 3D proporcionan diseños envolventes y altamente customizables en el panel de instrumentos digital LCD de 12.4” y la pantalla táctil central de 13.2”&nbsp;</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/0c35c9885be7c95e9cee9ab2ee8816d78e95991d.png"
+      }
+    ],
+    "gallery": [
+      {
+        "title": "Exterior",
+        "items": [
+          {
+            "image": "https://www.ford.cr/uploads/gallery/6268a814b5a7f904d2fc5c0580500b85fab32c78.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/1c5e2ac56ed62fd46f9d274f1c26b2d99e7e9249.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/9bc7db61bcb94da5b7ea962a3854c0d642fa75f5.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/efb83d981a87b19ec9e627ebbd30a606ea3f07c5.png",
+            "caption": ""
+          }
+        ]
+      },
+      {
+        "title": "Interior",
+        "items": [
+          {
+            "image": "https://www.ford.cr/uploads/gallery/49be1e13bf2325162a9b2e148afac617443b1143.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/2ca3c9c8bd1abbdb4cda8518c6dc78655ce650a0.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/f6803f43d5f41a03df57c3d0dc11d1fb9c8b135d.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/554792d29730f4f0398fafed1541e3e8f3cc685e.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/8bfb4bd75c0b0c64f2dc8ca47be843b7a4c0e262.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/d0f2e88d789dc7b176723eaa2ad1ed17eedf5aed.png",
+            "caption": ""
+          }
+        ]
+      }
+    ],
+    "models": [
+      {
+        "index": 0,
+        "code": "MGT2",
+        "name": "Ford MUSTANG GT 2026",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/model/6b04707e63987cffe6ec3903b97bea6fbf527fa9.png",
+        "calculable": true
+      }
+    ]
+  },
+  "bronco-badlands": {
+    "tagline": "Conocé el Ford Bronco Balands y viví la adrenalina que te brinda un verdadero todoterreno",
+    "heroDesktop": "https://www.ford.cr/uploads/special_banners/88b394856c617448fa1243724e4d11ffe4b75e67.png",
+    "heroMobile": "https://www.ford.cr/uploads/special_banners/686d45e2c74ad81a9ef50aba61949cebc441d885.png",
+    "leadTitle": "",
+    "leadText": "",
+    "purdyGoUrl": "",
+    "showCalculate": false,
+    "colors": [
+      {
+        "name": "Oxford White",
+        "hex": "#f7f7f7",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/3a848b664a06aadef0763c18b6b2357c1e0ae338.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Ruby Red",
+        "hex": "#a31720",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/c73aa77b9049ad267f3197fe08983e729fd8742a.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Shadow Black",
+        "hex": "#252525",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/51b29dbc5dab10236847d1c3101cd1333660a5a0.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Velocity Blue",
+        "hex": "#3e769f",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/f534dc657426dc25eee9501bd351fdd073cd5432.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Desert Sand",
+        "hex": "#ebebe6",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/9c8cb5e8d02ca3bc911cb46118c942bf7d718151.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "March Gray",
+        "hex": "#b8b7ab",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/dbb1e1abef0266e6292a35ec212d8a51b72f5c59.png",
+        "disclaimer": ""
+      }
+    ],
+    "highlights": [
+      {
+        "title": "Diseño Clásico",
+        "text": "<p>El nuevo Bronco se encuentra entre las líneas 4X4 más capaces y resistentes de la industria. Resaltando el diseño clásico y funcional del original, el nuevo Bronco está construido para las emociones y la aventura.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/d9845b3c7e8b6db15e4cc86e3947f6591e2f43e5.png"
+      },
+      {
+        "title": "Desempeño Legendario",
+        "text": "<p>Sometido a rigurosas pruebas en la casa de King of the Hammers en el desierto Johnson Valley y la extenuante Baja 1000, una de las carreras de resistencia todo terreno más demandantes del mundo, la línea Bronco está lista para dominar las aventuras más salvajes que se le presenten.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/4ff4702a277ba56280ce2e5d8157d1a470c97cd3.png"
+      },
+      {
+        "title": "Espíritu Indomable",
+        "text": "<p>Los paneles del techo y las puertas, que se quitan con facilidad, te permiten experimentar la sensación del viento en el cabello y del sol en el rostro. El Bronco se construyó para lo salvaje, para disfrutar del cielo abierto y recordar la sensación de libertad infinita en tu viaje a lo salvaje.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/76dba7694d56411039dec1f83e5401e7c252b85b.png"
+      }
+    ],
+    "gallery": [
+      {
+        "title": "Exterior",
+        "items": [
+          {
+            "image": "https://www.ford.cr/uploads/gallery/494feb3b2dd1f5c5323afe8c2ba3cfa715884806.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/964eb9e61db720e2bc3715203ffe380c46c394ff.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/570c26be4ea8f2b906c60a311a5ece6600d66d72.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/02140f2083abca28ec49c6f5d140580cdbccd948.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/4e0b08974fdc05d846eb826931333a95699c8d66.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/a8ae915978840196b7de3993dadfbea2bfe42732.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/ae96ae067ac6170d3c3a828ee4753ff3014b0483.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/0e9a85cb05c24e69fa6782e74d6362c594b60464.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/99ea3646799a7419f86507ee6b89b7dfcd9d6e74.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/4be1f8b582797e83717ae4cf0156daa1e31fa240.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/77b8d3255b08a2a4a8b9104936659e0b7bbbb91a.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/d9497645d0bfcc4e4534f4db7c0ea13e8f832b4d.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/44ffd2a66137d65278c2d0e246fc5fc521b628ec.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/78aa9a7c1a0497b816be23b90e1ad09ed6213972.jpeg",
+            "caption": ""
+          }
+        ]
+      },
+      {
+        "title": "Interior",
+        "items": [
+          {
+            "image": "https://www.ford.cr/uploads/gallery/7e9f8b3b007ca65768f4bae41ba22adb5b9edbcc.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/8edb298ed9349b56fa75468d91b335d105cbcfea.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/61600d2f587eaba163642fb672f1b381cbaf7042.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/98deb7a53b919c697e62501e682d94c378f064cd.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/fa836c8471ab1f142c155546aea34b58d7e1f817.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/1fa10d0c72ec071a7620f6d9020f8938e46e2b47.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/11f8f526c5af49ca9faef8e5b0726f4d198a939c.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/1aedf17d3b51edf8c0d3171956c02ed5be16357c.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/46fb6a6482e5de3998ba79fe13b2dbe95c35a248.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/b1fc924b075a25b323fc89201acf071492222172.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/34f241106eb4ee18f030df83b99beb85c35c3e48.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/5957e81c6edb43d1adb2bcaf9ede37d11a646a27.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/b4b7349cb3a0fd86916119e9879f1770d80082ce.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/c9ad48b153e642dec40d9679f83bf43366d3dd8a.jpeg",
+            "caption": ""
+          }
+        ]
+      }
+    ],
+    "models": [
+      {
+        "index": 0,
+        "code": "",
+        "name": "Ford Bronco Badlands 2026",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/model/759f052febf17220c1182702b7f19de12356e96d.png",
+        "calculable": false
+      }
+    ]
+  },
+  "bronco-sport": {
+    "tagline": "¡Listo para acompañarte en la mejor aventura de tu vida!",
+    "heroDesktop": "https://www.ford.cr/uploads/special_banners/2c14d8d45bec5e28c080d81f4b5c7196ce7571b3.png",
+    "heroMobile": "https://www.ford.cr/uploads/special_banners/f211c3d876fdb63cb195505a84b4169af3eda737.png",
+    "leadTitle": "",
+    "leadText": "",
+    "purdyGoUrl": "https://purdygo.com/reserva-en-linea?brand=FORD&model=BRONCO+SPORT+FORD",
+    "showCalculate": true,
+    "colors": [
+      {
+        "name": "Alto Blue Metallic",
+        "hex": "#133a57",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/3a73c71d8167bc66b4bd07346ac2e3239ea69485.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Area 51",
+        "hex": "#848ead",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/64d955d2d8f3c5563ed22f214373e09bfd30ace0.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Atlas Blue Metallic",
+        "hex": "#42648c",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/41691c59112239d7ceb2897c2a9d8bd5f933158f.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Cactus Grey",
+        "hex": "#818185",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/03fe96986ddd9c10711817d619f5180774e21179.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Carbonized Gray",
+        "hex": "#cdcdcd",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/8b62f903b7f5f3a4f0103e15bb8d9ce974c09660.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Cyber Orange",
+        "hex": "#e86f1e",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/11bfcc27f9e09b253f6fbc61efb2c80819e1e8b7.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Eruption Green Metallic",
+        "hex": "#37ab60",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/bf4c5bc1bdeeadc1cd4af9e37c87b98fe70d0465.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Hot Pepper Red",
+        "hex": "#e60e39",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/82653fe0e0449cc6bb94946a3246963cae42b980.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Iconic Silver",
+        "hex": "#b2b2b4",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/74f79d90a4a9957a54605c89f4f8cb8188e0074d.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Oxford White",
+        "hex": "#f7f7f7",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/bf30218aa7ec2bf984347d165a7d52b6a7c548ca.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Shadow Black",
+        "hex": "#252525",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/acaca8104fd119efd23b73aecee3f15a2fc08afc.png",
+        "disclaimer": ""
+      }
+    ],
+    "highlights": [
+      {
+        "title": "Ve tan lejos como querás",
+        "text": "<p>﻿Bronco Sport te brinda la confianza para recorrer cualquier tipo de terreno, gracias a su tracción AWD, un exclusivo sistema de modos de manejo y una suspensión líder en su clase.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/b8af6b6f26fdf6fd31144afd8b04362b72163c38.png"
+      },
+      {
+        "title": "Un modo de manejo para cada aventura",
+        "text": "<p>Gracias a sus modos de conducción G.O.A.T.™: Normal, Eco, Sport, Slippery y Arena tu Bronco Sport puede adaptarse a cualquier situación con total capacidad y naturalidad, haciéndose uno con el camino.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/1b4a782ee36ce6453c90137b6a1f8c2a9d7f3f02.png"
+      },
+      {
+        "title": "La aventura se lleva en la sangre",
+        "text": "<p>﻿El futuro de los todo-terreno, ofrece ingenio e innovación de diseño inspirado en el ADN de su robusta herencia, combinando en perfecta armonía la aventura con tus necesidades en la ciudad.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/17283e0df4049c95ead7fd0335ab9a2a88ac2bf8.png"
+      }
+    ],
+    "gallery": [
+      {
+        "title": "Exterior",
+        "items": [
+          {
+            "image": "https://www.ford.cr/uploads/gallery/adc955e0e5fe4697825f5d8445bb617295b8a861.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/7ddff97a030141ff266ede0f51833a856eecf58e.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/035cad2e240536484f4044918aab07f4815a007b.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/528cdeee09752e23041e72dade84febda63ad6bd.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/4e853faf9f9bcf830bffc459b7ad595be7b10f9d.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/459669ae4747bb08eb33308b92cde9de6ee88e96.png",
+            "caption": ""
+          }
+        ]
+      },
+      {
+        "title": "Interior",
+        "items": [
+          {
+            "image": "https://www.ford.cr/uploads/gallery/a74fd9fea25f1fd62665616aee9db4126900a42d.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/c46cc0238b8ffb0a2d62dbe4e749fb080c7f461b.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/143cf335f9ff6adc37c9215ff7369c06fc50a6b6.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/a031fe6958ee1a1fa5681c976a07c4c68452ae05.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/6beac0ce0c77e7066af06e3632c4708d4cb78b9f.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/0a636a048e4444f836c3989e8bd652e31d07bc1c.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/d5c4323b5133006c7b0a546612a0eb3ce4e711a1.png",
+            "caption": ""
+          }
+        ]
+      }
+    ],
+    "models": [
+      {
+        "index": 0,
+        "code": "BS00",
+        "name": "Ford Bronco Sport 2026",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/model/3760d36d6270be2d000e30a1c1669497ad7b645c.png",
+        "calculable": true
+      }
+    ]
+  },
+  "expedition": {
+    "tagline": "Donde el lujo se encuentra con la aventura.",
+    "heroDesktop": "https://www.ford.cr/uploads/special_banners/ce92c21f47f441113957cf0de7467f642a58208f.jpeg",
+    "heroMobile": "https://www.ford.cr/uploads/special_banners/ee15cd3129f8594a56101f8e69166e9bc4f2badc.jpeg",
+    "leadTitle": "Ford Expedition | Ford Costa Rica | Grupo Purdy",
+    "leadText": "Conquistá cualquier camino con la imponente presencia del Ford Expedition. Diseñado para quienes buscan versatilidad, potencia y confort superior, este SUV de gran tamaño combina lo mejor de la tecnología, la seguridad y el rendimiento.",
+    "purdyGoUrl": "https://purdygo.com/reserva-en-linea?brand=FORD&model=EXPEDITION+FORD",
+    "showCalculate": false,
+    "colors": [
+      {
+        "name": "AZUL STONE BLUE",
+        "hex": "#303c59",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/0c9c867160f4b8ac66942e6e50c42aeb91e93d75.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "NEGRO",
+        "hex": "#000000",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/4f9d33ca40d20f76991bfdfce4c9f376697e6ff8.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "GRIS OSCURO",
+        "hex": "#262626",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/947a9f4f00add04b45be0b7bd15b53e9c1acf5e8.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "GRIS GLACIAR",
+        "hex": "#636363",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/9270b126c3dc1b75db2d2e95e6bc2989019318f0.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "BLANCO",
+        "hex": "#ffffff",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/8b81c84890c561af5bd44819391f8c62b76b3f85.png",
+        "disclaimer": ""
+      }
+    ],
+    "highlights": [
+      {
+        "title": "LUJOSO ESPACIO INTERIOR​",
+        "text": "<p>La Ford Expedition ofrece un amplio espacio interior ideal para familias, con capacidad para 8&nbsp;pasajeros cómodamente. Su diseño optimiza cada fila, brindando libertad de movimiento y confort en cada viaje. ​</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/46c77de6c51a90020ecc434de7f66be4db037d1a.png"
+      },
+      {
+        "title": "HASTA LA CIMA Y MÁS ALLÁ​",
+        "text": "<p>La Ford Expedition cuenta con un potente motor 3.5L V6 EcoBoost, que combina fuerza y eficiencia. Ofrece una celeración ágil y gran capacidad de remolque. Ideal para quienes buscan rendimiento sin sacrificar economía.&nbsp;</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/8c6eedaa233d956884ef6ac97d2420c3ba7cae9d.png"
+      },
+      {
+        "title": "VERSÁTIL, ELEGANTE​",
+        "text": "<p>La Ford Expedition destaca por su versatilidad, adaptándose a cualquier aventura o necesidad diaria. Su diseño flexible permite configurar el espacio interior fácilmente. Ya sea en ciudad o carretera, siempre está lista para todo.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/469bdf6e8004e8f9b8e526726e21c71962428888.png"
+      }
+    ],
+    "gallery": [
+      {
+        "title": "Exterior",
+        "items": [
+          {
+            "image": "https://www.ford.cr/uploads/gallery/083749e55a58f3fc9155da5b6c5395a381e87507.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/c69d079d350fc9c257f068f75e13d8598cdcef32.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/fd3c81cc743f24f434b1f4e38123fda05506bd66.png",
+            "caption": ""
+          }
+        ]
+      }
+    ],
+    "models": [
+      {
+        "index": 0,
+        "code": "",
+        "name": "Ford Expedition Platinum 2025",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/model/a8e427ac308980d2e661ebc1f2cec177ae010809.png",
+        "calculable": false
+      }
+    ]
+  },
+  "everest": {
+    "tagline": "Nuestro SUV 4x4 más potente ahora totalmente renovado.",
+    "heroDesktop": "https://www.ford.cr/uploads/special_banners/b177e48bc20a1f4b64c79a54fdb84f0a87b16ad5.jpeg",
+    "heroMobile": "https://www.ford.cr/uploads/special_banners/e66d29349be1ece5d259f1707c61f413f27dbb46.jpeg",
+    "leadTitle": "",
+    "leadText": "",
+    "purdyGoUrl": "https://purdygo.com/reserva-en-linea?brand=FORD&model=EVEREST+FORD",
+    "showCalculate": true,
+    "colors": [
+      {
+        "name": "Absolute Black",
+        "hex": "#252525",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/9367873426cfdeb9419f892828c822f364a60edb.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Aluminium Metallic",
+        "hex": "#9794a2",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/dcf38b9af07b843542b563adec003cafe14a562d.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Sedona Orange",
+        "hex": "#c1432d",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/cac02d25a27d08289568f31a0323eda268ce3ca4.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Equinox Bronce",
+        "hex": "#574440",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/ecae9d59e74debe71314956dbec0885e5ec8eafe.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Artic White",
+        "hex": "#fbfbfe",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/3ed7a09c941ada4e351eb7e21acb7adb7841f401.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Meteor Grey",
+        "hex": "#66676b",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/15fbdee211e0a0577232e0df6762a2e999cba2e7.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Pearl White",
+        "hex": "#ffffff",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/c11f1d037b1dc93ece1901970f1dd01d26565c39.png",
+        "disclaimer": ""
+      }
+    ],
+    "highlights": [
+      {
+        "title": "Pantalla táctil con SYNC®4",
+        "text": "<p>Experimentá la conectividad total con Ford Everest y su nueva pantalla táctil de 12 pulgadas* con sistema operativo compatible con Apple CarPlay®&nbsp;y Android Auto® Inalámbrico. *Pantalla de 12” disponible solamente en version Titanium.</p>\n\n<p><strong>Las aplicaciones de terceros instaladas en los equipos multimedia, tienen responsabilidad limitada. Consultar&nbsp;<a href=\"/reglamentos\"><span style=\"color:rgb(0, 0, 255)\">aquí</span></a><a href=\"https://www.subaru.cr/reglamentos\"><span style=\"color:rgb(0, 0, 255)\">.</span></a></strong></p>",
+        "image": "https://www.ford.cr/uploads/characteristics/551d5fac428435162ea74528a15a224064e82ce3.png"
+      },
+      {
+        "title": "Más potencia, mejor rendimiento",
+        "text": "<p>El nuevo motor del Everest 2000 cc Bi-turbo te da toda la potencia que buscas en un 4x4 con un consumo de combustible mucho más eficiente.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/55df93619c986639d63ce714759f14761676a55c.png"
+      },
+      {
+        "title": "Diseño totalmente renovado",
+        "text": "<p>Disfrutá su nuevo diseño totalmente renovado, con líneas más robustas y fuertes, que le confieren una mezcla perfecta entre elegancia y aventura.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/872ec45a82de69c9902f17591fd6450b0995a787.png"
+      }
+    ],
+    "gallery": [
+      {
+        "title": "Exterior",
+        "items": [
+          {
+            "image": "https://www.ford.cr/uploads/gallery/e035bd470b1edbd5b05032e5f017a0065f194459.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/cb7afbae22cc3b6f19538e2f64f262b0fb4f444b.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/f1d4106340204ecab866bbd2554b377841133d0f.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/ad2e54a2d1377113252453c05c2058b18388a2c8.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/efb7acfc6dfbe54479c2381f52d914c2b9038f89.png",
+            "caption": ""
+          }
+        ]
+      },
+      {
+        "title": "Interior",
+        "items": [
+          {
+            "image": "https://www.ford.cr/uploads/gallery/2a667f941b69561abbbd6357679b74acc24908bc.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/c58760714674f5060b4049c7c254036359adb95c.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/abd8577ac418884600cd6839a7bf0af122136554.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/391f324b9ae344ab7ddb7af906c7799352c23131.png",
+            "caption": ""
+          }
+        ]
+      }
+    ],
+    "models": [
+      {
+        "index": 0,
+        "code": "EV23",
+        "name": "Ford Everest Trend 2026",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/model/db7a08cc1f8c952b4c9bc3fb1284ac1df12327ca.png",
+        "calculable": true
+      },
+      {
+        "index": 1,
+        "code": "EV33",
+        "name": "Ford Everest Titanium 2026",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/model/e6e16bf3e73bd142a0940e4126bdfe3b4b84b5b5.png",
+        "calculable": true
+      }
+    ]
+  },
+  "explorer2026": {
+    "tagline": "La aventura empieza acá",
+    "heroDesktop": "https://www.ford.cr/uploads/special_banners/89cf134cbad6de7b14c9a8461ca4ff7b0596ca8f.jpeg",
+    "heroMobile": "https://www.ford.cr/uploads/special_banners/35898638256f38b8b89ddb9f1a4eaa2253a7b604.jpeg",
+    "leadTitle": "Ford Explorer | Ford Costa Rica | Grupo Purdy",
+    "leadText": "El nuevo Ford Explorer combina potencia y elegancia en un SUV lleno de tecnología y confort sin igual.",
+    "purdyGoUrl": "https://purdygo.com/reserva-en-linea?brand=FORD&model=EXPLORER+FORD",
+    "showCalculate": false,
+    "colors": [
+      {
+        "name": "AZUL VAPOR",
+        "hex": "#214f9e",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/364757da07d69061adbbce2fc472d2c51b82602a.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "BLANCO",
+        "hex": "#ffffff",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/c2b3d3e334732ac626ed2542c0787d15fac94bdd.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "GRIS CARBÓN",
+        "hex": "#444445",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/b54f2ee17f711f2ce37bd2ced9d8f7e0eab70a9d.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "NEGRO AGATE",
+        "hex": "#0f0f0f",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/257bf317269c6107d65ab5c654fa942a1dfd81b2.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "ROJO RAPID",
+        "hex": "#ab2424",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/ca2ae4286aad37de27fbfd01e203dadcc9ab1f99.png",
+        "disclaimer": ""
+      }
+    ],
+    "highlights": [],
+    "gallery": [
+      {
+        "title": "Exterior",
+        "items": [
+          {
+            "image": "https://www.ford.cr/uploads/gallery/c56d5c80a5d1a3eccb741c0194fe6af341bb11a5.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/70a7d35ac2ed49b4189a93c810e6a6612ee88565.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/e2087c3e8cde23e5fa8b75f1f1ac6af1fc0cf8ad.png",
+            "caption": ""
+          }
+        ]
+      }
+    ],
+    "models": [
+      {
+        "index": 0,
+        "code": "",
+        "name": "Ford Explorer Active 4WD 2.3L 2026",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/model/f96960af13f7cefd35d833ecb521acf0ca7a9569.png",
+        "calculable": false
+      },
+      {
+        "index": 1,
+        "code": "",
+        "name": "Ford Explorer Platinum 4WD 2.3L 2026",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/model/d9fd2f929b998ca2fec50bd04026db287585455a.png",
+        "calculable": false
+      },
+      {
+        "index": 2,
+        "code": "",
+        "name": "Ford Explorer ST 4WD 3.0L 2026",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/model/30358dabc64695ab1498d1afe88542c5cc2ba899.png",
+        "calculable": false
+      }
+    ]
+  },
+  "edge-hibrido": {
+    "tagline": "Donde el lujo se encuentra con la aventura",
+    "heroDesktop": "https://www.ford.cr/uploads/special_banners/6b0cac6735086144c25fa547e17cdca9aad0fcae.png",
+    "heroMobile": "https://www.ford.cr/uploads/special_banners/dcdc891a5b2efa6b8a2bb3edfdf2f92c2cf7b611.png",
+    "leadTitle": "Ford Edge | Ford Costa Rica | Grupo Purdy",
+    "leadText": "Sofisticación en cada línea, innovación en cada kilómetro. La tecnología híbrida te permite avanzar con más estilo y menos consumo.",
+    "purdyGoUrl": "https://purdygo.com/reserva-en-linea?brand=FORD&model=EDGE+FORD",
+    "showCalculate": true,
+    "colors": [
+      {
+        "name": "Agate Black",
+        "hex": "#0d0e0f",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/1819e2a478e07931861f1ef7d10cef25343edd84.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "White platinum",
+        "hex": "#dfdfe5",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/52e3fa416a3a94a94ec1b9d315eef73bd1f71d06.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Blue Panther",
+        "hex": "#4b566e",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/2ff4dff30e39132eedc451697886e964dee82a1c.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Lustrous Grey",
+        "hex": "#7d7e80",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/84b677cbd6774ec2ad636b886ae44db280120cc6.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Surf Rider",
+        "hex": "#0cb9ed",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/36a79bc54ea74a9feae6bf76ec5ecaaa6f93c11d.png",
+        "disclaimer": ""
+      }
+    ],
+    "highlights": [
+      {
+        "title": "Diseño totalmente renovado",
+        "text": "<p>El&nbsp;Ford Edge&nbsp;llega completamente reinventado, con un diseño nunca antes visto.<br>\nSu nueva propuesta integra líneas más futuristas, mayor tecnología y detalles de lujo que elevan cada experiencia a bordo.<br>\nUna evolución total pensada para quienes buscan sofisticación, tecnología y una presencia imposible de ignorar.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/dda138a4c4f4fbbb42845c5d3050e56d349bf899.png"
+      },
+      {
+        "title": "Motor híbrido. Hasta 1.100 km de autonomía",
+        "text": "<p>La sofisticación del lujo se encuentra con la innovación en cada detalle.<br>\nSu avanzada&nbsp;tecnología híbrida&nbsp;optimiza cada trayecto para ofrecer hasta&nbsp;1.100 km de autonomía&nbsp;con máxima eficiencia.<br>\nMás inteligencia en el camino, más libertad para llegar más lejos.&nbsp;</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/5ff9cb3cb662b819479da4e37378c0bc99420121.png"
+      },
+      {
+        "title": "7 pasajeros",
+        "text": "<p>Con su configuración 2-2-3 para la versión Titanium con asientos tipo capitán y su configuración 2-3-2 para la version Trend, el espacio no es un problema.</p>\n\n<p>El nuevo Ford Edge te da toda la comodidad, lujo y elegancia que tu familia necesita cada día.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/2b3eeb52b655483884fdefb8451d6988a606b143.png"
+      }
+    ],
+    "gallery": [
+      {
+        "title": "Galería",
+        "items": [
+          {
+            "image": "https://www.ford.cr/uploads/gallery/6907d8373faa4fae52faff0bb07ae2780d171398.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/b065f45f3e7d28858a809bed7e89c84b8e6d02e6.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/d763f362919914743539c53151a5e2f635bc5758.png",
+            "caption": ""
+          }
+        ]
+      }
+    ],
+    "models": [
+      {
+        "index": 0,
+        "code": "EG50",
+        "name": "Ford EDGE TREND – HÍBRIDO 2.0 L - FWD",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/model/526cb09b9a799406ad3b9585e0bffcd063eae5f6.png",
+        "calculable": true
+      },
+      {
+        "index": 1,
+        "code": "EG60",
+        "name": "Ford EDGE TITANIUM – HÍBRIDO 2.0 L - AWD",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/model/c9908df6a843852e2dae70c75a31d9af3eb5bd8b.png",
+        "calculable": true
+      }
+    ]
+  },
+  "territory": {
+    "tagline": "Nuevo Ford Territory. Tu próxima zona de confort.",
+    "heroDesktop": "https://www.ford.cr/uploads/special_banners/291fd59123955f19214bd8644a07d36105cbe446.png",
+    "heroMobile": "https://www.ford.cr/uploads/special_banners/f926db6fc6d091741f6cb18197bce5ae60cc8cba.png",
+    "leadTitle": "Ford Territory | Ford Costa Rica | Grupo Purdy",
+    "leadText": "Cada día trae un nuevo destino.​ El nuevo Ford Territory te acompaña con estilo, tecnología y seguridad en cada paso.​ Porque moverte también es una forma de sentirte libre.",
+    "purdyGoUrl": "https://purdygo.com/reserva-en-linea?brand=FORD&model=TERRITORY+FORD",
+    "showCalculate": true,
+    "colors": [
+      {
+        "name": "Crystal Pearl White",
+        "hex": "#ffffff",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/dac53fc9dfffaad0079b9729cd783a7b8a6dfb7a.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Blue Panther",
+        "hex": "#4b566e",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/fcee7f60b69c0690983d5abd9b33125b727e8c5d.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Cactus Gray",
+        "hex": "#8d9496",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/7faa118e5e6e7b7716a1dd2e50ae00d1f7b8e62d.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Lustrous Grey",
+        "hex": "#7d7e80",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/3de93e1510192990c3e754da9a62748e39a732ef.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Moonstone Blue",
+        "hex": "#7b899c",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/1eb893132af85ce75ca9b6231498bb05ffa6dde8.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Outrageous Green",
+        "hex": "#aeb0ae",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/e78d3c3f9af75e8d8f2d4b5c3bcd4899808f1f7b.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Panther Black",
+        "hex": "#000000",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/9b8c6810e4c960339a21966398ca08a9872bdbf7.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Ruby Red",
+        "hex": "#a31720",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/76baf9adaae3965464b49d26474799943b03ba9c.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Star White",
+        "hex": "#faf7fa",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/a9a6440a294dc06fea03d33be88504753210df97.png",
+        "disclaimer": ""
+      }
+    ],
+    "highlights": [
+      {
+        "title": "Nuevo diseño ​",
+        "text": "<p><span style=\"font-family:arial,helvetica,sans-serif\"><span style=\"font-size:14px\">El nuevo Ford Territory redefine lo que significa verse bien en movimiento.</span></span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif\"><span style=\"font-size:14px\">Líneas más audaces, presencia imponente y un interior que respira sofisticación.</span></span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif\"><span style=\"font-size:14px\">Una combinación perfecta entre el estilo contemporáneo de Ford y la actitud aventurera del ADN de la marca.</span></span></p>",
+        "image": "https://www.ford.cr/uploads/characteristics/12a90beb9ee48774f3a1c07dba658e70de969809.png"
+      },
+      {
+        "title": "Nuevo interior​",
+        "text": "<p><span style=\"font-family:arial,helvetica,sans-serif\"><span style=\"font-size:14px\">Espacio y comodidad que se seinten desde el primer momento.</span></span></p>\n\n<p><span style=\"font-family:arial,helvetica,sans-serif\"><span style=\"font-size:14px\">Ford Territory te ofrece un perfecto balance entre comfort, tecnología y detalles impecables que harán que nadie se quiera bajar del vehículo.</span></span></p>",
+        "image": "https://www.ford.cr/uploads/characteristics/903d328342ff66e000943c50445c5d640775e7a2.png"
+      },
+      {
+        "title": "Seguridad 360 ​",
+        "text": "<p><span style=\"font-size:14px\"><span style=\"font-family:arial,helvetica,sans-serif\">La seguridad no es un extra, es esencial. El nuevo Ford Territory te protege con sistemas inteligentes que anticipan cada situación y cuidan de vos y tus acompañantes.</span></span></p>\n\n<p><span style=\"font-size:14px\"><span style=\"font-family:arial,helvetica,sans-serif\">Porque tu tranquilidad al volante es nuestra prioridad.</span></span></p>",
+        "image": "https://www.ford.cr/uploads/characteristics/4ee3b1c1ff69a7c1c6ed2abcfc5391fd33e88c4d.png"
+      }
+    ],
+    "gallery": [
+      {
+        "title": "Exterior",
+        "items": [
+          {
+            "image": "https://www.ford.cr/uploads/gallery/e0fd152a210949c5312d94b1c91d017432fe76ee.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/d2b16869593e337fe4e5d0141810c92e489f3762.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/e93d0090ce47b9e969fe5da8f1c61226ef53e4ef.png",
+            "caption": ""
+          }
+        ]
+      }
+    ],
+    "models": [
+      {
+        "index": 0,
+        "code": "TY11",
+        "name": "Ford Territory Trend 1.8L Turbo 2026",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/model/86a523ac381a6079575fe16a65bd0f27a7b404fe.png",
+        "calculable": true
+      },
+      {
+        "index": 1,
+        "code": "TY21",
+        "name": "Ford Territory Titanium Plus 1.8L Turbo 2026",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/model/4b0e342c52cf0414057c42bde2cfc56a0603241b.png",
+        "calculable": true
+      }
+    ]
+  },
+  "f150-raptor": {
+    "tagline": "El lujo de vivir el camino con potencia salvaje",
+    "heroDesktop": "https://www.ford.cr/uploads/special_banners/eacc7440318bcba79cde5dd9c401f1fe0f021bf4.png",
+    "heroMobile": "https://www.ford.cr/uploads/special_banners/61a4ebfb69d04c3907362413c112e0b881324b9f.png",
+    "leadTitle": "Ford Ford F-150 Raptor | Ford Costa Rica | Grupo Purdy",
+    "leadText": "El F-150 Raptor no solo domina el terreno: lo redefine. Cada salgo, cada roca y cada kilómetro despiertan su instinto salvaje. Es potencia pura diseñada para quienes viven la aventura sin pedir permiso.",
+    "purdyGoUrl": "",
+    "showCalculate": false,
+    "colors": [
+      {
+        "name": "Abyss Gray",
+        "hex": "#575b5d",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/ea3eeedba8e84aad0fc5892c5f3da66b068e878d.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Lead Foot",
+        "hex": "#4d4946",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/77108f2a9e55631ac3b31f54e34053f143760692.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Agate Black",
+        "hex": "#0d0e0f",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/e6cc0ae73d8a61a5c001550b8cdffe3a02d4cbcf.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Oxford White",
+        "hex": "#f7f7f7",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/4238cc3d439bc040e5f758e4c17396b9da3ea263.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Performance Blue",
+        "hex": "#395774",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/3bab3092c4a55cb49b0179be5474552aaa8d6304.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Race Red",
+        "hex": "#c13437",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/11ab51718628598146ffe7edbd5e076a94049549.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Rapid Red Metallic",
+        "hex": "#892727",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/979c63f240c77438a2cedca6208ffee05bf2b0ab.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Velocity Blue",
+        "hex": "#3e769f",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/2d8c75ec7de1c2340d45b618c15d939e5de261e4.png",
+        "disclaimer": ""
+      }
+    ],
+    "highlights": [
+      {
+        "title": "TAN ROBUSTO POR DENTRO COMO POR FUERA",
+        "text": "<p>El interior del Ford F-150 Raptor combina confort premium con un diseño pensado para dominar cualquier terreno. Su pantalla de 12\" te pone el control total al alcance de la mano, con estilo y tecnología en cada detalle.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/d71536f5648501702f799418cba87248e1d79447.png"
+      },
+      {
+        "title": "TOTALMENTE REDISEÑADO",
+        "text": "<p>Ford F-150 Raptor llega a Costa Rica con un diseño exterior totalmente nuevo, más imponente y agresivo que nunca. Cada línea potencia su silueta todo terreno y su actitud lista para cualquier desafío.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/9c04ab585d0e3ed9f89a95cb7c26faef992325cc.png"
+      },
+      {
+        "title": "HASTA LA CIMA Y MÁS ALLÁ",
+        "text": "<p>Su motor 3.5L V6 con 450 caballos de fuerza, 510 lb-pie torque, transmisión automática de 10 velocidades y su suspensión delantera y trasera FOX Racing Shox son el sueño de cualquier camino, dándole fuerza, estabilidad y confort a otro nivel.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/54ab126cca0925f892ebc08cbe51ff3d78e93050.png"
+      }
+    ],
+    "gallery": [
+      {
+        "title": "Exterior",
+        "items": [
+          {
+            "image": "https://www.ford.cr/uploads/gallery/2ae938ad81f4cc6d8f4da869648797775c82a4d1.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/d87c93a1c00ae9eb5fc182be720bbb3d09a6af7e.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/37bd04c1839a685a7b81bd979b1348f3eee0b3ee.png",
+            "caption": ""
+          }
+        ]
+      }
+    ],
+    "models": [
+      {
+        "index": 0,
+        "code": "",
+        "name": "Ford F150 Raptor 3.5L V6",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/model/cf19c39e5e802e4c03cde008b67a895274b82fb3.png",
+        "calculable": false
+      }
+    ]
+  },
+  "ranger-raptor": {
+    "tagline": "El totalmente nuevo Ranger Raptor ha llegado para cambiar el juego, una vez más.",
+    "heroDesktop": "https://www.ford.cr/uploads/special_banners/91970badb595af3a6bab76ad99cf22624e66be1f.jpeg",
+    "heroMobile": "https://www.ford.cr/uploads/special_banners/f9beba29d87ed5ef7a04e75748ec09d30927106b.jpeg",
+    "leadTitle": "Ford Ranger Raptor | Ford Costa Rica | Grupo Purdy",
+    "leadText": "Conocé el Ford Ranger Raptor 2025: potencia todoterreno, tecnología avanzada y diseño robusto. Descubrí más sobre sus capacidades excepcionales en nuestra web.",
+    "purdyGoUrl": "https://purdygo.com/reserva-en-linea?brand=FORD&model=RANGER+FORD",
+    "showCalculate": false,
+    "colors": [],
+    "highlights": [
+      {
+        "title": "Suspensión Fox​",
+        "text": "<p>Pon a prueba las capacidades de Ford Ranger Raptor con los Amortiguadores de Alto Desempeño Fox® Racing SHOX 2.5 con Tecnología Live Valve, la cual se adapta instantáneamente a las entradas de inercia, dirección, frenado y aceleración para maximizar activamente el manejo, la comodidad y la resistencia de tu Ford Ranger Raptor.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/ea2f47ab3a83872425af91e42dd70b07dac1d1ed.png"
+      },
+      {
+        "title": "Diseño renovado​",
+        "text": "<p>El nuevo Ranger Raptor presenta un nuevo diseño exterior robusto y agresivo, reglejando su naturaleza todoterreno y su espíritu deportivo, que destaca por una nueva parrilla audaz y distintiva, con el logotipo de Ford y sus características luces LED tipo C.&nbsp;</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/72cd006666565c78d5fee36cb87daa5858e67118.png"
+      },
+      {
+        "title": "Nuevo por fuera, nuevo por dentro",
+        "text": "<p>La aventura y el poder subieron de nivel en el nuevo Ford Ranger Raptor, disfrutá de un interior totalmente renovado donde la comodidad y el off-road conviven en perfecta armonía para darte una experiencia superior dentro y fuera de la carretera.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/7650c422014d64b94e466e58729fbcd4763b7cb0.png"
+      }
+    ],
+    "gallery": [],
+    "models": [
+      {
+        "index": 0,
+        "code": "",
+        "name": "Ford Ranger Raptor Gasolina 2026",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/model/7c81a6c80048999754495f11728c4220e8349b70.png",
+        "calculable": false
+      }
+    ]
+  },
+  "ranger-wildtrak": {
+    "tagline": "Ford Ranger Wildtrak, poder y estilo único​",
+    "heroDesktop": "https://www.ford.cr/uploads/special_banners/c77fd5ed939637d2cd17a3b4eb2ead7fc94f62dd.jpeg",
+    "heroMobile": "https://www.ford.cr/uploads/special_banners/c7e4481f9cbad1432746e4ee223d052a5d7aa7aa.png",
+    "leadTitle": "Ford Ranger Wildtrak | Ford Costa Rica | Grupo Purdy",
+    "leadText": "Ford Ranger Wildtrak: diseñado para los que van más allá. Con su potencia imparable, estructura robusta y capacidad todoterreno, enfrenta cualquier desafío con total confianza.",
+    "purdyGoUrl": "https://purdygo.com/reserva-en-linea?brand=FORD&model=RANGER+FORD",
+    "showCalculate": true,
+    "colors": [
+      {
+        "name": "Agate Black",
+        "hex": "#0d0e0f",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/02ea25b68f93ef5e704a50b388aa312d590bde9a.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Blue Lighting",
+        "hex": "#165586",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/daa33660293ca7cf0358cc11dbf68c0a9675c930.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Carbonized Gray",
+        "hex": "#cdcdcd",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/36de0476ec58cce450e22fcd3fe0ed31836c8bc2.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Frozen White",
+        "hex": "#dfdfe5",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/8a05550fc8cece0190fe1f6d068137b75bcdd1e3.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Iconic Silver",
+        "hex": "#b2b2b4",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/5f356067524bc98985658189755de4e93573e596.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Code Orange",
+        "hex": "#db5914",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/97409df18c8e4a8a1eef4cfba30a395ae67f9e1b.png",
+        "disclaimer": ""
+      }
+    ],
+    "highlights": [
+      {
+        "title": "NUEVO MOTOR 3.0 L TURBO V6 DIÉSEL",
+        "text": "<p>La potencia que siempre soñaste ya llegó. El nuevo motor 3.0 L Turbo V6 Diésel del nuevo Ranger Wildtrak ofrece una respuesta contundente y la fuerza necesaria para enfrentar cualquier desafío, combinando potencia, desempeño y capacidad para disfrutar al máximo cada kilómetro.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/831c91403d8de88938cb0f1ef618f17170b85de9.jpeg"
+      },
+      {
+        "title": "INTERIOR TOTALMENTE RENOVADO",
+        "text": "<p>El nuevo Ranger Wildtrak combina un diseño robusto y sofisticado con tecnología de alto nivel: pantalla vertical de 12\", cargador inalámbrico y modos de manejo seleccionables. Un habitáculo pensado para ofrecer control y comodidad superiores.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/287aa5033b67c31a3bcf8df037e941e13ced33b6.png"
+      },
+      {
+        "title": "DETALLES INSIGNIA DE WILDTRAK",
+        "text": "<p>Una personalidad que se reconoce a primera vista.&nbsp;Ranger Wildtrak lleva su carácter en cada detalle: emblemas exclusivos, acabados premium, costuras en tono naranja, asientos con logo distintivo Wildtrak y elementos de diseño que resaltan su identidad inconfundible.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/92c3d500d9dfe4768dae4897d470ca2800a88bf5.png"
+      }
+    ],
+    "gallery": [
+      {
+        "title": "Exterior",
+        "items": [
+          {
+            "image": "https://www.ford.cr/uploads/gallery/0bfa8f579f17fa8023102f31ceb78831af1668c7.jpeg",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/43922622f6f37f37c3b65602cb2af3a212a690d5.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/ba4f93ea95aee65529440f6543ac37faba649f90.png",
+            "caption": ""
+          }
+        ]
+      }
+    ],
+    "models": [
+      {
+        "index": 0,
+        "code": "RW01",
+        "name": "Ford Ranger WILDTRAK 2026",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/model/f27ef9c388d8d8c7360b70c1fe25890a5ac9eac1.png",
+        "calculable": true
+      }
+    ]
+  },
+  "rangerxl": {
+    "tagline": "¡Atrevete al poder Ford!",
+    "heroDesktop": "https://www.ford.cr/uploads/special_banners/7ef069ac585be0b038363b3620bbf326d557b398.jpeg",
+    "heroMobile": "https://www.ford.cr/uploads/special_banners/847ec34dbf95cb8f0dd900be081f922fe23cea7d.jpeg",
+    "leadTitle": "Ford Ranger XL – ford Costa Rica – Grupo Purdy",
+    "leadText": "Una nueva generación de pick-up, duro para el trabajo y cómodo para la aventura ¡Atrevete al poder Ford!",
+    "purdyGoUrl": "",
+    "showCalculate": true,
+    "colors": [
+      {
+        "name": "Agate Black",
+        "hex": "#0d0e0f",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/4cd6f4e9cb827e849108967a013d5f351f1409dd.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Carbonized Gray",
+        "hex": "#cdcdcd",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/613d645b73c5a7e727df60b0ec45428b2e4b7db4.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Frozen White",
+        "hex": "#dfdfe5",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/ad6cff98eb0720f054ec6ffe3081a6a5eac65dfe.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Iconic Silver",
+        "hex": "#b2b2b4",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/04944dcb0d18137d98951d33eb11f322f180484c.png",
+        "disclaimer": ""
+      }
+    ],
+    "highlights": [
+      {
+        "title": "ROBUSTO, PRACTICO Y LISTO PARA TODO",
+        "text": "<p>Listo para llevar más y llegar más lejos.&nbsp;Ranger XL ofrece una capacidad de carga de hasta&nbsp;1.100 Kg&nbsp;y una capacidad de arrastre de hasta&nbsp;3.5 toneladas, combinando fuerza, estabilidad y versatilidad para enfrentar desde las exigencias del trabajo hasta las aventuras que vienen después.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/3441637b9e26d2160c6431d535c888f850667817.png"
+      },
+      {
+        "title": "FUERTE PARA EL TRABAJO, CÓMODO PARA LA AVENTURA",
+        "text": "<p>Un compañero de trabajo que también está listo para la aventura.&nbsp;Ranger XL combina la capacidad y funcionalidad que exige el día a día con la versatilidad para salir del camino. Su motor&nbsp;2.0 L Turbo Diésel Panther, acompañado de una suspensión preparada para el trabajo, amplia capacidad de carga y tecnología de asistencia al conductor, te dan la confianza para enfrentarlo todo.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/37f24b5ac9df90b0eb6b18d3a6b614bd3b2d83b3.png"
+      },
+      {
+        "title": "INTERIOR A LA ALTURA DE TU DÍA A DÍA",
+        "text": "<p>&nbsp;Ranger XL cuenta con un interior moderno y funcional, equipado con pantalla de 12\", control crucero adaptativo y tecnología pensada para hacer cada viaje más cómodo. Un habitáculo completo, práctico y bien equipado para disfrutar tanto del trabajo como de la aventura.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/660389d1d7cdb759d21d2e1099699023407eae40.png"
+      }
+    ],
+    "gallery": [
+      {
+        "title": "Interior",
+        "items": [
+          {
+            "image": "https://www.ford.cr/uploads/gallery/b45707a32dd405f5b19659b7a95025ec0f3a3a56.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/d67664214400cd4e3f84ead555457ed62c6a0cb0.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/f2902c68bb533c521e3aacdba4cf3e16d53d6f77.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/8b1fa7da8e7136bd5716cba9b96163c6af5248e1.png",
+            "caption": ""
+          }
+        ]
+      }
+    ],
+    "models": [
+      {
+        "index": 0,
+        "code": "RL10",
+        "name": "Ford Ranger XL 2026",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/model/706fe611cb23759d3ef7c8078c253f5654cc5227.png",
+        "calculable": true
+      }
+    ]
+  },
+  "ranger-xlt": {
+    "tagline": "El poder y la resistencia se encuentran en el Ford Ranger XLT",
+    "heroDesktop": "https://www.ford.cr/uploads/special_banners/6e4d8b0d1f7d14c2e720fee68da4c88196f11ab2.jpeg",
+    "heroMobile": "https://www.ford.cr/uploads/special_banners/a813f1dad389af09132a67972c6d25f6c279d65e.png",
+    "leadTitle": "Ford Ranger XLT | Ford Costa Rica | Grupo Purdy",
+    "leadText": "Ford Ranger XLT: diseñado para los que van más allá. Con su potencia imparable, estructura robusta y capacidad todoterreno, enfrenta cualquier desafío con total confianza.",
+    "purdyGoUrl": "https://purdygo.com/buscar-vehiculos?isFromReservation=true&isfromCtalogo=false&stateProcess=reservation&brand=FORD&model=RANGER+FORD",
+    "showCalculate": true,
+    "colors": [
+      {
+        "name": "Agate Black",
+        "hex": "#0d0e0f",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/a8cadf5077b75b28bc4f1afa717fb65fa3074c9f.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Carbonized Gray",
+        "hex": "#cdcdcd",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/fb52494ace7651d4bd0f44e9cbf73a426961a397.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Frozen White",
+        "hex": "#dfdfe5",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/a1c5906163ad7136a28133fe3b91d7de169dc4e7.png",
+        "disclaimer": ""
+      },
+      {
+        "name": "Iconic Silver",
+        "hex": "#b2b2b4",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/gallery/d3581a3cf35e788b57140c1255b6c81ed086442b.png",
+        "disclaimer": ""
+      }
+    ],
+    "highlights": [
+      {
+        "title": "INTERIOR A LA ALTURA DE TU DÍA A DÍA",
+        "text": "<p>&nbsp;Ranger XLT cuenta con un interior moderno y funcional, equipado con pantalla de 12\", control crucero adaptativo y tecnología pensada para hacer cada viaje más cómodo. Un habitáculo completo, práctico y bien equipado para disfrutar tanto del trabajo como de la aventura.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/a832cf5df1257f47879977aab6cfeacb14f2c36d.png"
+      },
+      {
+        "title": "ROBUSTO, PRACTICO Y LISTO PARA TODO",
+        "text": "<p>Listo para llevar más y llegar más lejos.&nbsp;Ranger XLT ofrece una capacidad de carga de hasta&nbsp;1.100 Kg&nbsp;y una capacidad de arrastre de hasta&nbsp;3.5 toneladas, combinando fuerza, estabilidad y versatilidad para enfrentar desde las exigencias del trabajo hasta las aventuras que vienen después.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/93120a8487429acc3cf215ccfddb74477be321b6.png"
+      },
+      {
+        "title": "FUERTE PARA EL TRABAJO, CÓMODO PARA LA AVENTURA",
+        "text": "<p>Un compañero de trabajo que también está listo para la aventura.&nbsp;Ranger XLT combina la capacidad y funcionalidad que exige el día a día con la versatilidad para salir del camino. Su motor&nbsp;2.0 L Turbo Diésel Panther, acompañado de una suspensión preparada para el trabajo, amplia capacidad de carga y tecnología de asistencia al conductor, te dan la confianza para enfrentarlo todo.</p>",
+        "image": "https://www.ford.cr/uploads/characteristics/4b957874548740f99cab1091d7f99635dbada68d.png"
+      }
+    ],
+    "gallery": [
+      {
+        "title": "Exterior",
+        "items": [
+          {
+            "image": "https://www.ford.cr/uploads/gallery/d586935570319c67928800a4b54e0ef750a197c8.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/240f1e61f90f0079e93ce3a37599c8179b19c311.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/990ba4f1ca524aec195c8f905d1d725d82656653.png",
+            "caption": ""
+          },
+          {
+            "image": "https://www.ford.cr/uploads/gallery/31dc92e1895d15f0d5bea3a55a9c068986f11e3d.png",
+            "caption": ""
+          }
+        ]
+      }
+    ],
+    "models": [
+      {
+        "index": 0,
+        "code": "RT02",
+        "name": "Ford Ranger XLT 2026",
+        "image": "https://www.ford.cr/media/cache/hero_bg_small/uploads/model/2abb1d82f9e93e26258626fee05f1272db888b27.png",
+        "calculable": true
+      }
+    ]
+  }
+}
