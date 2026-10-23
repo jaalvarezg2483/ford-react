@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { anyone, authenticated } from '../access'
+import { anyone, canManageContent } from '../access'
 import { revalidateSite } from '../hooks/revalidate'
 import { imageFields } from '../fields/image'
 
@@ -8,7 +8,7 @@ export const Families: CollectionConfig = {
   slug: 'families',
   labels: { singular: 'Vehículo', plural: 'Vehículos' },
   admin: { group: 'Vehículos', useAsTitle: 'name', defaultColumns: ['name', 'slug', 'startPrice', 'year'] },
-  access: { read: anyone, create: authenticated, update: authenticated, delete: authenticated },
+  access: { read: anyone, create: canManageContent, update: canManageContent, delete: canManageContent },
   hooks: { afterChange: [revalidateSite], afterDelete: [revalidateSite] },
   fields: [
     {

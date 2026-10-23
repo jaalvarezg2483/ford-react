@@ -55,7 +55,8 @@ export async function contentPageMetas(payload?: Payload): Promise<ContentPageMe
     const client = payload ?? (await payloadClient())
     const res = await client.find({ collection: 'content-pages', where: { active: { equals: true } }, limit: 500, depth: 1, pagination: false, overrideAccess: true, select: { title: true, path: true, description: true, image: true, imagePath: true } as any })
     return (res.docs as Doc[]).map(meta)
-  } catch {
+  } catch (error) {
+    console.error('No se pudieron leer las páginas de contenido del CMS:', error)
     return []
   }
 }

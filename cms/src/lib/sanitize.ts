@@ -1,33 +1,30 @@
-import * as cheerio from 'cheerio'
+import sanitizeHtml from 'sanitize-html'
 
-const ALLOWED_IFRAME = /^https:\/\/(www\.)?(youtube\.com|youtube-nocookie\.com|player\.vimeo\.com)\//i
+const options: sanitizeHtml.IOptions = {
+  allowedTags: [
+    ...sanitizeHtml.defaults.allowedTags,
+    'dl', 'dt', 'dd', 'figure', 'figcaption', 'picture', 'img', 'iframe', 'video', 'source', 'sub', 'sup',
+  ],
+  allowedAttributes: {
+    '*': ['class', 'id', 'title', 'role', 'aria-label', 'aria-hidden', 'aria-expanded', 'aria-controls', 'aria-current', 'aria-live', 'aria-atomic', 'aria-pressed', 'aria-selected'],
+    a: ['href', 'name', 'target', 'rel'],
+    img: ['src', 'srcset', 'alt', 'width', 'height', 'loading'],
+    iframe: ['src', 'width', 'height', 'title', 'allow', 'allowfullscreen', 'frameborder'],
+    video: ['src', 'controls', 'poster', 'autoplay', 'muted', 'loop', 'playsinline', 'width', 'height'],
+    source: ['src', 'srcset', 'type', 'media'],
+  },
+  allowedIframeHostnames: ['youtube.com', 'www.youtube.com', 'youtube-nocookie.com', 'player.vimeo.com'],
+  allowedSchemes: ['http', 'https', 'mailto', 'tel'],
+  allowProtocolRelative: false,
+  transformTags: {
+    a: (tagName, attribs) => ({
+      tagName,
+      attribs: attribs.target === '_blank' ? { ...attribs, rel: 'noopener noreferrer' } : attribs,
+    }),
+  },
+}
 
-/**
- * Limpia el HTML editorial de un artículo: sin scripts, estilos globales, manejadores
- * de eventos ni enlaces javascript:. Solo se permiten iframes de YouTube y Vimeo.
- */
+/** Cleans CMS HTML with an allowlist before it reaches dangerouslySetInnerHTML. */
 export function sanitizeArticleHtml(html: string): string {
-  if (!html) return ''
-  const $ = cheerio.load(html, null, false)
-  $('script, style, link, meta, object, embed, form, base, noscript').remove()
-  $('iframe').each((_, el) => {
-    $(el).removeAttr('srcdoc').removeAttr('srcDoc').removeAttr('sandbox')
-    const src = $(el).attr('src') || ''
-    if (!ALLOWED_IFRAME.test(src)) $(el).remove()
-  })
-  $('*').each((_, el) => {
-    if (el.type !== 'tag') return
-    for (const name of Object.keys(el.attribs)) {
-      const value = el.attribs[name] ?? ''
-      if (/^on/i.test(name)) $(el).removeAttr(name)
-      else if (['href', 'src', 'xlink:href', 'action', 'formaction'].includes(name) && /^\s*(javascript|data:text\/html|vbscript):/i.test(value)) {
-        if (/javascript:history/i.test(value) && name === 'href') {
-          $(el).attr('href', '#')
-          $(el).addClass('js-history-back')
-        } else $(el).removeAttr(name)
-      }
-    }
-    if (el.name === 'a' && el.attribs.target === '_blank') $(el).attr('rel', 'noopener noreferrer')
-  })
-  return $.html()
+  return html ? sanitizeHtml(html, options) : ''
 }

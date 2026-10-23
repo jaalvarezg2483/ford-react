@@ -27,6 +27,8 @@ import { SiteSettings } from './payload/globals/SiteSettings'
 import { FormSettings } from './payload/globals/FormSettings'
 import { HomePage } from './payload/globals/HomePage'
 import { seedFormSettings } from './payload/seed/formSettings'
+import { seedContentPages } from './payload/seed/contentPages'
+import { seedStructured } from './import/structured'
 import { allEndpoints } from './payload/endpoints'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -82,5 +84,7 @@ export default buildConfig({
   endpoints: allEndpoints,
   onInit: async (payload) => {
     await seedFormSettings(payload).catch((error) => payload.logger.error({ err: error, msg: 'No se pudieron sembrar los destinatarios de formularios' }))
+    await seedContentPages(payload).catch((error) => payload.logger.error({ err: error, msg: 'No se pudieron sembrar las páginas de contenido' }))
+    await seedStructured(payload, (m) => payload.logger.info(m)).catch((error) => payload.logger.error({ err: error, msg: 'No se pudo completar el contenido estructurado' }))
   },
 })

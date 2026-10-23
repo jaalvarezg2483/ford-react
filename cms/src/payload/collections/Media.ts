@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { authenticated } from '../access'
+import { canManageContent } from '../access'
 
 /**
  * Archivos del sitio. `legacyPath` conserva la ruta pública del Symfony
@@ -10,7 +10,7 @@ export const Media: CollectionConfig = {
   slug: 'media',
   labels: { singular: 'Archivo', plural: 'Archivos' },
   admin: { group: 'Contenido', useAsTitle: 'filename', defaultColumns: ['filename', 'legacyPath', 'mimeType', 'updatedAt'] },
-  access: { read: authenticated, create: authenticated, update: authenticated, delete: authenticated },
+  access: { read: canManageContent, create: canManageContent, update: canManageContent, delete: canManageContent },
   upload: {
     staticDir: 'media',
     imageSizes: [],

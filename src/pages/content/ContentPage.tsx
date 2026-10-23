@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { ContentBlockView } from '@/components/content/Blocks'
 import { api, ApiError } from '@/lib/api'
-import { useContent } from '@/data/content'
 import type { ContentPageData } from '@/data/types'
 import { NotFound } from '@/pages/NotFound'
 
@@ -10,17 +9,10 @@ import { NotFound } from '@/pages/NotFound'
 export function ContentPage() {
   const { pathname } = useLocation()
   const path = pathname.length > 1 ? pathname.replace(/\/$/, '') : pathname
-  const { pages } = useContent()
-  const listed = pages.some((p) => p.path === path)
   const [page, setPage] = useState<ContentPageData | null>(null)
   const [missing, setMissing] = useState(false)
 
   useEffect(() => {
-    if (!listed) {
-      setPage(null)
-      setMissing(true)
-      return
-    }
     let cancelled = false
     setMissing(false)
     setPage(null)
@@ -35,7 +27,7 @@ export function ContentPage() {
     return () => {
       cancelled = true
     }
-  }, [path, listed])
+  }, [path])
 
   if (missing) return <NotFound />
   if (!page) return <main id="main-content" tabIndex={-1} />

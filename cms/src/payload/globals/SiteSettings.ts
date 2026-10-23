@@ -1,5 +1,5 @@
 import type { GlobalConfig } from 'payload'
-import { authenticated } from '../access'
+import { canManageContent } from '../access'
 import { bumpSiteVersion } from '@/lib/siteVersion'
 import { editableArray, resolveImages, syncEditables, technical } from '../fields/editables'
 
@@ -13,7 +13,7 @@ export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   label: 'Configuración del sitio',
   admin: { group: 'Sistema' },
-  access: { read: authenticated, update: authenticated },
+  access: { read: canManageContent, update: canManageContent },
   hooks: {
     beforeChange: [
       async ({ data, originalDoc, req }) => {

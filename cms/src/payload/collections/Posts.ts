@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { authenticated } from '../access'
+import { canManageContent } from '../access'
 import { revalidateSite } from '../hooks/revalidate'
 import { imageFields } from '../fields/image'
 
@@ -8,7 +8,7 @@ export const Posts: CollectionConfig = {
   slug: 'posts',
   labels: { singular: 'Nota del blog', plural: 'Blog' },
   admin: { group: 'Contenido', useAsTitle: 'title', defaultColumns: ['title', 'category', 'publishedAt', 'path'] },
-  access: { read: authenticated, create: authenticated, update: authenticated, delete: authenticated },
+  access: { read: canManageContent, create: canManageContent, update: canManageContent, delete: canManageContent },
   defaultSort: '-publishedAt',
   hooks: { afterChange: [revalidateSite], afterDelete: [revalidateSite] },
   fields: [

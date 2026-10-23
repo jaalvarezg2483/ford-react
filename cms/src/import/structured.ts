@@ -8,7 +8,7 @@ import type { Payload } from 'payload'
  * cambios hechos en el CMS.
  */
 export async function seedStructured(payload: Payload, log: (m: string) => void = () => {}) {
-  const settings = (await payload.findGlobal({ slug: 'site-settings', depth: 0 })) as any
+  const settings = (await payload.findGlobal({ slug: 'site-settings', depth: 0, overrideAccess: true })) as any
   await seedSettings(payload, settings)
   await seedFamilyTypePromos(payload)
   await seedHome(payload)
@@ -22,7 +22,7 @@ async function mediaIdByPath(payload: Payload, path: string): Promise<number | n
   if (!path) return null
   const candidates = [path, safeDecode(path)]
   for (const legacyPath of candidates) {
-    const res = await payload.find({ collection: 'media', where: { legacyPath: { equals: legacyPath } }, limit: 1, depth: 0 })
+    const res = await payload.find({ collection: 'media', where: { legacyPath: { equals: legacyPath } }, limit: 1, depth: 0, overrideAccess: true })
     if (res.docs[0]) return res.docs[0].id as number
   }
   return null
@@ -73,7 +73,7 @@ async function seedSettings(payload: Payload, s: any) {
 }
 
 async function seedFamilyTypePromos(payload: Payload) {
-  const types = await payload.find({ collection: 'family-types', limit: 50, depth: 0 })
+  const types = await payload.find({ collection: 'family-types', limit: 50, depth: 0, overrideAccess: true })
   for (const t of types.docs as any[]) {
     if (t.promo?.title || !t.menuHtml) continue
     const $ = cheerio.load(t.menuHtml)
@@ -95,9 +95,9 @@ async function seedFamilyTypePromos(payload: Payload) {
 }
 
 async function seedHome(payload: Payload) {
-  const home = (await payload.findGlobal({ slug: 'home-page', depth: 0 })) as any
+  const home = (await payload.findGlobal({ slug: 'home-page', depth: 0, overrideAccess: true })) as any
   if (home.serviceRows?.length) return
-  const res = await payload.find({ collection: 'pages', where: { path: { equals: '/' } }, limit: 1, depth: 0 })
+  const res = await payload.find({ collection: 'pages', where: { path: { equals: '/' } }, limit: 1, depth: 0, overrideAccess: true })
   const page = res.docs[0] as any
   if (!page?.content) return
   const $ = cheerio.load(page.content)

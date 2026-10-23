@@ -9,10 +9,10 @@ Sitio de [www.ford.cr](https://www.ford.cr) en **React + Node.js**, con la misma
 | Sitio público (SPA) | `src/`: Vite + React 19 + React Router. Páginas en `src/pages/`, componentes en `src/components/`. |
 | Estilos | `src/styles/ford/`: el SCSS original de ford.cr, compilado por Vite. Mismas clases, mismo diseño. |
 | Catálogo de contenido | `src/data/types.ts` (contrato) · `cms/src/lib/siteContent.ts` (lo arma) · `/site-content.json` (lo publica, con ETag y gzip). |
-| CMS | `cms/`: Payload 3 + Next 15 (solo `/admin`, `/api`, `/_next`) + PostgreSQL. Colecciones en `cms/src/payload/`. |
+| CMS | `cms/`: Payload 3 + Next 16 (solo `/admin`, `/api`, `/_next`) + PostgreSQL. Colecciones en `cms/src/payload/`. |
 | Servidor | `cms/server.mjs`: sirve `dist/`, `public/`, el catálogo, las redirecciones 301/302 y el CMS. Inyecta título y metas (SEO) en el HTML inicial con `src/lib/seo.mjs`. |
 | Archivos `/uploads/…` y `/media/cache/…` | Colección **Archivos**: cada archivo se sirve en su URL original (`legacyPath`). |
-| Estáticos (imágenes, fuentes, documentos) | `public/` (de `web/` del Symfony: `npm run assets:sync`). |
+| Estáticos (imágenes, fuentes, documentos) | `public/`. |
 
 ## Páginas migradas
 
@@ -46,5 +46,5 @@ Es el mismo código; solo cambian variables: `DATABASE_AUTH_MODE=managed_identit
 
 ## Dominio público
 
-- Si el dominio no es `www.ford.cr`, todas las respuestas salen con `X-Robots-Tag: noindex, nofollow` y las secciones no migradas ofrecen abrir el sitio anterior (`LEGACY_SITE_URL`). Los archivos que falten en el CMS se piden a `LEGACY_ASSETS_URL`.
+- Si el dominio no es `www.ford.cr`, todas las respuestas salen con `X-Robots-Tag: noindex, nofollow`. Los archivos que falten en el CMS se piden a `LEGACY_ASSETS_URL` (por defecto `https://www.ford.cr`) y se guardan en `cms/media`.
 - En `www.ford.cr` nada de eso aplica.

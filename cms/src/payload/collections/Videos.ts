@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { anyone, authenticated } from '../access'
+import { anyone, canManageContent } from '../access'
 import { revalidateSite } from '../hooks/revalidate'
 
 /** Videos de /videos (YouTube), agrupados por categoría. */
@@ -7,7 +7,7 @@ export const Videos: CollectionConfig = {
   slug: 'videos',
   labels: { singular: 'Video', plural: 'Videos' },
   admin: { group: 'Contenido', useAsTitle: 'name', defaultColumns: ['name', 'category', 'order'] },
-  access: { read: anyone, create: authenticated, update: authenticated, delete: authenticated },
+  access: { read: anyone, create: canManageContent, update: canManageContent, delete: canManageContent },
   defaultSort: 'order',
   hooks: { afterChange: [revalidateSite], afterDelete: [revalidateSite] },
   fields: [

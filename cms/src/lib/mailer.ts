@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer'
+import nodemailer, { type Transporter } from 'nodemailer'
 import { env } from './env'
 
 /**
@@ -6,7 +6,7 @@ import { env } from './env'
  * EMAIL_OVERRIDE_TO desvía todo a un buzón de pruebas.
  * Desarrollo: SMTP_HOST=__file__ guarda cada correo como .eml en ./data/mail en lugar de enviarlo.
  */
-let transport: nodemailer.Transporter | null = null
+let transport: Transporter | null = null
 
 function getTransport() {
   if (env.SMTP_HOST === '__file__') {

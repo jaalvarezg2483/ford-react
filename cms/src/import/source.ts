@@ -2,6 +2,12 @@ import { existsSync, readFileSync } from 'node:fs'
 import http from 'node:http'
 import https from 'node:https'
 import path from 'node:path'
+import tls from 'node:tls'
+import { fileURLToPath } from 'node:url'
+
+/** CA extra: el certificado de www.ford.cr (GoDaddy) no está en el almacén de Node. */
+const FORD_CA = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../certs/godaddy-secure-ca-g2.pem')
+const extraCa = existsSync(FORD_CA) ? readFileSync(FORD_CA, 'utf8') : ''
 
 export type CrawledPage = { path: string; status: number; url: string; html: string }
 
@@ -61,13 +67,14 @@ export function liveSource(base: string): ImportSource {
     const url = p.startsWith('http://') || p.startsWith('https://') ? new URL(p) : new URL(base + p)
     const fordOrigin = /(^|\.)ford\.cr$/i.test(url.hostname)
     const result = await new Promise<{ status: number; url: string; headers: http.IncomingHttpHeaders; body: Buffer }>((resolve, reject) => {
-      const options = {
+      const options: https.RequestOptions = {
         method: 'GET',
         headers: { 'User-Agent': 'FordCR-Importer/1.0', 'Accept-Encoding': 'identity' },
         // Ford's origin sends a malformed response header. TLS certificate and hostname checks stay enabled.
         insecureHTTPParser: fordOrigin,
         timeout: 60_000,
-      } as const
+        ...(extraCa ? { ca: [...tls.rootCertificates, extraCa] } : {}),
+      }
       const onResponse = (res: http.IncomingMessage) => {
         const chunks: Buffer[] = []
         res.on('data', (chunk: Buffer | string) => chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)))

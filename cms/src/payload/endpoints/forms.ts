@@ -2,6 +2,9 @@ import type { Endpoint } from 'payload'
 import { processContact, processSnippet, validateContact, validateLead, validateSnippet } from '../../lib/forms/contact'
 import { captchaOk, json, readFields } from '../../lib/http'
 import { getSession } from '../../lib/session'
+import { clientIp, isSameSite, rateLimited } from '../../lib/rateLimit'
+
+const MAX_FORM_SUBMISSIONS_PER_HOUR = 20
 
 function formType(req: { routeParams?: Record<string, unknown> }): string {
   return String(req.routeParams?.type ?? '')
@@ -21,6 +24,10 @@ function refererPath(req: Request, fallback: string): string {
 
 async function handleLead(req: Request, type: string, fallbackPath: string) {
   const session = await getSession(req)
+  if (!isSameSite(req)) return json({ error: 'Solicitud inválida' }, 403, session)
+  if (rateLimited(`form:${clientIp(req)}`, MAX_FORM_SUBMISSIONS_PER_HOUR, 60 * 60 * 1000)) {
+    return json({ error: 'Demasiadas solicitudes. Intente más tarde.' }, 429, session)
+  }
   const fields = await readFields(req)
   if (!(await captchaOk(fields))) return json({ error: 'Por favor active el CAPTCHA' }, 400, session)
   const error = type === 'contacto' ? validateContact(fields) : validateLead(fields, type)
@@ -50,6 +57,10 @@ export const formsEndpoints: Endpoint[] = [
     handler: async (req) => {
       const request = req as unknown as Request
       const session = await getSession(request)
+      if (!isSameSite(request)) return json({ error: 'Solicitud inválida' }, 403, session)
+      if (rateLimited(`form:${clientIp(request)}`, MAX_FORM_SUBMISSIONS_PER_HOUR, 60 * 60 * 1000)) {
+        return json({ error: 'Demasiadas solicitudes. Intente más tarde.' }, 429, session)
+      }
       const type = formType(req)
       if (!type) return json({ error: 'Solicitud inválida' }, 400, session)
       const fields = await readFields(request)

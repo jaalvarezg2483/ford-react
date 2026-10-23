@@ -1,6 +1,6 @@
 import type { Payload } from 'payload'
 
-/** Mismos destinatarios que app/config/parameters.prod.yml del Symfony. */
+/** Mismos destinatarios de correo que el sitio anterior. */
 export const LEGACY_RECIPIENTS: { key: string; to: string; description: string }[] = [
   { key: 'correo_ventas', to: 'digitalford@ga.cr', description: 'Ventas vehículos nuevos (contactar asesor, reservas, contacto "Ventas Vehículos Nuevos")' },
   { key: 'correo_ventas_usados', to: 'tallerdecarroceriaypintura@purdymo.com', description: 'Contacto "Ventas Vehículos Usados"' },

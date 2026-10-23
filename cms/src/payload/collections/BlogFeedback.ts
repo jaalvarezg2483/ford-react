@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { authenticated } from '../access'
+import { canManageLeads, isAdmin } from '../access'
 
 /**
  * Votos 👍/👎 de las notas del blog y opiniones (AjaxController del Symfony:
@@ -9,7 +9,7 @@ export const BlogFeedback: CollectionConfig = {
   slug: 'blog-feedback',
   labels: { singular: 'Opinión del blog', plural: 'Opiniones del blog' },
   admin: { group: 'Formularios', useAsTitle: 'kind', defaultColumns: ['kind', 'articleId', 'name', 'email', 'createdAt'] },
-  access: { read: authenticated, create: () => false, update: authenticated, delete: authenticated },
+  access: { read: canManageLeads, create: () => false, update: isAdmin, delete: isAdmin },
   defaultSort: '-createdAt',
   fields: [
     { type: 'row', fields: [
