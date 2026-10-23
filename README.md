@@ -48,8 +48,9 @@ Configurar los ajustes de aplicación de forma separada y marcada como *deployme
 
 - `NODE_ENV=production`, `PAYLOAD_SECRET` (secreto aleatorio de 32+ caracteres) y `FORD_PUBLIC_URL` con la URL de cada slot. El dominio de Azure se detecta automáticamente si se omite.
 - `DATABASE_AUTH_MODE=managed_identity`, `POSTGRES_HOST`, `POSTGRES_DATABASE` (`fordcr_prod` o `fordcr_staging`) y `POSTGRES_USER` según la identidad autorizada en PostgreSQL.
-- `PG_POOL_MAX=10` para producción y `PG_POOL_MAX=5` para staging. El código rechaza valores mayores que 10 para proteger el servidor PostgreSQL compartido.
+- `PG_POOL_MAX=10` para producción y `PG_POOL_MAX=5` para staging; si no se define, el código distingue automáticamente el slot de staging. El código rechaza valores mayores que 10 para proteger el servidor PostgreSQL compartido.
 - `STORAGE_PROVIDER=azure`, `AZURE_STORAGE_CONNECTION_STRING` desde Key Vault, `AZURE_STORAGE_CONTAINER` (`fordcr-media` o `fordcr-staging-media`) y `AZURE_STORAGE_ACCOUNT_BASEURL=https://gpwebcmsprosa.blob.core.windows.net`.
+- Microsoft Entra para el CMS: `ENTRA_CLIENT_ID` (registro Ford CMS), `ENTRA_TENANT_ID`, `ENTRA_MANAGED_IDENTITY_CLIENT_ID` (client ID de `gp-fordcr-cms-entra-id`) y `ENTRA_BOOTSTRAP_ADMIN_EMAILS` (lista explícita de administradores permitidos). Al habilitarlo, Payload desactiva el login local, valida el ID token, exige un usuario existente o el bootstrap explícito y mantiene la sesión en una cookie segura firmada. Registra en el App Registration ambas URI de retorno: `https://gp-fordcr-app-v1.azurewebsites.net/api/auth/entra/callback` y `https://gp-fordcr-app-v1-staging.azurewebsites.net/api/auth/entra/callback`.
 - Correo, microservicios, captcha y demás integraciones mediante los secretos/configuración existentes; no poner credenciales en YAML ni en el repositorio.
 
 Las migraciones de Payload están versionadas y se aplican al iniciar el CMS. Para desplegar, la service connection `fordcr-webdeploy-sc-v1` debe autorizarse para el pipeline.

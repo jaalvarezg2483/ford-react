@@ -1,11 +1,16 @@
 import type { CollectionConfig } from 'payload'
 import { isAdmin } from '../access'
+import { authenticateEntra } from '../../lib/entra'
+import { env } from '../../lib/env'
 
 export const Users: CollectionConfig = {
   slug: 'users',
   labels: { singular: 'Usuario', plural: 'Usuarios' },
   admin: { useAsTitle: 'email', group: 'Sistema', defaultColumns: ['email', 'name', 'role'] },
-  auth: { tokenExpiration: 60 * 60 * 8 },
+  auth: {
+    tokenExpiration: 60 * 60 * 8,
+    ...(env.ENTRA_ENABLED ? { disableLocalStrategy: true, strategies: [{ name: 'entra-session', authenticate: authenticateEntra }] } : {}),
+  },
   access: {
     read: ({ req: { user } }) => {
       if (!user) return false

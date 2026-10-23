@@ -17,7 +17,21 @@ export const env = {
   get POSTGRES_HOST() { return empty(process.env.POSTGRES_HOST) },
   get POSTGRES_DATABASE() { return empty(process.env.POSTGRES_DATABASE) },
   get POSTGRES_USER() { return empty(process.env.POSTGRES_USER) },
-  get PG_POOL_MAX() { return Number(empty(process.env.PG_POOL_MAX) || 10) },
+  get PG_POOL_MAX() {
+    const configured = empty(process.env.PG_POOL_MAX)
+    if (configured) return Number(configured)
+    const host = empty(process.env.WEBSITE_HOSTNAME) || ''
+    return /-staging\.azurewebsites\.net$/i.test(host) ? 5 : 10
+  },
+  get ENTRA_CLIENT_ID() { return empty(process.env.ENTRA_CLIENT_ID) || '83d51db3-ef40-4a05-ac40-1d01e3b6a926' },
+  get ENTRA_TENANT_ID() { return empty(process.env.ENTRA_TENANT_ID) },
+  get ENTRA_MANAGED_IDENTITY_CLIENT_ID() { return empty(process.env.ENTRA_MANAGED_IDENTITY_CLIENT_ID) },
+  get ENTRA_BOOTSTRAP_ADMIN_EMAILS() {
+    return (empty(process.env.ENTRA_BOOTSTRAP_ADMIN_EMAILS) || '').split(',').map((email) => email.trim().toLowerCase()).filter(Boolean)
+  },
+  get ENTRA_ENABLED() {
+    return Boolean(this.ENTRA_CLIENT_ID && this.ENTRA_TENANT_ID && this.ENTRA_MANAGED_IDENTITY_CLIENT_ID && this.ENTRA_BOOTSTRAP_ADMIN_EMAILS.length)
+  },
   get STORAGE_PROVIDER() { return (empty(process.env.STORAGE_PROVIDER) || 'local').toLowerCase() },
   get AZURE_STORAGE_CONNECTION_STRING() { return empty(process.env.AZURE_STORAGE_CONNECTION_STRING) },
   get AZURE_STORAGE_CONTAINER() { return empty(process.env.AZURE_STORAGE_CONTAINER) },

@@ -50,7 +50,13 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     avatar: 'default',
-    components: { beforeDashboard: ['/components/admin/ImportFordPanel#ImportFordPanel'] },
+    components: {
+      beforeDashboard: ['/components/admin/ImportFordPanel#ImportFordPanel'],
+      ...(env.ENTRA_ENABLED ? {
+        beforeLogin: ['/components/admin/EntraLoginButton#EntraLoginButton'],
+        beforeNav: ['/components/admin/EntraLogoutButton#EntraLogoutButton'],
+      } : {}),
+    },
     importMap: { baseDir: path.resolve(dirname) },
     meta: { titleSuffix: '· CMS Ford Costa Rica', icons: [{ rel: 'icon', type: 'image/png', url: '/favicon-32x32.png' }] },
   },

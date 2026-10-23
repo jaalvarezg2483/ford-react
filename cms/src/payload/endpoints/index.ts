@@ -5,6 +5,7 @@ import { citasEndpoints } from './citas'
 import { placesEndpoints } from './places'
 import { contentEndpoints } from './content'
 import { importFordEndpoints } from './importFord'
+import { entraEndpoints } from '../../lib/entra'
 
 /** Todos los endpoints del proyecto, un archivo por módulo. */
 export const allEndpoints = [
@@ -15,4 +16,5 @@ export const allEndpoints = [
   ...placesEndpoints,
   ...contentEndpoints,
   ...importFordEndpoints,
+  ...entraEndpoints,
 ]
