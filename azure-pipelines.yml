@@ -159,6 +159,16 @@ stages:
                   az webapp config appsettings set \
                     --resource-group "$(resourceGroup)" --name "$(appServiceName)" --slot staging \
                     --slot-settings "FORD_IMPORT_BOOTSTRAP_TOKEN=$token" --output none
+                  az webapp restart --resource-group "$(resourceGroup)" --name "$(appServiceName)" --slot staging
+                  sleep 10
+                  for attempt in $(seq 1 24); do
+                    if curl --silent --fail --connect-timeout 4 --max-time 8 \
+                      https://gp-fordcr-app-v1-staging.azurewebsites.net/healthz -o /dev/null; then
+                      break
+                    fi
+                    if [ "$attempt" = 24 ]; then echo 'Ford staging did not restart with the temporary import token.'; exit 1; fi
+                    sleep 5
+                  done
                   start_code=$(curl --silent --show-error --max-time 20 -o "$response" -w '%{http_code}' \
                     -c "$cookie_jar" -b "$cookie_jar" -X POST -H "Authorization: Bearer $token" "$endpoint")
                   if [ "$start_code" != "202" ]; then
@@ -305,6 +315,16 @@ stages:
                   az webapp config appsettings set \
                     --resource-group "$(resourceGroup)" --name "$(appServiceName)" \
                     --settings "FORD_IMPORT_BOOTSTRAP_TOKEN=$token" --output none
+                  az webapp restart --resource-group "$(resourceGroup)" --name "$(appServiceName)"
+                  sleep 10
+                  for attempt in $(seq 1 24); do
+                    if curl --silent --fail --connect-timeout 4 --max-time 8 \
+                      https://gp-fordcr-app-v1.azurewebsites.net/healthz -o /dev/null; then
+                      break
+                    fi
+                    if [ "$attempt" = 24 ]; then echo 'Ford production did not restart with the temporary import token.'; exit 1; fi
+                    sleep 5
+                  done
                   start_code=$(curl --silent --show-error --max-time 20 -o "$response" -w '%{http_code}' \
                     -c "$cookie_jar" -b "$cookie_jar" -X POST -H "Authorization: Bearer $token" "$endpoint")
                   if [ "$start_code" != "202" ]; then
