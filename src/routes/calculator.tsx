@@ -1,4 +1,4 @@
-import type { RouteObject } from 'react-router-dom'
+import { Navigate, type RouteObject } from 'react-router-dom'
 import { Accesorios } from '@/pages/calculator/Accesorios'
 import { AccesoriosIndex } from '@/pages/calculator/AccesoriosIndex'
 import { AccesoriosResumen } from '@/pages/calculator/AccesoriosResumen'
@@ -19,6 +19,7 @@ export const calculatorRoutes: RouteObject[] = [
   { path: '/accesorios', element: <AccesoriosIndex /> },
   { path: '/accesorios/:slug', element: <Accesorios /> },
   { path: '/accesorios/:slug/resumen', element: <AccesoriosResumen /> },
+  { path: '/preaprobador', element: <Navigate to="/preaprobador/familias" replace /> },
   { path: '/preaprobador/familias', element: <Calcular mode="preaprobador" /> },
   { path: '/preaprobador/:slug/modelos', element: <Modelos mode="preaprobador" /> },
   { path: '/preaprobador/:slug/calcular/:code/resumen', element: <Resumen mode="preaprobador" /> },

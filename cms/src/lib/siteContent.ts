@@ -185,6 +185,8 @@ const FIXED_REDIRECTS: Record<string, [string, boolean]> = {
   '/purdy-renting': ['/servicios/soluciones-empresas', true],
   '/calculate': ['/calcular', true],
   '/contactanos': ['/contacto', true],
+  '/preaprobador': ['/preaprobador/familias', true],
+  '/preaprobador/index.html': ['/preaprobador/familias', true],
 }
 
 async function buildRedirects(payload: Payload, families: Family[]) {
