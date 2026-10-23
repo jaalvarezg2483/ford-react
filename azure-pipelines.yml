@@ -170,7 +170,7 @@ stages:
                     sleep 5
                   done
                   start_code=$(curl --silent --show-error --max-time 20 -o "$response" -w '%{http_code}' \
-                    -c "$cookie_jar" -b "$cookie_jar" -X POST -H "Authorization: Bearer $token" "$endpoint")
+                    -c "$cookie_jar" -b "$cookie_jar" -X POST -H "X-Ford-Import-Token: $token" "$endpoint")
                   if [ "$start_code" != "202" ]; then
                     echo "Ford staging import could not start (HTTP $start_code)."
                     cat "$response"
@@ -181,7 +181,7 @@ stages:
                   completed=false
                   for attempt in $(seq 1 240); do
                     code=$(curl --silent --show-error --max-time 20 -o "$status_file" -w '%{http_code}' \
-                      -c "$cookie_jar" -b "$cookie_jar" -H "Authorization: Bearer $token" "$endpoint" || true)
+                      -c "$cookie_jar" -b "$cookie_jar" -H "X-Ford-Import-Token: $token" "$endpoint" || true)
                     if [ "$code" != "200" ]; then
                       echo "Ford staging import status returned HTTP $code (attempt $attempt/240)."
                       sleep 15
@@ -326,7 +326,7 @@ stages:
                     sleep 5
                   done
                   start_code=$(curl --silent --show-error --max-time 20 -o "$response" -w '%{http_code}' \
-                    -c "$cookie_jar" -b "$cookie_jar" -X POST -H "Authorization: Bearer $token" "$endpoint")
+                    -c "$cookie_jar" -b "$cookie_jar" -X POST -H "X-Ford-Import-Token: $token" "$endpoint")
                   if [ "$start_code" != "202" ]; then
                     echo "Ford production import could not start (HTTP $start_code)."
                     cat "$response"
@@ -337,7 +337,7 @@ stages:
                   completed=false
                   for attempt in $(seq 1 240); do
                     code=$(curl --silent --show-error --max-time 20 -o "$status_file" -w '%{http_code}' \
-                      -c "$cookie_jar" -b "$cookie_jar" -H "Authorization: Bearer $token" "$endpoint" || true)
+                      -c "$cookie_jar" -b "$cookie_jar" -H "X-Ford-Import-Token: $token" "$endpoint" || true)
                     if [ "$code" != "200" ]; then
                       echo "Ford production import status returned HTTP $code (attempt $attempt/240)."
                       sleep 15

@@ -13,7 +13,8 @@ const isAdmin = (user: unknown) => (user as { role?: string } | null)?.role === 
 
 function hasBootstrapToken(req: PayloadRequest) {
   const expected = process.env.FORD_IMPORT_BOOTSTRAP_TOKEN
-  const supplied = req.headers.get('authorization')?.replace(/^Bearer\s+/i, '')
+  const supplied = req.headers.get('x-ford-import-token')
+    ?? req.headers.get('authorization')?.replace(/^Bearer\s+/i, '')
   if (!expected || !supplied) return false
   const separator = expected.indexOf('.')
   const expiresAt = Number(expected.slice(0, separator))
