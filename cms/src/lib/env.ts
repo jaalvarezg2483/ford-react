@@ -17,6 +17,7 @@ export const env = {
   get POSTGRES_HOST() { return empty(process.env.POSTGRES_HOST) },
   get POSTGRES_DATABASE() { return empty(process.env.POSTGRES_DATABASE) },
   get POSTGRES_USER() { return empty(process.env.POSTGRES_USER) },
+  get PG_POOL_MAX() { return Number(empty(process.env.PG_POOL_MAX) || 10) },
   get STORAGE_PROVIDER() { return (empty(process.env.STORAGE_PROVIDER) || 'local').toLowerCase() },
   get AZURE_STORAGE_CONNECTION_STRING() { return empty(process.env.AZURE_STORAGE_CONNECTION_STRING) },
   get AZURE_STORAGE_CONTAINER() { return empty(process.env.AZURE_STORAGE_CONTAINER) },

@@ -40,9 +40,19 @@ Otros comandos: `npm run typecheck`, `npm run build`, `npm start`.
 4. Variables: `PAYLOAD_SECRET` (32+ caracteres aleatorios), `FORD_PUBLIC_URL` (opcional; Railway y Azure detectan su dominio) y las demás de `cms/.env.example` que apliquen.
 5. Las migraciones se aplican con `npm run db:migrate`. Entrar a `/admin`, crear el primer usuario y ejecutar la importación.
 
-## Azure (después)
+## Azure App Service
 
-Es el mismo código; solo cambian variables: `DATABASE_AUTH_MODE=managed_identity` con `POSTGRES_HOST/DATABASE/USER`, y `STORAGE_PROVIDER=azure` con `AZURE_STORAGE_*`.
+El pipeline `FordCR-Azure-Deploy` compila y publica el mismo paquete en el slot `staging`, valida `/api/health` y, si staging responde correctamente, despliega la misma versión a producción. Usa Node 22 y arranca con `node cms/server.mjs`.
+
+Configurar los ajustes de aplicación de forma separada y marcada como *deployment slot setting* cuando varíen entre slots:
+
+- `NODE_ENV=production`, `PAYLOAD_SECRET` (secreto aleatorio de 32+ caracteres) y `FORD_PUBLIC_URL` con la URL de cada slot. El dominio de Azure se detecta automáticamente si se omite.
+- `DATABASE_AUTH_MODE=managed_identity`, `POSTGRES_HOST`, `POSTGRES_DATABASE` (`fordcr_prod` o `fordcr_staging`) y `POSTGRES_USER` según la identidad autorizada en PostgreSQL.
+- `PG_POOL_MAX=10` para producción y `PG_POOL_MAX=5` para staging. El código rechaza valores mayores que 10 para proteger el servidor PostgreSQL compartido.
+- `STORAGE_PROVIDER=azure`, `AZURE_STORAGE_CONNECTION_STRING` desde Key Vault, `AZURE_STORAGE_CONTAINER` (`fordcr-media` o `fordcr-staging-media`) y `AZURE_STORAGE_ACCOUNT_BASEURL=https://gpwebcmsprosa.blob.core.windows.net`.
+- Correo, microservicios, captcha y demás integraciones mediante los secretos/configuración existentes; no poner credenciales en YAML ni en el repositorio.
+
+Las migraciones de Payload están versionadas y se aplican al iniciar el CMS. Para desplegar, la service connection `fordcr-webdeploy-sc-v1` debe autorizarse para el pipeline.
 
 ## Dominio público
 

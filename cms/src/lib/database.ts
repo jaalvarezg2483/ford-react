@@ -4,6 +4,15 @@ import { env } from './env'
 const POSTGRES_SCOPE = 'https://ossrdbms-aad.database.windows.net/.default'
 let cached: { value: string; expiresAt: number } | undefined
 
+/** App Service comparte PostgreSQL con otros sitios; cada slot declara su límite. */
+function poolMax(): number {
+  const value = env.PG_POOL_MAX
+  if (!Number.isInteger(value) || value < 1 || value > 10) {
+    throw new Error('PG_POOL_MAX debe ser un entero entre 1 y 10.')
+  }
+  return value
+}
+
 /** Azure: token de Microsoft Entra como contraseña (identidad administrada, sin secretos). */
 async function azurePostgresPassword(): Promise<string> {
   if (cached && cached.expiresAt - 5 * 60_000 > Date.now()) return cached.value
@@ -34,11 +43,11 @@ export function getPoolConfig(): PoolConfig {
       user: env.POSTGRES_USER,
       password: azurePostgresPassword,
       ssl: { rejectUnauthorized: true },
-      max: 10,
+      max: poolMax(),
     }
   }
   const uri = env.DATABASE_URL || 'postgresql://ford:ford@127.0.0.1:5432/ford'
   const clean = new URL(uri)
   clean.searchParams.delete('sslmode')
-  return { connectionString: clean.toString(), ssl: sslFor(uri), max: 10 }
+  return { connectionString: clean.toString(), ssl: sslFor(uri), max: poolMax() }
 }
