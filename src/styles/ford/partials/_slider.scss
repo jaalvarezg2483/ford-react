@@ -180,8 +180,15 @@
 
   img {
     width: 280px;
+    max-width: none;
+    height: auto;
+    max-height: 130px;
+    object-fit: contain;
+    object-position: left bottom;
     display: block;
-    margin: auto 0 10px 0;
+    position: relative;
+    z-index: 1;
+    margin: 8px 0 10px 0;
   }
 
   @include bp(sm) {

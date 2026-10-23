@@ -1,8 +1,0 @@
-{% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
-{% block field %}
-    {% if field_description.options.data is defined and field_description.options.data == "solutionsDescription" %}
-        {{ object.solutionsDescription | raw }}
-    {% else %}
-        {{ object.description | raw }}
-    {% endif %}
-{% endblock %}

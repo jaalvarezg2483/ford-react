@@ -1,0 +1,667 @@
+{
+  "ranger-xlt": [
+    {
+      "id": 136,
+      "price": 330.0,
+      "name": "Anexo para Toldo Purdy Accesorios"
+    },
+    {
+      "id": 139,
+      "price": 275.0,
+      "name": "Grada para llanta"
+    },
+    {
+      "id": 119,
+      "price": 99.0,
+      "name": "Pet Partition WeaterTech"
+    },
+    {
+      "id": 81,
+      "price": 450.0,
+      "name": "PORTA BICICLETAS INNO PARA HITCH (4 BICIS)"
+    },
+    {
+      "id": 140,
+      "price": 1375.0,
+      "name": "Portabicicletas THULE para HITCH bandeja (2 BICIS)"
+    },
+    {
+      "id": 118,
+      "price": 99.0,
+      "name": "Seat Back Protector WeatherTech"
+    },
+    {
+      "id": 133,
+      "price": 3225.0,
+      "name": "Tienda de campaña THULE (2 personas)"
+    },
+    {
+      "id": 132,
+      "price": 2775.0,
+      "name": "Tienda de campaña THULE (3 personas)"
+    },
+    {
+      "id": 137,
+      "price": 550.0,
+      "name": "TOLDO MURCIÉLAGO"
+    },
+    {
+      "id": 134,
+      "price": 675.0,
+      "name": "Toldo THULE"
+    },
+    {
+      "id": 105,
+      "price": 150.0,
+      "name": "PET RAMP WEATHERTECH"
+    },
+    {
+      "id": 126,
+      "price": 365.0,
+      "name": "Portabicicletas techo Pro Ride THULE"
+    },
+    {
+      "id": 127,
+      "price": 640.0,
+      "name": "Portatabla de Surf THULE"
+    },
+    {
+      "id": 7,
+      "price": 2150.0,
+      "name": "TAPICERÍA CUERO"
+    },
+    {
+      "id": 8,
+      "price": 1790.0,
+      "name": "TAPICERIA CUERO Y CUERO SINTÉTICO"
+    },
+    {
+      "id": 135,
+      "price": 330.0,
+      "name": "Toldo Purdy Accesorios"
+    },
+    {
+      "id": 75,
+      "price": 204.0,
+      "name": "POLARIZADO SEGURIDAD COLOR"
+    },
+    {
+      "id": 74,
+      "price": 120.0,
+      "name": "POLARIZADO SEGURIDAD TRANSPARENTE"
+    },
+    {
+      "id": 122,
+      "price": 485.0,
+      "name": "Grabador Garmin 67 W"
+    },
+    {
+      "id": 123,
+      "price": 560.0,
+      "name": "Grabador Garmin Tandem (Dual)"
+    },
+    {
+      "id": 124,
+      "price": 50.0,
+      "name": "Kit de Emergencia"
+    },
+    {
+      "id": 73,
+      "price": 108.0,
+      "name": "POLARIZADO COLOR"
+    },
+    {
+      "id": 138,
+      "price": 385.0,
+      "name": "Tanque para agua (30 litros, presión)"
+    }
+  ],
+  "rangerxl": [
+    {
+      "id": 136,
+      "price": 330.0,
+      "name": "Anexo para Toldo Purdy Accesorios"
+    },
+    {
+      "id": 139,
+      "price": 275.0,
+      "name": "Grada para llanta"
+    },
+    {
+      "id": 119,
+      "price": 99.0,
+      "name": "Pet Partition WeaterTech"
+    },
+    {
+      "id": 81,
+      "price": 450.0,
+      "name": "PORTA BICICLETAS INNO PARA HITCH (4 BICIS)"
+    },
+    {
+      "id": 140,
+      "price": 1375.0,
+      "name": "Portabicicletas THULE para HITCH bandeja (2 BICIS)"
+    },
+    {
+      "id": 118,
+      "price": 99.0,
+      "name": "Seat Back Protector WeatherTech"
+    },
+    {
+      "id": 133,
+      "price": 3225.0,
+      "name": "Tienda de campaña THULE (2 personas)"
+    },
+    {
+      "id": 132,
+      "price": 2775.0,
+      "name": "Tienda de campaña THULE (3 personas)"
+    },
+    {
+      "id": 137,
+      "price": 550.0,
+      "name": "TOLDO MURCIÉLAGO"
+    },
+    {
+      "id": 134,
+      "price": 675.0,
+      "name": "Toldo THULE"
+    },
+    {
+      "id": 105,
+      "price": 150.0,
+      "name": "PET RAMP WEATHERTECH"
+    },
+    {
+      "id": 126,
+      "price": 365.0,
+      "name": "Portabicicletas techo Pro Ride THULE"
+    },
+    {
+      "id": 127,
+      "price": 640.0,
+      "name": "Portatabla de Surf THULE"
+    },
+    {
+      "id": 7,
+      "price": 2150.0,
+      "name": "TAPICERÍA CUERO"
+    },
+    {
+      "id": 8,
+      "price": 1790.0,
+      "name": "TAPICERIA CUERO Y CUERO SINTÉTICO"
+    },
+    {
+      "id": 135,
+      "price": 330.0,
+      "name": "Toldo Purdy Accesorios"
+    },
+    {
+      "id": 75,
+      "price": 204.0,
+      "name": "POLARIZADO SEGURIDAD COLOR"
+    },
+    {
+      "id": 74,
+      "price": 120.0,
+      "name": "POLARIZADO SEGURIDAD TRANSPARENTE"
+    },
+    {
+      "id": 122,
+      "price": 485.0,
+      "name": "Grabador Garmin 67 W"
+    },
+    {
+      "id": 123,
+      "price": 560.0,
+      "name": "Grabador Garmin Tandem (Dual)"
+    },
+    {
+      "id": 124,
+      "price": 50.0,
+      "name": "Kit de Emergencia"
+    },
+    {
+      "id": 73,
+      "price": 108.0,
+      "name": "POLARIZADO COLOR"
+    },
+    {
+      "id": 138,
+      "price": 385.0,
+      "name": "Tanque para agua (30 litros, presión)"
+    }
+  ],
+  "ranger-wildtrak": [
+    {
+      "id": 136,
+      "price": 330.0,
+      "name": "Anexo para Toldo Purdy Accesorios"
+    },
+    {
+      "id": 139,
+      "price": 275.0,
+      "name": "Grada para llanta"
+    },
+    {
+      "id": 119,
+      "price": 99.0,
+      "name": "Pet Partition WeaterTech"
+    },
+    {
+      "id": 81,
+      "price": 450.0,
+      "name": "PORTA BICICLETAS INNO PARA HITCH (4 BICIS)"
+    },
+    {
+      "id": 140,
+      "price": 1375.0,
+      "name": "Portabicicletas THULE para HITCH bandeja (2 BICIS)"
+    },
+    {
+      "id": 118,
+      "price": 99.0,
+      "name": "Seat Back Protector WeatherTech"
+    },
+    {
+      "id": 133,
+      "price": 3225.0,
+      "name": "Tienda de campaña THULE (2 personas)"
+    },
+    {
+      "id": 132,
+      "price": 2775.0,
+      "name": "Tienda de campaña THULE (3 personas)"
+    },
+    {
+      "id": 137,
+      "price": 550.0,
+      "name": "TOLDO MURCIÉLAGO"
+    },
+    {
+      "id": 134,
+      "price": 675.0,
+      "name": "Toldo THULE"
+    },
+    {
+      "id": 105,
+      "price": 150.0,
+      "name": "PET RAMP WEATHERTECH"
+    },
+    {
+      "id": 126,
+      "price": 365.0,
+      "name": "Portabicicletas techo Pro Ride THULE"
+    },
+    {
+      "id": 127,
+      "price": 640.0,
+      "name": "Portatabla de Surf THULE"
+    },
+    {
+      "id": 7,
+      "price": 2150.0,
+      "name": "TAPICERÍA CUERO"
+    },
+    {
+      "id": 8,
+      "price": 1790.0,
+      "name": "TAPICERIA CUERO Y CUERO SINTÉTICO"
+    },
+    {
+      "id": 135,
+      "price": 330.0,
+      "name": "Toldo Purdy Accesorios"
+    },
+    {
+      "id": 75,
+      "price": 204.0,
+      "name": "POLARIZADO SEGURIDAD COLOR"
+    },
+    {
+      "id": 74,
+      "price": 120.0,
+      "name": "POLARIZADO SEGURIDAD TRANSPARENTE"
+    },
+    {
+      "id": 122,
+      "price": 485.0,
+      "name": "Grabador Garmin 67 W"
+    },
+    {
+      "id": 123,
+      "price": 560.0,
+      "name": "Grabador Garmin Tandem (Dual)"
+    },
+    {
+      "id": 124,
+      "price": 50.0,
+      "name": "Kit de Emergencia"
+    },
+    {
+      "id": 73,
+      "price": 108.0,
+      "name": "POLARIZADO COLOR"
+    },
+    {
+      "id": 138,
+      "price": 385.0,
+      "name": "Tanque para agua (30 litros, presión)"
+    }
+  ],
+  "territory": [
+    {
+      "id": 77,
+      "price": 499.0,
+      "name": "CANASTA DE HITCH"
+    },
+    {
+      "id": 121,
+      "price": 275.0,
+      "name": "Cobertor de asiento WeaterTech"
+    },
+    {
+      "id": 120,
+      "price": 70.0,
+      "name": "Door Protector WeaterTech"
+    },
+    {
+      "id": 81,
+      "price": 450.0,
+      "name": "PORTA BICICLETAS INNO PARA HITCH (4 BICIS)"
+    },
+    {
+      "id": 140,
+      "price": 1375.0,
+      "name": "Portabicicletas THULE para HITCH bandeja (2 BICIS)"
+    },
+    {
+      "id": 47,
+      "price": 1175.0,
+      "name": "PORTAEQUIPAJE  THULE (400 LITROS)"
+    },
+    {
+      "id": 118,
+      "price": 99.0,
+      "name": "Seat Back Protector WeatherTech"
+    },
+    {
+      "id": 76,
+      "price": 440.0,
+      "name": "SOPORTE DE REMOLQUE (incluye tapón)"
+    },
+    {
+      "id": 133,
+      "price": 3225.0,
+      "name": "Tienda de campaña THULE (2 personas)"
+    },
+    {
+      "id": 137,
+      "price": 550.0,
+      "name": "TOLDO MURCIÉLAGO"
+    },
+    {
+      "id": 134,
+      "price": 675.0,
+      "name": "Toldo THULE"
+    },
+    {
+      "id": 26,
+      "price": 70.0,
+      "name": "CARGOMAT WEATHERTECH"
+    },
+    {
+      "id": 126,
+      "price": 365.0,
+      "name": "Portabicicletas techo Pro Ride THULE"
+    },
+    {
+      "id": 127,
+      "price": 640.0,
+      "name": "Portatabla de Surf THULE"
+    },
+    {
+      "id": 135,
+      "price": 330.0,
+      "name": "Toldo Purdy Accesorios"
+    },
+    {
+      "id": 138,
+      "price": 385.0,
+      "name": "Tanque para agua (30 litros, presión)"
+    }
+  ],
+  "edge-hibrido": [],
+  "everest": [
+    {
+      "id": 136,
+      "price": 330.0,
+      "name": "Anexo para Toldo Purdy Accesorios"
+    },
+    {
+      "id": 77,
+      "price": 499.0,
+      "name": "CANASTA DE HITCH"
+    },
+    {
+      "id": 121,
+      "price": 275.0,
+      "name": "Cobertor de asiento WeaterTech"
+    },
+    {
+      "id": 120,
+      "price": 70.0,
+      "name": "Door Protector WeaterTech"
+    },
+    {
+      "id": 139,
+      "price": 275.0,
+      "name": "Grada para llanta"
+    },
+    {
+      "id": 119,
+      "price": 99.0,
+      "name": "Pet Partition WeaterTech"
+    },
+    {
+      "id": 81,
+      "price": 450.0,
+      "name": "PORTA BICICLETAS INNO PARA HITCH (4 BICIS)"
+    },
+    {
+      "id": 140,
+      "price": 1375.0,
+      "name": "Portabicicletas THULE para HITCH bandeja (2 BICIS)"
+    },
+    {
+      "id": 47,
+      "price": 1175.0,
+      "name": "PORTAEQUIPAJE  THULE (400 LITROS)"
+    },
+    {
+      "id": 118,
+      "price": 99.0,
+      "name": "Seat Back Protector WeatherTech"
+    },
+    {
+      "id": 133,
+      "price": 3225.0,
+      "name": "Tienda de campaña THULE (2 personas)"
+    },
+    {
+      "id": 137,
+      "price": 550.0,
+      "name": "TOLDO MURCIÉLAGO"
+    },
+    {
+      "id": 134,
+      "price": 675.0,
+      "name": "Toldo THULE"
+    },
+    {
+      "id": 104,
+      "price": 135.0,
+      "name": "BARRERA MASCOTAS WEATHERTECH"
+    },
+    {
+      "id": 26,
+      "price": 70.0,
+      "name": "CARGOMAT WEATHERTECH"
+    },
+    {
+      "id": 105,
+      "price": 150.0,
+      "name": "PET RAMP WEATHERTECH"
+    },
+    {
+      "id": 126,
+      "price": 365.0,
+      "name": "Portabicicletas techo Pro Ride THULE"
+    },
+    {
+      "id": 127,
+      "price": 640.0,
+      "name": "Portatabla de Surf THULE"
+    },
+    {
+      "id": 135,
+      "price": 330.0,
+      "name": "Toldo Purdy Accesorios"
+    },
+    {
+      "id": 54,
+      "price": 272.0,
+      "name": "POLARIZADO SEGURIDAD COLOR"
+    },
+    {
+      "id": 53,
+      "price": 160.0,
+      "name": "POLARIZADO SEGURIDAD TRANSPARENTE"
+    },
+    {
+      "id": 32,
+      "price": 690.0,
+      "name": "SOPORTE DE REMOLQUE (Completo)"
+    },
+    {
+      "id": 129,
+      "price": 745.0,
+      "name": "Canasta Techo THULE CANYON"
+    },
+    {
+      "id": 122,
+      "price": 485.0,
+      "name": "Grabador Garmin 67 W"
+    },
+    {
+      "id": 123,
+      "price": 560.0,
+      "name": "Grabador Garmin Tandem (Dual)"
+    },
+    {
+      "id": 124,
+      "price": 50.0,
+      "name": "Kit de Emergencia"
+    },
+    {
+      "id": 52,
+      "price": 144.0,
+      "name": "POLARIZADO COLOR"
+    },
+    {
+      "id": 138,
+      "price": 385.0,
+      "name": "Tanque para agua (30 litros, presión)"
+    }
+  ],
+  "bronco-sport": [
+    {
+      "id": 121,
+      "price": 275.0,
+      "name": "Cobertor de asiento WeaterTech"
+    },
+    {
+      "id": 120,
+      "price": 70.0,
+      "name": "Door Protector WeaterTech"
+    },
+    {
+      "id": 26,
+      "price": 70.0,
+      "name": "CARGOMAT WEATHERTECH"
+    },
+    {
+      "id": 33,
+      "price": 930.0,
+      "name": "FORROS ASIENTO"
+    },
+    {
+      "id": 129,
+      "price": 745.0,
+      "name": "Canasta Techo THULE CANYON"
+    }
+  ],
+  "mustang-gt-1": [
+    {
+      "id": 119,
+      "price": 99.0,
+      "name": "Pet Partition WeaterTech"
+    },
+    {
+      "id": 118,
+      "price": 99.0,
+      "name": "Seat Back Protector WeatherTech"
+    },
+    {
+      "id": 9,
+      "price": 275.0,
+      "name": "KIT FLOORLINER 1 y 2da FILA WEATERTECH"
+    },
+    {
+      "id": 15,
+      "price": 170.0,
+      "name": "POLARIZADO SEGURIDAD COLOR"
+    },
+    {
+      "id": 14,
+      "price": 100.0,
+      "name": "POLARIZADO SEGURIDAD TRANSPARENTE"
+    },
+    {
+      "id": 7,
+      "price": 2150.0,
+      "name": "TAPICERÍA CUERO"
+    },
+    {
+      "id": 8,
+      "price": 1790.0,
+      "name": "TAPICERIA CUERO Y CUERO SINTÉTICO"
+    },
+    {
+      "id": 122,
+      "price": 485.0,
+      "name": "Grabador Garmin 67 W"
+    },
+    {
+      "id": 123,
+      "price": 560.0,
+      "name": "Grabador Garmin Tandem (Dual)"
+    },
+    {
+      "id": 124,
+      "price": 50.0,
+      "name": "Kit de Emergencia"
+    },
+    {
+      "id": 13,
+      "price": 90.0,
+      "name": "POLARIZADO COLOR"
+    }
+  ],
+  "ranger-raptor": [],
+  "f150-raptor": [],
+  "bronco-badlands": [],
+  "expedition": [],
+  "explorer2026": []
+}

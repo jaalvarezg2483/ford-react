@@ -1,0 +1,52 @@
+{
+  "name": "ford-cr-cms",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Ford Costa Rica — CMS (Payload + Next) y servidor integrado",
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "node server.mjs --dev",
+    "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=6000\" next build",
+    "start": "node server.mjs",
+    "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
+    "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
+    "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
+    "import:ford": "cross-env NODE_OPTIONS=--no-deprecation NODE_EXTRA_CA_CERTS=./certs/godaddy-secure-ca-g2.pem payload run scripts/import-ford.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@azure/identity": "4.13.1",
+    "@payloadcms/db-postgres": "3.91.0",
+    "@payloadcms/email-nodemailer": "3.91.0",
+    "@payloadcms/next": "3.91.0",
+    "@payloadcms/richtext-lexical": "3.91.0",
+    "@payloadcms/storage-azure": "3.91.0",
+    "@payloadcms/translations": "3.91.0",
+    "@payloadcms/ui": "3.91.0",
+    "cheerio": "^1.0.0",
+    "cross-env": "7.0.3",
+    "drizzle-orm": "0.45.2",
+    "graphql": "16.10.0",
+    "next": "15.4.11",
+    "nodemailer": "7.0.13",
+    "payload": "3.91.0",
+    "pg": "^8.13.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "serve-handler": "^6.1.6",
+    "sharp": "0.35.5"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.21",
+    "@types/nodemailer": "^6.4.17",
+    "@types/pg": "8.20.0",
+    "@types/react": "19.1.4",
+    "@types/react-dom": "19.1.5",
+    "tsx": "4.19.4",
+    "typescript": "5.8.3"
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "sucursales": [
+    {
+      "kind": "sucursal",
+      "lat": 9.922459525323983,
+      "lng": -84.02054872883599,
+      "id": "17",
+      "name": "Aleste",
+      "image": "/uploads/subsidiary/5261a67f8a0c614b29bc0b270fd3af059ca4a293.jpeg",
+      "phone": "2519-9275",
+      "address": "Centro Comercial Aleste, piso 1 edificio 101.",
+      "hours": "Lunes a viernes de 9:00 a.m. a 6:30 p.m. y sábados de 9:00 a.m. a 2:00 p.m.",
+      "testDrive": null
+    },
+    {
+      "kind": "sucursal",
+      "lat": 9.94697,
+      "lng": -84.151593,
+      "id": "1",
+      "name": "Escazú",
+      "image": "/uploads/subsidiary/8c553a10384758eda8f9a26d1abf0ff5225c383e.jpeg",
+      "phone": "2523-5186",
+      "address": "Contiguo a la gasolinera Fill and Go sobre la ruta 27",
+      "hours": "Lunes a viernes de 8:00 a.m. a 7:00 p.m. y sábados de 8:00 a.m. a 3:00 p.m.",
+      "testDrive": "/select-family/Escaz%C3%BA/test-drive"
+    },
+    {
+      "kind": "sucursal",
+      "lat": 9.94543,
+      "lng": -84.085643,
+      "id": "3",
+      "name": "La Uruca",
+      "image": "/uploads/subsidiary/f8e6f94dbbd613ab9b38220c587b8ecf6fa7c1eb.jpeg",
+      "phone": "2523-5020",
+      "address": "Contiguo al puente del Río Torres en la Uruca.",
+      "hours": "Lunes a viernes de 8:00 a.m. a 5:30 p.m. y sábados de 8:00 a.m. a 1:00 p.m.",
+      "testDrive": "/select-family/La%20Uruca/test-drive"
+    },
+    {
+      "kind": "sucursal",
+      "lat": 10.625911993630513,
+      "lng": -85.44462909508452,
+      "id": "5",
+      "name": "Liberia",
+      "image": "/uploads/subsidiary/8f34e0f7273abd2eeda3f5aab1b0db10670b9bea.png",
+      "phone": "2523-5170",
+      "address": "Centro Comercial Plaza Santa Rosa, Liberia.",
+      "hours": "Lunes a viernes de 8:00 a.m. a 5:30 p.m. y sábados de 8:00 a.m. a 1:00 p.m.",
+      "testDrive": "/select-family/Liberia/test-drive"
+    },
+    {
+      "kind": "sucursal",
+      "lat": 9.341364154703838,
+      "lng": -83.6731387527167,
+      "id": "14",
+      "name": "Pérez Zeledón",
+      "image": "/uploads/subsidiary/263c5827a30f6dd8cf20b713d48074e294de3160.png",
+      "phone": "2523-5060 / 2523-6160",
+      "address": "Plaza Monte General",
+      "hours": "Lunes a viernes de 8:00 a.m. a 7:00 p.m. y sábados de 8:00 a.m. a 3:00 p.m.",
+      "testDrive": "/select-family/P%C3%A9rez%20Zeled%C3%B3n/test-drive"
+    },
+    {
+      "kind": "sucursal",
+      "lat": 10.342146778746653,
+      "lng": -84.4319734263954,
+      "id": "2",
+      "name": "San Carlos",
+      "image": "/uploads/subsidiary/ff62be41e999caf3f917443842a465935a91f1ab.png",
+      "phone": "2523-5100",
+      "address": "Centro Comercial Plaza El Encuentro, Ciudad Quesada.",
+      "hours": "Lunes a viernes de 8:00 a.m. a 5:30 p.m. y sábados de 8:00 a.m. a 1:00 p.m.",
+      "testDrive": "/select-family/San%20Carlos/test-drive"
+    }
+  ],
+  "talleres": [
+    {
+      "kind": "taller",
+      "lat": 9.922459525323983,
+      "lng": -84.02054872883599,
+      "id": "17",
+      "name": "Aleste",
+      "image": "/uploads/subsidiary/5261a67f8a0c614b29bc0b270fd3af059ca4a293.jpeg",
+      "phone": "2519-9275",
+      "address": "Centro Comercial Aleste, en el parqueo bajo techo 2km al norte del cruce de La Galera, frente al colegio SEK, San José, Curridabat.",
+      "hours": "Lunes a viernes de 9:00 a.m. a 6:30 p.m. y sábados de 9:00 a.m. a 2:00 p.m.",
+      "testDrive": null
+    },
+    {
+      "kind": "taller",
+      "lat": 10.024548553750849,
+      "lng": -84.20771965343603,
+      "id": "16",
+      "name": "Purdy Center Alajuela",
+      "image": "/uploads/subsidiary/30fbd2a04d41f7a3fc1ba8c52be1301489f3cb36.png",
+      "phone": "2519-7777",
+      "address": "400m este del Estadio Alejandro Morera Soto, El Llano de Alajuela",
+      "hours": "",
+      "testDrive": null
+    },
+    {
+      "kind": "taller",
+      "lat": 9.866927,
+      "lng": -83.930947,
+      "id": "15",
+      "name": "Purdy Center Cartago",
+      "image": "/uploads/subsidiary/3593d4d123af31d7acc6d7c7d4d922d160547e62.png",
+      "phone": "2519-7777",
+      "address": "Cartago, Cartago. Del Parque Memorial de la Independencia, 100m Norte y 500m Oeste.",
+      "hours": "",
+      "testDrive": null
+    },
+    {
+      "kind": "taller",
+      "lat": 9.947392,
+      "lng": -84.152274,
+      "id": "10",
+      "name": "Purdy Center Escazú",
+      "image": "/uploads/subsidiary/27be466351c8ce37c715e7fffafa9ba14ce5327b.jpeg",
+      "phone": "2519-7777",
+      "address": "Ruta 27, entrada a Multiplaza Escazú",
+      "hours": "",
+      "testDrive": "/select-family/Purdy%20Center%20Escaz%C3%BA/test-drive"
+    },
+    {
+      "kind": "taller",
+      "lat": 10.064935,
+      "lng": -84.329101,
+      "id": "12",
+      "name": "Purdy Center Grecia",
+      "image": "/uploads/subsidiary/8a78395f63440fa953957de2d2f326e2c6fcda4b.png",
+      "phone": "2519-7777",
+      "address": "De la entrada a Grecia 7 kilómetros, Edificio Fusión Inmobiliaria",
+      "hours": "",
+      "testDrive": null
+    },
+    {
+      "kind": "taller",
+      "lat": 9.962133,
+      "lng": -84.070908,
+      "id": "11",
+      "name": "Purdy Center Tibás",
+      "image": "/uploads/subsidiary/abbd9d4d40978cebb0dcaf13b9583e79cf56103e.jpeg",
+      "phone": "2519-7777",
+      "address": "De la Iglesia de San Juan de Tibás, 600 metros al Este.",
+      "hours": "",
+      "testDrive": "/select-family/Purdy%20Center%20Tib%C3%A1s/test-drive"
+    },
+    {
+      "kind": "taller",
+      "lat": 9.94543,
+      "lng": -84.085643,
+      "id": "9",
+      "name": "Taller La Uruca",
+      "image": "/uploads/subsidiary/b664d9f3a6518c91b76b3f4ac8af0df5c2a1992b.jpeg",
+      "phone": "2519-7777",
+      "address": "Contiguo al puente del Río Torres en la Uruca.",
+      "hours": "",
+      "testDrive": "/select-family/Taller%20La%20Uruca/test-drive"
+    },
+    {
+      "kind": "taller",
+      "lat": 10.615737,
+      "lng": -85.476905,
+      "id": "7",
+      "name": "Taller Liberia",
+      "image": "/uploads/subsidiary/dd0a7fdf765f4d58897ff9c8d606bf763160e905.jpeg",
+      "phone": "2519-7777",
+      "address": "4 kilómetros al oeste del cruce principal de la Interamericana Norte",
+      "hours": "",
+      "testDrive": null
+    },
+    {
+      "kind": "taller",
+      "lat": 10.342146778746653,
+      "lng": -84.4319734263954,
+      "id": "6",
+      "name": "Taller San Carlos",
+      "image": "/uploads/subsidiary/23cebb793484a2d82facb2ec14127c1d010167ad.png",
+      "phone": "2519-7777",
+      "address": "Centro Comercial Plaza El Encuentro, Ciudad Quesada.",
+      "hours": "",
+      "testDrive": "/select-family/Taller%20San%20Carlos/test-drive"
+    }
+  ]
+}

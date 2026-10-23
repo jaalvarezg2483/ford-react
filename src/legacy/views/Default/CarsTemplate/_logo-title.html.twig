@@ -1,2 +1,0 @@
-<img class="car__logo" src="{{ server_url ~ family.getFoto2() | default('/img/logos/logo-fortuner-black.png')  }}" alt="logo Ford {{ family.name }} {% if family.slug != 'camry' and family.slug != 'prius'%}{{ "now"|date("Y") }}{% endif %}">
-<h1 class="car__title--main">Ford <strong>{{ family.name }}</strong> {% if family.slug != 'camry' and family.slug != 'prius'%}{{ family.currentYear }}{% endif %}</h1>

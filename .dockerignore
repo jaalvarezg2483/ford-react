@@ -1,7 +1,9 @@
 node_modules
-.next
+cms/node_modules
+cms/.next
+dist
 .env
-media
-data
+cms/.env
+cms/media
 *.log
-tools
+*.tsbuildinfo

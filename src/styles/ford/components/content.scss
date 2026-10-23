@@ -1,0 +1,42 @@
+// Acordeón de páginas de contenido (reemplaza slideToggle de jQuery).
+.js-collapse-next.is-open + .collapsible__body,
+.collapsible__body.is-open {
+  display: block;
+}
+
+.tabs.js-tabs-about-us button {
+  background: none;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.innovation-tabs-container .watch-video-button,
+.card--video .card__image.tabs-js-video {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  display: block;
+  width: 100%;
+}
+
+.hotspots .hotspot {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.floating-back-link,
+.hidden-xs.bg-muted .text--primary {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}

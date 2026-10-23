@@ -15,7 +15,7 @@
     .logo-ford {
         margin-right:auto;
     }
-    @include bp(md) {
+    @include bp(lg) {
         height: 64px;
         overflow:hidden;
         .logo-ford {
@@ -34,7 +34,7 @@
 .menu__toggle {
     font-size: 36px;
     margin-left:10px;    
-    @include bp(md) {
+    @include bp(lg) {
         display: none;
     }
 }
@@ -81,7 +81,7 @@
         max-width: 400px;
         @include transform(translateX(400px));
     }
-    @include bp(md) {
+    @include bp(lg) {
         display:flex;
         justify-content:space-around;
         height: auto;
@@ -129,7 +129,7 @@
 .menu__top {
     margin: 0;
     padding: 15px 0 0;
-    @include bp(md) {
+    @include bp(lg) {
         display: inline-block;
         vertical-align: middle;
         width: 60%;
@@ -145,7 +145,7 @@
     border-top: 1px solid $gray-light;
     margin: 0;
     padding: 15px 0;
-    @include bp(md) {
+    @include bp(lg) {
         display: none;
     }
 }
@@ -197,7 +197,7 @@
             }
         }
     }
-    @include bp(md) {
+    @include bp(lg) {
         display: flex;
         align-items: center;
         justify-content:space-around;
@@ -265,7 +265,7 @@
             transform:translateX(-30px);
         }
     }
-    @include bp(md) {
+    @include bp(lg) {
          &:after {
             left:50%;
         }
@@ -285,7 +285,7 @@
         &:after {
             left:120px;
         }
-        @include bp(md) {
+        @include bp(lg) {
             &:after {
                left:50%;
            }
@@ -327,7 +327,7 @@
 // 		height: 24px;
 // 		font-size: 24px;
 // 	}
-// 	@include bp(md) {
+// 	@include bp(lg) {
 // 		display: none;
 // 	}
 // }
@@ -339,7 +339,7 @@
     text-transform: uppercase;
     margin-top: 50px;
     width: 100%;
-    @include bp(md) {
+    @include bp(lg) {
         display: none;
     }
 }
@@ -385,7 +385,7 @@
             margin-bottom: 38%;
         }
         &__content {
-            @include bp(md) {
+            @include bp(lg) {
                 padding: 0 2.5rem;
             }
         }
@@ -393,7 +393,7 @@
             text-align: center;
             margin-bottom: 21px;
             font-family: $main-light;
-            @include bp(md) {
+            @include bp(lg) {
                 text-align: left;
             }
             .mdi {
@@ -421,7 +421,7 @@
             margin-bottom: 43px;
             p {
                 text-align: center;
-                @include bp(md) {
+                @include bp(lg) {
                     text-align: left;
                     line-height: 1.8;
                 }
@@ -432,7 +432,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            @include bp(md) {
+            @include bp(lg) {
                 max-width: 240px;
                 margin: 0 auto;
                 align-items: stretch;
@@ -441,11 +441,11 @@
     }
     .banner-menu-wrapper {
         display: none;
-        @include bp(md) {
+        @include bp(lg) {
             display: block;
         }
     }
-    @include bp(md) {
+    @include bp(lg) {
         max-width: none;
         padding-top: 64px;
         @include transform(translateX(0) translateY(-100%));
@@ -488,7 +488,7 @@
         font-size: 24px;
         @include transform(translateY(-50%));
     }
-    @include bp(md) {
+    @include bp(lg) {
         display: none;
     }
 }
@@ -538,7 +538,7 @@
     position: relative;
     background-color:$muted;
 
-    @include bp(md) {
+    @include bp(lg) {
         display: none;
     }
     &::before {
@@ -597,7 +597,7 @@
     width: 100%;
     z-index: 3;
     background-color: $base;
-    @include bp(md) {
+    @include bp(lg) {
         display: block;
         width: 192px;
         background-color: $secondary;
@@ -655,14 +655,14 @@
             @include transition(all 0.3s);
         }
     }
-    @include bp(md) {
+    @include bp(lg) {
         display: none;
     }
 }
 
 .menu--inner__name {
     display: none;
-    @include bp(md) {
+    @include bp(lg) {
         display: block;
         position: absolute;
         left: 0;
@@ -683,7 +683,7 @@
     left: 2%;
     z-index: 1;
     @include transform(translateY(-50%));
-    @include bp(md) {
+    @include bp(lg) {
         display: block;
     }
 }
@@ -702,7 +702,7 @@
         width: 75%;
     }
     .banner-menu-wrapper {
-        @include bp(md) {
+        @include bp(lg) {
             position: absolute;
             top: 0;
             left: 75%;
@@ -729,7 +729,7 @@
             font-size:16px;
         }
     }
-     @include bp(md) {
+     @include bp(lg) {
          display:none;
      }
 }

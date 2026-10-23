@@ -98,8 +98,10 @@ b {
     padding-top: 55px;
     min-height:auto;
     @include bp(md) {
-        padding-top: 64px;
         min-height:80vh;
+    }
+    @include bp(lg) {
+        padding-top: 64px;
     }
 }
 

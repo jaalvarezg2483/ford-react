@@ -7,7 +7,7 @@ set -euo pipefail
 SRC="${1:-../web}"
 DEST="$(cd "$(dirname "$0")/.." && pwd)/public"
 mkdir -p "$DEST"
-for d in css js img fonts icomoon icons chat documents preaprobador specs sucursales testDrive renting show_calculate galleries; do
+for d in img fonts icomoon icons chat documents preaprobador specs sucursales testDrive renting show_calculate galleries; do
   if [ -d "$SRC/$d" ]; then rm -rf "${DEST:?}/$d"; cp -R "$SRC/$d" "$DEST/$d"; fi
 done
 # Visor de fichas técnicas (/view-pdf) usa el flipbook de micrositios/purdyRsc.

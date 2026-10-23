@@ -19,9 +19,15 @@
 		display: block;
 		img {
 			width:150px;
+			height: auto;
 			margin-right:10px;
 			max-width:unset;
+			flex-shrink: 0;
 		}
+	}
+	.family__img {
+		flex: 0 0 auto;
+		width: auto;
 	}
 }
 

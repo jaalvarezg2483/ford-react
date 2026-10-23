@@ -1,9 +1,11 @@
 node_modules
 .next
+dist
 .env
 .env.*
 !.env.example
 /media
+/cms/media
 next-env.d.ts
 *.tsbuildinfo
 /data
