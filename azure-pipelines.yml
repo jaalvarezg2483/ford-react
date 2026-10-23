@@ -91,8 +91,10 @@ stages:
                   --resource-group "$(resourceGroup)" \
                   --name "$(appServiceName)" \
                   --slot staging \
+                  --application-logging filesystem \
+                  --web-server-logging filesystem \
                   --docker-container-logging filesystem \
-                  --level information \
+                  --level verbose \
                   --output none
           - task: AzureWebApp@1
             displayName: Deploy to Ford staging
@@ -110,15 +112,15 @@ stages:
 
           - bash: |
                     set -euo pipefail
-                    for attempt in $(seq 1 24); do
-                      liveness=$(curl --silent --output /dev/null --write-out '%{http_code}' https://gp-fordcr-app-v1-staging.azurewebsites.net/healthz || true)
-                      readiness=$(curl --silent --output /dev/null --write-out '%{http_code}' https://gp-fordcr-app-v1-staging.azurewebsites.net/api/health || true)
+                    for attempt in $(seq 1 12); do
+                      liveness=$(curl --silent --connect-timeout 4 --max-time 6 --output /dev/null --write-out '%{http_code}' https://gp-fordcr-app-v1-staging.azurewebsites.net/healthz || true)
+                      readiness=$(curl --silent --connect-timeout 4 --max-time 6 --output /dev/null --write-out '%{http_code}' https://gp-fordcr-app-v1-staging.azurewebsites.net/api/health || true)
                       if [ "$liveness" = "200" ] && [ "$readiness" = "200" ]; then
                         echo 'Ford staging process and database health checks passed.'
                         exit 0
                       fi
-                      echo "Staging liveness/readiness returned $liveness/$readiness (attempt $attempt/24)."
-                      sleep 10
+                      echo "Staging liveness/readiness returned $liveness/$readiness (attempt $attempt/12)."
+                      sleep 5
                     done
                     echo 'Ford staging did not become healthy.'
                     exit 1
@@ -141,18 +143,21 @@ stages:
                 python3 - "$archive" <<'PY'
                 import re, sys, zipfile
                 archive = sys.argv[1]
-                matches = re.compile(r'(error|exception|failed|cannot|unable|module not found|listening|ready|started|crash|fatal)', re.I)
-                secrets = re.compile(r'(?i)(password|secret|token|authorization|connectionstring)(\s*[=:]\s*)([^\s,;]+)')
+                matches = re.compile(r'(error|exception|failed|cannot|unable|module not found|listening|ready|started|crash|fatal|startupfailure|exit code)', re.I)
+                secrets = re.compile(r'''(?i)["']?(password|secret|token|authorization|connectionstring)["']?\s*[:=]\s*["']?([^"',;}\s]+)''')
+                url_credentials = re.compile(r'(?i)(postgres(?:ql)?://)[^:@/\s]+:[^@/\s]+@')
                 shown = 0
                 with zipfile.ZipFile(archive) as z:
                     for name in z.namelist():
-                        if not (name.lower().endswith('.log') and ('docker' in name.lower() or 'default' in name.lower())):
+                        if not name.lower().endswith(('.log', '.txt', '.xml')):
                             continue
                         print(f'--- {name} ---')
                         lines = z.read(name).decode('utf-8', errors='replace').splitlines()
                         for line in lines[-250:]:
                             if matches.search(line):
-                                print(secrets.sub(r'\1\2[REDACTED]', line)[:1200])
+                                line = secrets.sub(r'\1=[REDACTED]', line)
+                                line = url_credentials.sub(r'\1[REDACTED]@', line)
+                                print(line[:1200])
                                 shown += 1
                                 if shown >= 60:
                                     break
@@ -198,15 +203,15 @@ stages:
 
           - bash: |
                     set -euo pipefail
-                    for attempt in $(seq 1 24); do
-                      liveness=$(curl --silent --output /dev/null --write-out '%{http_code}' https://gp-fordcr-app-v1.azurewebsites.net/healthz || true)
-                      readiness=$(curl --silent --output /dev/null --write-out '%{http_code}' https://gp-fordcr-app-v1.azurewebsites.net/api/health || true)
+                    for attempt in $(seq 1 12); do
+                      liveness=$(curl --silent --connect-timeout 4 --max-time 6 --output /dev/null --write-out '%{http_code}' https://gp-fordcr-app-v1.azurewebsites.net/healthz || true)
+                      readiness=$(curl --silent --connect-timeout 4 --max-time 6 --output /dev/null --write-out '%{http_code}' https://gp-fordcr-app-v1.azurewebsites.net/api/health || true)
                       if [ "$liveness" = "200" ] && [ "$readiness" = "200" ]; then
                         echo 'Ford production process and database health checks passed.'
                         exit 0
                       fi
-                      echo "Production liveness/readiness returned $liveness/$readiness (attempt $attempt/24)."
-                      sleep 10
+                      echo "Production liveness/readiness returned $liveness/$readiness (attempt $attempt/12)."
+                      sleep 5
                     done
                     echo 'Ford production did not become healthy.'
                     exit 1
