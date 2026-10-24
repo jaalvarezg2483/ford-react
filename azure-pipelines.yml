@@ -187,7 +187,7 @@ stages:
                       sleep 15
                       continue
                     fi
-                    state=$(node -e 'const x=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")); if(x.error)process.exit(2); console.log(x.running?"running":(x.finishedAt?"finished":"idle"))' "$status_file") || { echo 'Ford staging import failed; review App Service logs.'; exit 1; }
+                    state=$(node -e 'const x=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")); if(x.error){console.error("Ford staging import error: "+String(x.error).slice(0,800));process.exit(2)} console.log(x.running?"running":(x.finishedAt?"finished":"idle"))' "$status_file") || exit 1
                     if [ "$state" = "finished" ]; then completed=true; break; fi
                     if [ "$state" = "idle" ]; then echo 'Ford staging import ended without a completion time.'; exit 1; fi
                     if [ "$((attempt % 4))" = 0 ]; then echo "Ford staging import still running (check $attempt/240)."; fi
@@ -343,7 +343,7 @@ stages:
                       sleep 15
                       continue
                     fi
-                    state=$(node -e 'const x=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")); if(x.error)process.exit(2); console.log(x.running?"running":(x.finishedAt?"finished":"idle"))' "$status_file") || { echo 'Ford production import failed; review App Service logs.'; exit 1; }
+                    state=$(node -e 'const x=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")); if(x.error){console.error("Ford production import error: "+String(x.error).slice(0,800));process.exit(2)} console.log(x.running?"running":(x.finishedAt?"finished":"idle"))' "$status_file") || exit 1
                     if [ "$state" = "finished" ]; then completed=true; break; fi
                     if [ "$state" = "idle" ]; then echo 'Ford production import ended without a completion time.'; exit 1; fi
                     if [ "$((attempt % 4))" = 0 ]; then echo "Ford production import still running (check $attempt/240)."; fi

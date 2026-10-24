@@ -60,7 +60,7 @@ export const importFordEndpoints: Endpoint[] = [
     path: '/import-ford/bootstrap',
     method: 'get',
     handler: async (req) => hasBootstrapToken(req)
-      ? Response.json({ running: state.running, finishedAt: state.finishedAt, error: Boolean(state.error) })
+      ? Response.json({ running: state.running, finishedAt: state.finishedAt, error: state.error?.slice(0, 800) ?? null })
       : Response.json({ error: 'No autorizado' }, { status: 403 }),
   },
   {
