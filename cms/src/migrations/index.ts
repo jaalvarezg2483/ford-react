@@ -15,6 +15,7 @@ import * as migration_20261022_201150_blog_feedback from './20261022_201150_blog
 import * as migration_20261023_140247_estructura_portada_pie from './20261023_140247_estructura_portada_pie';
 import * as migration_20261023_152355_ficha_vehiculo_y_articulos from './20261023_152355_ficha_vehiculo_y_articulos';
 import * as migration_20261023_162402_paginas_de_contenido from './20261023_162402_paginas_de_contenido';
+import * as migration_20261023_190000_media_objectkey from './20261023_190000_media_objectkey';
 
 export const migrations = [
   {
@@ -101,5 +102,10 @@ export const migrations = [
     up: migration_20261023_162402_paginas_de_contenido.up,
     down: migration_20261023_162402_paginas_de_contenido.down,
     name: '20261023_162402_paginas_de_contenido'
+  },
+  {
+    up: migration_20261023_190000_media_objectkey.up,
+    down: migration_20261023_190000_media_objectkey.down,
+    name: '20261023_190000_media_objectkey',
   },
 ];

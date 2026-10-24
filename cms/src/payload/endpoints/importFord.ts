@@ -9,6 +9,28 @@ import type { Endpoint, Payload, PayloadRequest } from 'payload'
  */
 const state: { running: boolean; startedAt?: string; finishedAt?: string; error?: string; log: string[] } = { running: false, log: [] }
 
+/** Preserve the nested PostgreSQL diagnostic; Drizzle's top-level message only
+ * says "Failed query" and otherwise hides whether the table/column/permission
+ * is the actual problem. This endpoint is token-gated and the output is capped. */
+function importErrorDetails(error: unknown): string {
+  const parts: string[] = []
+  let current: unknown = error
+  const seen = new Set<unknown>()
+  while (current && !seen.has(current) && parts.length < 4) {
+    seen.add(current)
+    if (current instanceof Error) {
+      const pg = current as Error & { code?: string; detail?: string; table?: string; column?: string; cause?: unknown }
+      const diagnostic = [pg.code && `code=${pg.code}`, pg.table && `table=${pg.table}`, pg.column && `column=${pg.column}`, pg.detail].filter(Boolean).join(' ')
+      parts.push([pg.message, diagnostic].filter(Boolean).join(' — '))
+      current = pg.cause
+    } else {
+      parts.push(String(current))
+      break
+    }
+  }
+  return (parts.join(' | ') || 'Error de importación sin detalle').slice(0, 800)
+}
+
 const isAdmin = (user: unknown) => (user as { role?: string } | null)?.role === 'admin'
 
 function hasBootstrapToken(req: PayloadRequest) {
@@ -34,7 +56,7 @@ function startImport(payload: Payload) {
   }
   import('../../import/run')
     .then(({ runImport }) => runImport(payload, { source: 'live', log }))
-    .catch((error) => { state.error = (error as Error).message; log('error', (error as Error).message) })
+    .catch((error) => { state.error = importErrorDetails(error); log('error', state.error) })
     .finally(() => { state.running = false; state.finishedAt = new Date().toISOString() })
   return true
 }

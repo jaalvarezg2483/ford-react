@@ -93,7 +93,7 @@ stages:
                   --resource-group "$(resourceGroup)" \
                   --name "$(appServiceName)" \
                   --slot staging \
-                  --slot-settings ENTRA_BOOTSTRAP_ADMIN_EMAILS=jaalvarezg@grupopurdy.com PG_POOL_MAX=5 \
+                  --slot-settings ENTRA_BOOTSTRAP_ADMIN_EMAILS=jaalvarezg@grupopurdy.com PG_POOL_MAX=5 LEGACY_SITE_URL=https://ford-react.up.railway.app/_ford-origin LEGACY_ASSETS_URL=https://ford-react.up.railway.app/_ford-origin \
                   --output none
                 az webapp log config \
                   --resource-group "$(resourceGroup)" \
@@ -167,6 +167,20 @@ stages:
                       break
                     fi
                     if [ "$attempt" = 24 ]; then echo 'Ford staging did not restart with the temporary import token.'; exit 1; fi
+                    sleep 5
+                  done
+                  # App Service can serve a healthy response from a worker that
+                  # has not yet reloaded the updated slot settings. Probe the
+                  # token-gated status endpoint before starting the import.
+                  for attempt in $(seq 1 24); do
+                    auth_code=$(curl --silent --show-error --max-time 10 -o "$status_file" -w '%{http_code}' \
+                      -c "$cookie_jar" -b "$cookie_jar" -H "X-Ford-Import-Token: $token" "$endpoint" || true)
+                    if [ "$auth_code" = "200" ]; then break; fi
+                    if [ "$attempt" = 24 ]; then
+                      echo "Ford staging import token was not active after restart (HTTP $auth_code)."
+                      cat "$status_file"
+                      exit 1
+                    fi
                     sleep 5
                   done
                   start_code=$(curl --silent --show-error --max-time 20 -o "$response" -w '%{http_code}' \
@@ -261,7 +275,7 @@ stages:
                 az webapp config appsettings set \
                   --resource-group "$(resourceGroup)" \
                   --name "$(appServiceName)" \
-                  --slot-settings ENTRA_BOOTSTRAP_ADMIN_EMAILS=jaalvarezg@grupopurdy.com PG_POOL_MAX=10 \
+                  --slot-settings ENTRA_BOOTSTRAP_ADMIN_EMAILS=jaalvarezg@grupopurdy.com PG_POOL_MAX=10 LEGACY_SITE_URL=https://ford-react.up.railway.app/_ford-origin LEGACY_ASSETS_URL=https://ford-react.up.railway.app/_ford-origin \
                   --output none
           - task: AzureWebApp@1
             displayName: Deploy to Ford production
@@ -323,6 +337,19 @@ stages:
                       break
                     fi
                     if [ "$attempt" = 24 ]; then echo 'Ford production did not restart with the temporary import token.'; exit 1; fi
+                    sleep 5
+                  done
+                  # Wait until the restarted App Service worker has loaded its
+                  # temporary token before attempting the protected import.
+                  for attempt in $(seq 1 24); do
+                    auth_code=$(curl --silent --show-error --max-time 10 -o "$status_file" -w '%{http_code}' \
+                      -c "$cookie_jar" -b "$cookie_jar" -H "X-Ford-Import-Token: $token" "$endpoint" || true)
+                    if [ "$auth_code" = "200" ]; then break; fi
+                    if [ "$attempt" = 24 ]; then
+                      echo "Ford production import token was not active after restart (HTTP $auth_code)."
+                      cat "$status_file"
+                      exit 1
+                    fi
                     sleep 5
                   done
                   start_code=$(curl --silent --show-error --max-time 20 -o "$response" -w '%{http_code}' \

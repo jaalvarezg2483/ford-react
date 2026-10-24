@@ -1,6 +1,9 @@
 import http from 'node:http'
+import https from 'node:https'
+import tls from 'node:tls'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { readFileSync } from 'node:fs'
 import { readFile, stat } from 'node:fs/promises'
 import next from 'next'
 import serve from 'serve-handler'
@@ -96,6 +99,82 @@ const SECURITY_HEADERS = {
   ...(NOINDEX ? { 'X-Robots-Tag': 'noindex, nofollow' } : {}),
 }
 
+// Azure's App Service cannot reliably reach Ford's legacy origin. Keep a
+// narrow, read-only relay on Railway so the one-time CMS bootstrap can fetch
+// the same public pages and assets. The upstream host is fixed (no open proxy).
+const fordCaPath = path.join(cmsDir, 'certs/godaddy-secure-ca-g2.pem')
+const fordCa = readFileSync(fordCaPath, 'utf8')
+const fordRelayRequests = new Map()
+function fordGet(pathname, redirects = 0) {
+  const url = new URL(pathname, 'https://www.ford.cr')
+  return new Promise((resolve, reject) => {
+    const request = https.request(url, {
+      method: 'GET',
+      headers: { 'User-Agent': 'FordCR-Importer/1.0', 'Accept-Encoding': 'identity' },
+      insecureHTTPParser: true,
+      timeout: 60_000,
+      ...(fordCa ? { ca: [...tls.rootCertificates, fordCa] } : {}),
+    }, (response) => {
+      const chunks = []
+      response.on('data', (chunk) => chunks.push(Buffer.from(chunk)))
+      response.on('error', reject)
+      response.on('end', () => {
+        const status = response.statusCode || 0
+        const location = response.headers.location
+        if (status >= 300 && status < 400 && location) {
+          if (redirects >= 5) { reject(new Error('Too many Ford redirects')); return }
+          const next = new URL(location, url)
+          if (next.protocol !== 'https:' || !/(^|\.)ford\.cr$/i.test(next.hostname)) {
+            reject(new Error('Ford origin returned a redirect outside ford.cr'))
+            return
+          }
+          fordGet(next.toString(), redirects + 1).then(resolve, reject)
+          return
+        }
+        resolve({ status, mimetype: response.headers['content-type'] || 'application/octet-stream', data: Buffer.concat(chunks) })
+      })
+    })
+    request.on('timeout', () => request.destroy(new Error('Ford origin timeout')))
+    request.on('error', reject)
+    request.end()
+  })
+}
+async function relayFordOrigin(req, res, pathname) {
+  const ip = req.socket.remoteAddress || 'unknown'
+  const now = Date.now()
+  const bucket = fordRelayRequests.get(ip) || { startedAt: now, count: 0 }
+  if (now - bucket.startedAt >= 60_000) { bucket.startedAt = now; bucket.count = 0 }
+  if (++bucket.count > 3000) {
+    res.writeHead(429, { 'Retry-After': '60', 'Cache-Control': 'no-store' }).end('Too many requests')
+    return
+  }
+  if (fordRelayRequests.size > 2000) {
+    for (const [key, value] of fordRelayRequests) if (now - value.startedAt > 60_000) fordRelayRequests.delete(key)
+  }
+
+  const upstreamPath = pathname.slice('/_ford-origin'.length) || '/'
+  if (!upstreamPath.startsWith('/') || upstreamPath.split('/').some((part) => part === '..') || /^\/(admin|api|login|logout|app_dev)(\/|$)/i.test(upstreamPath)) {
+    res.writeHead(404, { 'Cache-Control': 'no-store' }).end('Not found')
+    return
+  }
+  try {
+    const query = new URL(req.url, 'http://localhost').search
+    const result = await fordGet(`${upstreamPath}${query}`)
+    if (result.status < 200 || result.status >= 300) { res.writeHead(result.status || 502, { 'Cache-Control': 'public, max-age=60' }).end('Not found'); return }
+    res.writeHead(result.status, {
+      'Content-Type': result.mimetype || 'application/octet-stream',
+      'Cache-Control': 'public, max-age=300',
+      'X-Content-Type-Options': 'nosniff',
+      'Content-Length': String(result.data.length),
+    })
+    if (req.method === 'HEAD') res.end()
+    else res.end(result.data)
+  } catch (error) {
+    console.error('Ford origin relay failed:', error.message)
+    res.writeHead(502, { 'Cache-Control': 'no-store' }).end('Ford origin unavailable')
+  }
+}
+
 let vite
 let indexHtml = null
 async function loadIndexHtml(url) {
@@ -116,6 +195,12 @@ const server = http.createServer(async (req, res) => {
     if (url.pathname === '/healthz') {
       if (!['GET', 'HEAD'].includes(method)) { res.writeHead(405, { Allow: 'GET, HEAD' }).end(); return }
       sendBody(req, res, 200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }, JSON.stringify({ status: 'ok' }))
+      return
+    }
+
+    if (url.pathname === '/_ford-origin' || url.pathname.startsWith('/_ford-origin/')) {
+      if (!['GET', 'HEAD'].includes(method)) { res.writeHead(405, { Allow: 'GET, HEAD' }).end(); return }
+      await relayFordOrigin(req, res, url.pathname)
       return
     }
 
